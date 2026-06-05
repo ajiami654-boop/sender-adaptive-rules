@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>输入框自适应规则</title>
+    <style>
+      :root {
+        --text: #1f2937;
+        --muted: #8c94a3;
+        --line: #e8ebf2;
+        --panel: #ffffff;
+        --chip: #eef2f6;
+        --teal: #00b7aa;
+        --teal-soft: #d9f6f2;
+        --purple: #9367ff;
+        --cyan: #25d9df;
+        --shadow: 0 18px 48px rgba(19, 31, 56, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        color: var(--text);
+        background: #070707;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 36px;
+        display: grid;
+        place-items: center;
+      }
+
+      .board {
+        width: min(1280px, calc(100vw - 72px));
+        min-height: min(920px, calc(100vh - 72px));
+        padding: 48px 56px 44px;
+        border-radius: 30px;
+        background: #f7f7f8;
+        display: grid;
+        grid-template-columns: minmax(380px, 760px) 312px;
+        gap: 44px;
+        align-content: start;
+      }
+
+      .demo-area {
+        min-width: 380px;
+      }
+
+      .demo-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 0 0 14px 4px;
+      }
+
+      .demo-title {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .width-tools {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .width-pill,
+      .preset-btn {
+        height: 26px;
+        padding: 0 10px;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #667085;
+        box-shadow: inset 0 0 0 1px var(--line);
+        font-size: 12px;
+      }
+
+      .preset-btn:hover {
+        color: #111827;
+        box-shadow: inset 0 0 0 1px #ccd3df;
+      }
+
+      .sender-stage {
+        position: relative;
+        width: 500px;
+        min-width: 380px;
+        max-width: min(100%, 760px);
+        min-height: 190px;
+        overflow: visible;
+      }
+
+      .sender-shell {
+        position: relative;
+        width: calc(100% - 36px);
+        min-width: 344px;
+        max-width: 724px;
+        margin: 0 18px;
+      }
+
+      .sender-border {
+        position: relative;
+        border-radius: 19px;
+        background:
+          linear-gradient(#fff, #fff) padding-box,
+          linear-gradient(104deg, #9b68ff 0%, #50a7ff 52%, #12dcc4 100%)
+            border-box;
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 3px rgba(137, 97, 255, 0.1);
+      }
+
+      .sender-inner {
+        position: relative;
+        height: 150px;
+        padding: 9px 9px 8px 10px;
+        border-radius: 15px;
+        background: #fff;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .reference-chip {
+        align-self: flex-start;
+        height: 24px;
+        padding: 0 9px 0 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 8px;
+        background: #fff;
+        color: #1f2937;
+        box-shadow: inset 0 0 0 1px #d6dce8, 0 1px 2px rgba(16, 24, 40, 0.04);
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .prompt {
+        flex: 1;
+        padding-top: 16px;
+        color: #98a1af;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .fake-scrollbar {
+        position: absolute;
+        right: 8px;
+        top: 50px;
+        width: 5px;
+        height: 42px;
+        border-radius: 999px;
+        background: #c9cdd4;
+      }
+
+      .footer {
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .left-actions,
+      .right-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .left-actions {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .right-actions {
+        flex: 0 0 auto;
+      }
+
+      .icon-btn,
+      .action-btn {
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        color: #344054;
+        background: #edf1f5;
+      }
+
+      .icon-btn {
+        width: 28px;
+        flex: 0 0 28px;
+      }
+
+      .icon-btn:hover,
+      .action-btn:hover {
+        background: #e4e9f0;
+      }
+
+      .action-btn {
+        gap: 7px;
+        padding: 0 12px;
+        max-width: 122px;
+        flex: 0 1 auto;
+        white-space: nowrap;
+      }
+
+      .action-btn .label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .skill-btn {
+        color: var(--teal);
+        background: var(--teal-soft);
+        flex: 0 0 auto;
+        width: auto;
+        max-width: 122px;
+        min-width: 0;
+        padding: 0 12px;
+      }
+
+      .skill-btn:hover {
+        background: #c9f1ec;
+      }
+
+      .plan-btn {
+        flex: 0 0 auto;
+        min-width: 28px;
+      }
+
+      .plan-btn.is-active {
+        color: var(--teal);
+        background: var(--teal-soft);
+      }
+
+      .plan-btn.is-active:hover {
+        background: #c9f1ec;
+      }
+
+      .plan-btn.is-icon {
+        width: 28px;
+        padding: 0;
+      }
+
+      .plan-btn.is-icon .label {
+        display: none;
+      }
+
+      .char-count {
+        color: #9aa3b1;
+        font-size: 12px;
+        line-height: 28px;
+        white-space: nowrap;
+      }
+
+      .send-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--teal);
+        color: #fff;
+        flex: 0 0 28px;
+        box-shadow: 0 8px 18px rgba(0, 183, 170, 0.22);
+      }
+
+      .send-btn:hover {
+        background: #00a99d;
+      }
+
+      .vendor-icon {
+        color: #fff;
+        background: #111827;
+      }
+
+      .vendor-icon.deepseek {
+        background: #4267ff;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .drag-handle {
+        position: absolute;
+        top: 0;
+        right: -34px;
+        width: 20px;
+        height: 154px;
+        cursor: ew-resize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .drag-handle::before {
+        content: "";
+        width: 4px;
+        height: 54px;
+        border-radius: 999px;
+        background: #d4d8e0;
+      }
+
+      .drag-handle:hover::before,
+      .drag-handle.is-dragging::before {
+        background: var(--teal);
+      }
+
+      .popover-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 20;
+      }
+
+      .popover {
+        position: absolute;
+        min-width: 228px;
+        padding: 8px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: var(--shadow);
+        pointer-events: auto;
+        color: #263142;
+      }
+
+      .menu-title {
+        padding: 7px 8px 8px;
+        color: #667085;
+        font-size: 14px;
+      }
+
+      .menu-item {
+        min-height: 34px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 8px;
+        border-radius: 6px;
+        background: transparent;
+        color: #1f2937;
+        text-align: left;
+        font-size: 16px;
+      }
+
+      .menu-item:hover,
+      .menu-item.is-active {
+        background: #f0f2f5;
+      }
+
+      .menu-item .text {
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .menu-item .sub {
+        display: block;
+        margin-top: 2px;
+        color: #7a8392;
+        font-size: 13px;
+        line-height: 18px;
+      }
+
+      .menu-divider {
+        height: 1px;
+        margin: 8px 8px;
+        background: #e7ebf2;
+      }
+
+      .template-menu {
+        width: 234px;
+      }
+
+      .model-menu {
+        width: min(320px, calc(100vw - 48px));
+        max-width: 320px;
+      }
+
+      .model-menu .menu-item {
+        min-height: 36px;
+      }
+
+      .check-mark {
+        color: var(--teal);
+        flex: 0 0 auto;
+      }
+
+      .menu-switch {
+        position: relative;
+        width: 36px;
+        height: 20px;
+        flex: 0 0 auto;
+        border-radius: 999px;
+        background: #d7dce5;
+        transition: 0.18s ease;
+      }
+
+      .menu-switch::after {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.2);
+        transition: 0.18s ease;
+      }
+
+      .menu-switch.is-on {
+        background: var(--teal);
+      }
+
+      .menu-switch.is-on::after {
+        transform: translateX(16px);
+      }
+
+      .tooltip {
+        position: absolute;
+        z-index: 30;
+        padding: 7px 10px;
+        border-radius: 6px;
+        background: #333b4b;
+        color: #fff;
+        font-size: 13px;
+        line-height: 18px;
+        box-shadow: 0 10px 24px rgba(19, 31, 56, 0.18);
+        pointer-events: none;
+        white-space: nowrap;
+      }
+
+      .settings-panel {
+        align-self: start;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px #edf0f5;
+        padding: 18px;
+      }
+
+      .settings-panel h2 {
+        margin: 0 0 16px;
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      .field {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        min-height: 38px;
+        color: #344054;
+        font-size: 14px;
+      }
+
+      .field + .field {
+        border-top: 1px solid #f0f2f5;
+      }
+
+      .switch {
+        position: relative;
+        width: 38px;
+        height: 22px;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .switch span {
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        background: #d7dce5;
+        transition: 0.18s ease;
+      }
+
+      .switch span::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.2);
+        transition: 0.18s ease;
+      }
+
+      .switch input:checked + span {
+        background: var(--teal);
+      }
+
+      .switch input:checked + span::after {
+        transform: translateX(16px);
+      }
+
+      .range-field {
+        margin: 16px 0 12px;
+      }
+
+      .range-field label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: #344054;
+        font-size: 14px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--teal);
+      }
+
+      .status-list {
+        margin-top: 16px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .status-row {
+        min-height: 32px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        background: #f7f8fa;
+        color: #5f6878;
+        font-size: 13px;
+        line-height: 18px;
+      }
+
+      .status-row strong {
+        color: #1f2937;
+        font-weight: 600;
+      }
+
+      .svg {
+        display: block;
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        flex: 0 0 auto;
+      }
+
+      .svg.fill {
+        fill: currentColor;
+        stroke: none;
+      }
+
+      @media (max-width: 980px) {
+        .page {
+          padding: 20px;
+        }
+
+        .board {
+          width: calc(100vw - 40px);
+          min-height: auto;
+          grid-template-columns: 1fr;
+          padding: 28px 20px;
+          gap: 24px;
+        }
+
+        .settings-panel {
+          width: min(100%, 760px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="board">
+        <div class="demo-area">
+          <div class="demo-head">
+            <h1 class="demo-title">输入框自适应规则</h1>
+            <div class="width-tools" aria-label="宽度预设">
+              <span class="width-pill"><span id="widthText">500</span>px</span>
+              <button class="preset-btn" type="button" data-width="380">380</button>
+              <button class="preset-btn" type="button" data-width="500">500</button>
+              <button class="preset-btn" type="button" data-width="760">760</button>
+            </div>
+          </div>
+
+          <div class="sender-stage" id="senderStage">
+            <div class="sender-shell" id="senderShell">
+              <div class="sender-border">
+                <div class="sender-inner">
+                  <button class="reference-chip" type="button" aria-label="移除引用文本">
+                    <span data-icon="quote"></span>
+                    <span>X 引用文本</span>
+                  </button>
+                  <div class="prompt">输入分析需求，可 @ 指定数据源</div>
+                  <div class="fake-scrollbar" aria-hidden="true"></div>
+                  <div class="footer" id="footer">
+                    <div class="left-actions" id="leftActions">
+                      <button
+                        class="icon-btn"
+                        id="dataSourceBtn"
+                        type="button"
+                        aria-label="指定数据源"
+                        title="指定数据源"
+                      >
+                        <span data-icon="at"></span>
+                      </button>
+                      <button class="action-btn skill-btn" type="button" aria-label="智能报告">
+                        <span data-icon="report"></span>
+                        <span class="label">智能报告</span>
+                      </button>
+                      <button
+                        class="icon-btn"
+                        id="templateBtn"
+                        type="button"
+                        aria-label="选择报告模板"
+                        title="选择报告模板"
+                      >
+                        <span data-icon="file"></span>
+                      </button>
+                      <button
+                        class="action-btn plan-btn"
+                        id="planBtn"
+                        type="button"
+                        aria-label="计划"
+                        data-tooltip="使用计划模式"
+                      >
+                        <span data-icon="plan"></span>
+                        <span class="label">计划</span>
+                      </button>
+                      <button
+                        class="icon-btn hidden"
+                        id="moreBtn"
+                        type="button"
+                        aria-label="更多能力"
+                        title="更多能力"
+                      >
+                        <span data-icon="more"></span>
+                      </button>
+                    </div>
+                    <div class="right-actions">
+                      <span class="char-count" id="charCount">4800/5000</span>
+                      <button
+                        class="icon-btn"
+                        id="modelBtn"
+                        type="button"
+                        aria-label="选择模型"
+                        title="选择模型"
+                        data-tooltip="选择模型"
+                      >
+                        <span data-icon="sliders"></span>
+                      </button>
+                      <button class="send-btn" type="button" aria-label="发送" title="发送">
+                        <span data-icon="send"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="drag-handle" id="dragHandle" aria-hidden="true"></div>
+            </div>
+            <div class="popover-layer" id="popoverLayer"></div>
+          </div>
+        </div>
+
+        <aside class="settings-panel" aria-label="规则状态控制">
+          <h2>规则状态</h2>
+          <div class="range-field">
+            <label for="widthRange">
+              <span>侧边栏宽度</span>
+              <strong><span id="rangeValue">500</span>px</strong>
+            </label>
+            <input id="widthRange" type="range" min="380" max="760" value="500" />
+          </div>
+
+          <label class="field">
+            <span>展示字数限制</span>
+            <span class="switch">
+              <input id="counterToggle" type="checkbox" checked />
+              <span></span>
+            </span>
+          </label>
+          <label class="field">
+            <span>支持报告模板</span>
+            <span class="switch">
+              <input id="templateToggle" type="checkbox" checked />
+              <span></span>
+            </span>
+          </label>
+          <label class="field">
+            <span>展示计划能力</span>
+            <span class="switch">
+              <input id="planToggle" type="checkbox" checked />
+              <span></span>
+            </span>
+          </label>
+
+          <div class="status-list">
+            <div class="status-row">
+              输入框实际宽度：<strong id="senderActualWidth">464px</strong>
+            </div>
+            <div class="status-row">
+              模板入口：<strong id="templateState">更多菜单</strong>
+            </div>
+            <div class="status-row">计划入口：<strong id="planState">更多菜单</strong></div>
+            <div class="status-row">模型入口：<strong id="modelState">自动</strong></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const icons = {
+        at: '<svg class="svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"></path></svg>',
+        quote:
+          '<svg class="svg" viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h11"></path><path d="M4 19h16"></path><path d="M8 5v14"></path></svg>',
+        report:
+          '<svg class="svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><path d="M14 2v6h6"></path><path d="M9 13h6"></path><path d="M9 17h4"></path><path d="M18 3v6"></path><path d="M15 6h6"></path></svg>',
+        file: '<svg class="svg" viewBox="0 0 24 24"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"></path><path d="M14 2v5h5"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg>',
+        plan: '<svg class="svg" viewBox="0 0 24 24"><path d="m4 7 2 2 4-4"></path><path d="M12 8h8"></path><path d="m4 17 2 2 4-4"></path><path d="M12 18h8"></path></svg>',
+        more: '<svg class="svg fill" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="19" cy="12" r="1.8"></circle></svg>',
+        sliders:
+          '<svg class="svg" viewBox="0 0 24 24"><path d="M4 6h9"></path><path d="M17 6h3"></path><circle cx="15" cy="6" r="2"></circle><path d="M4 12h3"></path><path d="M11 12h9"></path><circle cx="9" cy="12" r="2"></circle><path d="M4 18h10"></path><path d="M18 18h2"></path><circle cx="16" cy="18" r="2"></circle></svg>',
+        send: '<svg class="svg" viewBox="0 0 24 24"><path d="M12 19V5"></path><path d="m5 12 7-7 7 7"></path></svg>',
+        check: '<svg class="svg" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg>',
+        chevron:
+          '<svg class="svg" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg>',
+        plus: '<svg class="svg" viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
+        cube: '<svg class="svg" viewBox="0 0 24 24"><path d="m12 2 8 4v12l-8 4-8-4V6z"></path><path d="m12 22V10"></path><path d="m4 6 8 4 8-4"></path></svg>',
+        deepseek:
+          '<svg class="svg fill" viewBox="0 0 24 24"><path d="M5 13c0-4.4 3.4-8 7.7-8 3.3 0 6.1 2 7.3 4.9-1.4-.9-3.3-.8-4.6.3-1.6 1.4-1.8 3.8-.4 5.4.7.8 1.8 1.3 2.9 1.3-1.4 1.4-3.3 2.1-5.2 2.1C8.4 19 5 16.4 5 13z"></path><path d="M4.1 10.6C2.8 11 2 11.8 2 12.8c0 1.5 1.8 2.7 4.3 3.1-.6-.9-1-1.9-1.2-3-.2-.8-.5-1.6-1-2.3z"></path></svg>',
+      };
+
+      document.querySelectorAll("[data-icon]").forEach((node) => {
+        node.innerHTML = icons[node.dataset.icon] || "";
+      });
+
+      const state = {
+        width: 500,
+        counter: true,
+        template: true,
+        plan: true,
+        planSelected: false,
+        model: "auto",
+        adaptive: {
+          template: "more",
+          plan: "more",
+          moreItems: [],
+        },
+      };
+
+      const refs = {
+        senderStage: document.getElementById("senderStage"),
+        senderShell: document.getElementById("senderShell"),
+        dragHandle: document.getElementById("dragHandle"),
+        widthText: document.getElementById("widthText"),
+        rangeValue: document.getElementById("rangeValue"),
+        senderActualWidth: document.getElementById("senderActualWidth"),
+        widthRange: document.getElementById("widthRange"),
+        counterToggle: document.getElementById("counterToggle"),
+        templateToggle: document.getElementById("templateToggle"),
+        planToggle: document.getElementById("planToggle"),
+        templateBtn: document.getElementById("templateBtn"),
+        planBtn: document.getElementById("planBtn"),
+        moreBtn: document.getElementById("moreBtn"),
+        charCount: document.getElementById("charCount"),
+        modelBtn: document.getElementById("modelBtn"),
+        popoverLayer: document.getElementById("popoverLayer"),
+        footer: document.getElementById("footer"),
+        leftActions: document.getElementById("leftActions"),
+        dataSourceBtn: document.getElementById("dataSourceBtn"),
+        templateState: document.getElementById("templateState"),
+        planState: document.getElementById("planState"),
+        modelState: document.getElementById("modelState"),
+      };
+
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+      function setWidth(value) {
+        state.width = clamp(Math.round(value), 380, 760);
+        render();
+      }
+
+      function fits() {
+        return (
+          refs.footer.scrollWidth <= refs.footer.clientWidth + 1 &&
+          refs.leftActions.scrollWidth <= refs.leftActions.clientWidth + 1
+        );
+      }
+
+      function setInlineState({ templateMode, planMode, moreItems }) {
+        refs.dataSourceBtn.classList.remove("hidden");
+        refs.templateBtn.classList.toggle("hidden", templateMode !== "icon");
+        refs.planBtn.classList.toggle("hidden", planMode === "hidden");
+        refs.planBtn.classList.toggle("is-icon", planMode === "icon");
+        refs.planBtn.classList.toggle("is-active", state.planSelected);
+        refs.moreBtn.classList.toggle("hidden", moreItems.length === 0);
+        state.adaptive = {
+          template: templateMode,
+          plan: planMode,
+          moreItems,
+        };
+      }
+
+      function applyAdaptiveRules() {
+        let templateMode = state.template ? "icon" : "hidden";
+        let planMode = state.plan ? "text" : "hidden";
+        let moreItems = [];
+
+        setInlineState({ templateMode, planMode, moreItems });
+
+        if (!fits() && state.plan && planMode === "text") {
+          planMode = "icon";
+          setInlineState({ templateMode, planMode, moreItems });
+        }
+
+        if (!fits() && state.template) {
+          templateMode = "hidden";
+          moreItems = ["template"];
+          setInlineState({ templateMode, planMode, moreItems });
+        }
+
+        if (!fits() && state.plan) {
+          planMode = "hidden";
+          moreItems = [...new Set([...moreItems, "plan"])];
+          setInlineState({ templateMode, planMode, moreItems });
+        }
+
+        if (!fits() && moreItems.length > 1) {
+          moreItems = ["template", "plan"].filter((item) => moreItems.includes(item));
+          setInlineState({ templateMode: "hidden", planMode: "hidden", moreItems });
+        }
+      }
+
+      function renderModelButton() {
+        refs.modelBtn.className = "icon-btn";
+        if (state.model === "auto") {
+          refs.modelBtn.innerHTML = icons.sliders;
+        refs.modelBtn.title = "选择模型";
+        refs.modelBtn.setAttribute("aria-label", "选择模型");
+        refs.modelBtn.dataset.tooltip = "选择模型";
+        refs.modelState.textContent = "自动";
+        return;
+        }
+
+        refs.modelBtn.classList.add("vendor-icon");
+        if (state.model === "deepseek") {
+          refs.modelBtn.classList.add("deepseek");
+          refs.modelBtn.innerHTML = icons.deepseek;
+          refs.modelState.textContent = "DeepSeek";
+        } else {
+          refs.modelBtn.innerHTML = icons.cube;
+          refs.modelState.textContent = "GLM";
+        }
+        refs.modelBtn.title = "选择模型";
+        refs.modelBtn.setAttribute("aria-label", "选择模型");
+        refs.modelBtn.dataset.tooltip = "选择模型";
+      }
+
+      function renderStatus() {
+        const templateCopy = {
+          icon: "独立图标",
+          more: "更多菜单",
+          hidden: "不展示",
+        };
+        const planCopy = {
+          text: "图标 + 文案",
+          icon: "独立图标",
+          more: "更多菜单",
+          hidden: "不展示",
+        };
+
+        const templateState = state.adaptive.moreItems.includes("template")
+          ? "more"
+          : state.adaptive.template;
+        const planState = state.adaptive.moreItems.includes("plan")
+          ? "more"
+          : state.adaptive.plan;
+
+        refs.templateState.textContent = templateCopy[templateState] || "不展示";
+        refs.planState.textContent = planCopy[planState] || "不展示";
+      }
+
+      function render() {
+        refs.senderStage.style.width = `${state.width}px`;
+        refs.widthText.textContent = state.width;
+        refs.rangeValue.textContent = state.width;
+        refs.senderActualWidth.textContent = `${state.width - 36}px`;
+        refs.widthRange.value = state.width;
+        refs.counterToggle.checked = state.counter;
+        refs.templateToggle.checked = state.template;
+        refs.planToggle.checked = state.plan;
+        refs.charCount.classList.toggle("hidden", !state.counter);
+        closePopovers();
+        renderModelButton();
+        applyAdaptiveRules();
+        renderStatus();
+      }
+
+      function menuItem({ icon, text, sub, active, chevron, onClick }) {
+        const btn = document.createElement("button");
+        btn.className = `menu-item${active ? " is-active" : ""}`;
+        btn.type = "button";
+        btn.innerHTML = `
+          ${icon ? icons[icon] : ""}
+          <span class="text">${text}${sub ? `<span class="sub">${sub}</span>` : ""}</span>
+          ${active ? `<span class="check-mark">${icons.check}</span>` : ""}
+          ${chevron ? icons.chevron : ""}
+        `;
+        if (onClick) btn.addEventListener("click", onClick);
+        return btn;
+      }
+
+      function positionPopover(popover, anchor, preferred = "bottom") {
+        const stageRect = refs.senderStage.getBoundingClientRect();
+        const anchorRect = anchor.getBoundingClientRect();
+        let left = anchorRect.left - stageRect.left;
+        let top =
+          preferred === "top"
+            ? anchorRect.top - stageRect.top - popover.offsetHeight - 10
+            : anchorRect.bottom - stageRect.top + 10;
+
+        left = clamp(left, 0, refs.senderStage.clientWidth - popover.offsetWidth);
+        popover.style.left = `${left}px`;
+        popover.style.top = `${top}px`;
+      }
+
+      function closePopovers() {
+        refs.popoverLayer.innerHTML = "";
+        activeTooltip = null;
+      }
+
+      function togglePlanSelected() {
+        state.planSelected = !state.planSelected;
+        render();
+      }
+
+      function createPlanMenuItem() {
+        const item = menuItem({
+          icon: "plan",
+          text: "计划",
+          onClick: (event) => {
+            event.stopPropagation();
+            state.planSelected = !state.planSelected;
+            render();
+            openMoreMenu(refs.moreBtn);
+          },
+        });
+        const switchEl = document.createElement("span");
+        switchEl.className = `menu-switch${state.planSelected ? " is-on" : ""}`;
+        switchEl.setAttribute("aria-hidden", "true");
+        item.appendChild(switchEl);
+        return item;
+      }
+
+      function openMoreMenu(anchor) {
+        closePopovers();
+        const menu = document.createElement("div");
+        menu.className = "popover";
+        state.adaptive.moreItems.forEach((item) => {
+          if (item === "template") {
+            menu.appendChild(
+              menuItem({
+                icon: "file",
+                text: "归因总结...",
+                chevron: true,
+                onClick: () => openTemplateMenu(menu),
+              })
+            );
+          }
+          if (item === "plan") {
+            menu.appendChild(createPlanMenuItem());
+          }
+        });
+        refs.popoverLayer.appendChild(menu);
+        positionPopover(menu, anchor, "top");
+      }
+
+      function openTemplateMenu(anchor) {
+        const existing = refs.popoverLayer.querySelector(".template-menu");
+        if (existing) existing.remove();
+
+        const menu = document.createElement("div");
+        menu.className = "popover template-menu";
+        menu.innerHTML = '<div class="menu-title">报告模板</div>';
+        menu.appendChild(menuItem({ text: "通用分析" }));
+        menu.appendChild(menuItem({ text: "归因总结", active: true }));
+        menu.appendChild(menuItem({ text: "对比分析" }));
+        menu.appendChild(menuItem({ icon: "plus", text: "自定义" }));
+        refs.popoverLayer.appendChild(menu);
+
+        const stageRect = refs.senderStage.getBoundingClientRect();
+        const anchorRect = anchor.getBoundingClientRect();
+        let left = anchorRect.right - stageRect.left + 8;
+        let top = anchorRect.top - stageRect.top;
+
+        if (left + menu.offsetWidth > refs.senderStage.clientWidth) {
+          left = anchorRect.left - stageRect.left - menu.offsetWidth - 8;
+        }
+        menu.style.left = `${Math.max(0, left)}px`;
+        menu.style.top = `${top}px`;
+      }
+
+      function openModelMenu(anchor) {
+        closePopovers();
+        const menu = document.createElement("div");
+        menu.className = "popover model-menu";
+        menu.appendChild(
+          menuItem({
+            icon: "sliders",
+            text: "自动",
+            sub: "推荐，兼顾效果与稳定性",
+            active: state.model === "auto",
+            onClick: () => {
+              state.model = "auto";
+              render();
+            },
+          })
+        );
+        menu.appendChild(document.createElement("div")).className = "menu-divider";
+        [
+          ["glm", "GLM-5.1", "cube"],
+          ["deepseek", "DeepSeek V4 Pro", "deepseek"],
+          ["deepseek", "DeepSeek V4 Pro", "deepseek"],
+          ["deepseek", "DeepSeek V4 Pro", "deepseek"],
+        ].forEach(([value, text, icon]) => {
+          menu.appendChild(
+            menuItem({
+              icon,
+              text,
+              active: state.model === value && text === "GLM-5.1",
+              onClick: () => {
+                state.model = value;
+                render();
+              },
+            })
+          );
+        });
+        refs.popoverLayer.appendChild(menu);
+        positionPopover(menu, anchor, "bottom");
+      }
+
+      refs.widthRange.addEventListener("input", (event) => setWidth(event.target.value));
+      refs.counterToggle.addEventListener("change", (event) => {
+        state.counter = event.target.checked;
+        render();
+      });
+      refs.templateToggle.addEventListener("change", (event) => {
+        state.template = event.target.checked;
+        render();
+      });
+      refs.planToggle.addEventListener("change", (event) => {
+        state.plan = event.target.checked;
+        if (!state.plan) state.planSelected = false;
+        render();
+      });
+      refs.templateBtn.addEventListener("click", () => openTemplateMenu(refs.templateBtn));
+      refs.planBtn.addEventListener("click", togglePlanSelected);
+      refs.moreBtn.addEventListener("click", () => openMoreMenu(refs.moreBtn));
+      refs.modelBtn.addEventListener("click", () => openModelMenu(refs.modelBtn));
+
+      let activeTooltip = null;
+
+      function showTooltip(anchor) {
+        const text = anchor.dataset.tooltip;
+        if (!text || anchor.classList.contains("hidden")) return;
+        hideTooltip();
+        const tooltip = document.createElement("div");
+        tooltip.className = "tooltip";
+        tooltip.textContent = text;
+        refs.popoverLayer.appendChild(tooltip);
+
+        const stageRect = refs.senderStage.getBoundingClientRect();
+        const anchorRect = anchor.getBoundingClientRect();
+        let left =
+          anchorRect.left -
+          stageRect.left +
+          anchorRect.width / 2 -
+          tooltip.offsetWidth / 2;
+        let top = anchorRect.top - stageRect.top - tooltip.offsetHeight - 8;
+        left = clamp(left, 0, refs.senderStage.clientWidth - tooltip.offsetWidth);
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        activeTooltip = tooltip;
+      }
+
+      function hideTooltip() {
+        if (activeTooltip) {
+          activeTooltip.remove();
+          activeTooltip = null;
+        }
+      }
+
+      [refs.planBtn, refs.modelBtn].forEach((button) => {
+        button.addEventListener("mouseenter", () => showTooltip(button));
+        button.addEventListener("mouseleave", hideTooltip);
+        button.addEventListener("focus", () => showTooltip(button));
+        button.addEventListener("blur", hideTooltip);
+      });
+
+      document.querySelectorAll("[data-width]").forEach((btn) => {
+        btn.addEventListener("click", () => setWidth(Number(btn.dataset.width)));
+      });
+
+      let dragStart = null;
+      refs.dragHandle.addEventListener("pointerdown", (event) => {
+        dragStart = {
+          pointerId: event.pointerId,
+          x: event.clientX,
+          width: state.width,
+        };
+        refs.dragHandle.classList.add("is-dragging");
+        refs.dragHandle.setPointerCapture(event.pointerId);
+      });
+
+      refs.dragHandle.addEventListener("pointermove", (event) => {
+        if (!dragStart) return;
+        setWidth(dragStart.width + event.clientX - dragStart.x);
+      });
+
+      refs.dragHandle.addEventListener("pointerup", () => {
+        dragStart = null;
+        refs.dragHandle.classList.remove("is-dragging");
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          refs.popoverLayer.contains(event.target) ||
+          refs.templateBtn.contains(event.target) ||
+          refs.moreBtn.contains(event.target) ||
+          refs.modelBtn.contains(event.target)
+        ) {
+          return;
+        }
+        closePopovers();
+      });
+
+      window.addEventListener("resize", render);
+
+      render();
+    </script>
+  </body>
+</html>
