@@ -239,7 +239,6 @@
       .action-btn {
         gap: 7px;
         padding: 0 12px;
-        max-width: 122px;
         flex: 0 1 auto;
         white-space: nowrap;
       }
@@ -254,7 +253,6 @@
         background: var(--teal-soft);
         flex: 0 0 auto;
         width: auto;
-        max-width: 122px;
         min-width: 0;
         padding: 0 12px;
       }
@@ -307,13 +305,28 @@
         background: #00a99d;
       }
 
-      .vendor-icon {
-        color: #fff;
-        background: #111827;
+      .model-btn.action-btn {
+        gap: 6px;
+        max-width: 176px;
+        flex: 0 0 auto;
+        color: #1f2937;
+        background: #edf1f5;
       }
 
-      .vendor-icon.deepseek {
-        background: #4267ff;
+      .model-btn.action-btn .label {
+        overflow: visible;
+        text-overflow: clip;
+      }
+
+      .model-btn .svg {
+        color: #635bff;
+      }
+
+      .model-btn .chevron-icon {
+        width: 14px;
+        height: 14px;
+        color: #667085;
+        stroke-width: 2.2;
       }
 
       .hidden {
@@ -624,8 +637,6 @@
             <h1 class="demo-title">输入框自适应规则</h1>
             <div class="width-tools" aria-label="宽度预设">
               <a class="doc-link" href="./rules.html">规则说明</a>
-              <a class="doc-link" href="./memory-interaction-demo.html">顶部 Demo</a>
-              <a class="doc-link" href="./topbar-adaptive-rules.html">顶部规则</a>
               <span class="width-pill"><span id="widthText">500</span>px</span>
               <button class="preset-btn" type="button" data-width="380">380</button>
               <button class="preset-btn" type="button" data-width="500">500</button>
@@ -774,6 +785,8 @@
         check: '<svg class="svg" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg>',
         chevron:
           '<svg class="svg" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg>',
+        chevronDown:
+          '<svg class="svg chevron-icon" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>',
         plus: '<svg class="svg" viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
         cube: '<svg class="svg" viewBox="0 0 24 24"><path d="m12 2 8 4v12l-8 4-8-4V6z"></path><path d="m12 22V10"></path><path d="m4 6 8 4 8-4"></path></svg>',
         deepseek:
@@ -783,6 +796,24 @@
       document.querySelectorAll("[data-icon]").forEach((node) => {
         node.innerHTML = icons[node.dataset.icon] || "";
       });
+
+      const modelOptions = {
+        auto: {
+          icon: "sliders",
+          label: "自动",
+          stateLabel: "自动",
+        },
+        glm: {
+          icon: "cube",
+          label: "GLM 5.1",
+          stateLabel: "GLM 5.1",
+        },
+        deepseek: {
+          icon: "deepseek",
+          label: "DeepSeek V4 Pro",
+          stateLabel: "DeepSeek V4 Pro",
+        },
+      };
 
       const state = {
         width: 500,
@@ -856,7 +887,13 @@
         let planMode = state.plan ? "text" : "hidden";
         let moreItems = [];
 
+        renderModelButton("expanded");
         setInlineState({ templateMode, planMode, moreItems });
+
+        if (!fits()) {
+          renderModelButton("compact");
+          setInlineState({ templateMode, planMode, moreItems });
+        }
 
         if (!fits() && state.plan && planMode === "text") {
           planMode = "icon";
@@ -879,31 +916,22 @@
           moreItems = ["template", "plan"].filter((item) => moreItems.includes(item));
           setInlineState({ templateMode: "hidden", planMode: "hidden", moreItems });
         }
+
       }
 
-      function renderModelButton() {
-        refs.modelBtn.className = "icon-btn";
-        if (state.model === "auto") {
-          refs.modelBtn.innerHTML = icons.sliders;
-        refs.modelBtn.title = "选择模型";
-        refs.modelBtn.setAttribute("aria-label", "选择模型");
-        refs.modelBtn.dataset.tooltip = "选择模型";
-        refs.modelState.textContent = "自动";
-        return;
-        }
-
-        refs.modelBtn.classList.add("vendor-icon");
-        if (state.model === "deepseek") {
-          refs.modelBtn.classList.add("deepseek");
-          refs.modelBtn.innerHTML = icons.deepseek;
-          refs.modelState.textContent = "DeepSeek";
-        } else {
-          refs.modelBtn.innerHTML = icons.cube;
-          refs.modelState.textContent = "GLM";
-        }
-        refs.modelBtn.title = "选择模型";
-        refs.modelBtn.setAttribute("aria-label", "选择模型");
-        refs.modelBtn.dataset.tooltip = "选择模型";
+      function renderModelButton(mode = "expanded") {
+        const model = modelOptions[state.model] || modelOptions.auto;
+        const compact = mode === "compact";
+        refs.modelBtn.className = `${compact ? "icon-btn" : "action-btn"} model-btn`;
+        refs.modelBtn.innerHTML = `${icons[model.icon]}${
+          compact ? "" : `<span class="label">${model.label}</span>${icons.chevronDown}`
+        }`;
+        refs.modelBtn.title = `选择模型：${model.label}`;
+        refs.modelBtn.setAttribute("aria-label", `选择模型：${model.label}`);
+        refs.modelBtn.dataset.tooltip = `选择模型：${model.label}`;
+        refs.modelState.textContent = compact
+          ? `${model.stateLabel}（图标）`
+          : model.stateLabel;
       }
 
       function renderStatus() {
@@ -941,7 +969,6 @@
         refs.planToggle.checked = state.plan;
         refs.charCount.classList.toggle("hidden", !state.counter);
         closePopovers();
-        renderModelButton();
         applyAdaptiveRules();
         renderStatus();
       }
@@ -1068,16 +1095,16 @@
         );
         menu.appendChild(document.createElement("div")).className = "menu-divider";
         [
-          ["glm", "GLM-5.1", "cube"],
+          ["glm", "GLM 5.1", "cube"],
           ["deepseek", "DeepSeek V4 Pro", "deepseek"],
           ["deepseek", "DeepSeek V4 Pro", "deepseek"],
           ["deepseek", "DeepSeek V4 Pro", "deepseek"],
-        ].forEach(([value, text, icon]) => {
+        ].forEach(([value, text, icon], index) => {
           menu.appendChild(
             menuItem({
               icon,
               text,
-              active: state.model === value && text === "GLM-5.1",
+              active: state.model === value && (value !== "deepseek" || index === 1),
               onClick: () => {
                 state.model = value;
                 render();
