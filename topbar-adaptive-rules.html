@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 分析顶部操作栏自适应规则</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #fff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --brand: #14b8a6;
+      --pink: #ff4f93;
+      --code: #f8fafc;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.3; }
+    h2 { margin: 32px 0 12px; font-size: 20px; }
+    h3 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; box-shadow: 0 8px 28px rgba(15, 23, 42, .06); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .rule { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: #fff; }
+    .rule b { display: block; margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f9fafb; font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    code { background: var(--code); padding: 2px 5px; border-radius: 5px; }
+    pre { margin: 12px 0 0; padding: 14px; overflow: auto; background: #0f172a; color: #e5e7eb; border-radius: 12px; font-size: 12px; line-height: 1.6; }
+    .demo { margin-top: 16px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #fff; }
+    .bar { display: flex; align-items: center; gap: 6px; min-width: 380px; height: 56px; padding: 0 12px; }
+    .back, .icon { width: 32px; height: 32px; border-radius: 8px; display: inline-grid; place-items: center; color: #374151; background: #f9fafb; }
+    .title { min-width: 42px; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+    .beta { height: 22px; padding: 0 7px; border: 1px solid #f6c56f; color: #a16207; border-radius: 6px; background: #fff7ed; line-height: 20px; }
+    .grow { flex: 1; }
+    .session { min-width: 74px; max-width: 320px; padding: 0 6px; height: 32px; display: inline-flex; align-items: center; gap: 4px; border-radius: 8px; background: #f3f4f6; }
+    .session span { min-width: 42px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .actions { display: inline-flex; align-items: center; gap: 8px; }
+    .btn { height: 32px; padding: 0 8px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #eef0f3; white-space: nowrap; }
+    .more { display: none; }
+    .tag { display: inline-block; border: 1px solid #99f6e4; color: #0f766e; background: #ecfeff; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
+    .note { border-left: 4px solid var(--brand); padding: 10px 12px; background: #ecfeff; border-radius: 8px; }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      main { padding-inline: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>AI 分析顶部操作栏自适应规则</h1>
+    <p>适用范围：全屏 AI 分析对话顶部栏。目标是文本先合理压缩，按钮保持固定点击区，放不下时从右到左收进“更多”。</p>
+
+    <section class="card">
+      <h2>最终规则</h2>
+      <div class="grid">
+        <div class="rule"><b>1. 对话区最小宽</b>内容区最小 <code>380px</code>。小于该值时不再压缩，外层展示横向滚动条。</div>
+        <div class="rule"><b>2. 项目名称</b>最小 <code>42px</code>，最大 <code>320px</code>，按内容宽度自适应，超出省略。</div>
+        <div class="rule"><b>3. 历史会话</b>触发器最小 <code>74px</code>，最大 <code>320px</code>；其中会话名至少显示 3 个中文汉字。</div>
+        <div class="rule"><b>4. 纯 Icon 断点</b>顶部栏宽度 <code>≤700px</code> 时，除历史会话外，右侧文字按钮统一变纯 Icon。</div>
+        <div class="rule"><b>5. 操作按钮间距</b>Icon 按钮固定 <code>32×32px</code>，按钮间距固定 <code>8px</code>，不随宽度继续压缩。</div>
+        <div class="rule"><b>6. 更多收起</b>仍放不下时，从右到左逐个收进“更多”；收起后一级栏不再展示该按钮。</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>收起顺序</h2>
+      <table>
+        <thead><tr><th>一级栏原始顺序</th><th>收起顺序</th><th>更多面板展示顺序</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>历史会话 / 新会话 / 分享 / 小窗 / 用量 / 项目记忆</td>
+            <td>项目记忆 → 用量 → 小窗 → 分享 → 新会话</td>
+            <td>新会话 → 分享 → 小窗 → 用量 → 项目记忆</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">历史会话不进入更多；它是当前上下文入口，保留在一级栏。</p>
+    </section>
+
+    <section>
+      <h2>宽度阶段</h2>
+      <table>
+        <thead><tr><th>条件</th><th>表现</th></tr></thead>
+        <tbody>
+          <tr><td><code>W &gt; 700px</code></td><td>文字按钮正常展示：新会话、分享、小窗。</td></tr>
+          <tr><td><code>W ≤ 700px</code></td><td>右侧操作统一转纯 Icon；历史会话仍展示文本。</td></tr>
+          <tr><td>纯 Icon 后仍溢出</td><td>从右到左收进更多，直到不溢出。</td></tr>
+          <tr><td><code>内容区 &lt; 380px</code></td><td>停止压缩内容，展示横向滚动条。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>二级面板</h2>
+      <table>
+        <thead><tr><th>面板</th><th>规则</th></tr></thead>
+        <tbody>
+          <tr><td>历史会话面板</td><td>宽度 <code>min 200px / max 320px</code>，在对话区域内定位，不超出内容可视区。</td></tr>
+          <tr><td>更多面板</td><td>只展示已收起按钮；图标与名称完整保留；顺序与一级栏原顺序一致。</td></tr>
+          <tr><td>项目记忆面板</td><td>在对话区域内打开，避免越出屏幕或遮挡到不可操作区域。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>实现参考</h2>
+      <pre><code>const ICON_ONLY_BREAKPOINT = 700;
+const MIN_CONTENT_WIDTH = 380;
+
+const textItems = {
+  title: { min: 42, max: 320 },
+  conversation: { min: 74, max: 320 },
+};
+
+const actionOrder = ['new', 'share', 'window', 'usage', 'memory'];
+const collapseOrder = [...actionOrder].reverse();
+
+function layoutTopbar() {
+  setIconOnly(topbarWidth <= ICON_ONLY_BREAKPOINT);
+  resetCollapsedActions();
+
+  for (const action of collapseOrder) {
+    if (!isOverflowing()) break;
+    moveToMore(action);
+  }
+}</code></pre>
+    </section>
+
+    <section>
+      <h2>示意</h2>
+      <div class="demo">
+        <div class="bar">
+          <span class="back">‹</span>
+          <span class="title">销售数量123</span>
+          <span class="beta">Beta</span>
+          <span class="grow"></span>
+          <span class="session"><span>很长很长的对话</span>⌄</span>
+          <span class="actions">
+            <span class="btn">＋ 新会话</span>
+            <span class="btn">↗ 分享</span>
+            <span class="icon">▣</span>
+            <span class="icon">▤</span>
+            <span class="icon">···</span>
+          </span>
+        </div>
+      </div>
+      <p><span class="tag">验收点</span> 缩小时按钮间距不变；放不下才进入更多；更多内顺序不倒置。</p>
+    </section>
+  </main>
+</body>
+</html>
