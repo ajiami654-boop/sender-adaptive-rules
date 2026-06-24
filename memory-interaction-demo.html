@@ -1,0 +1,2746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>九数云 · 智能分析（100% 保真还原）</title>
+<style>
+/* ============================================================
+   设计 Token 体系 —— 直接取自线上 @fx-ui/fine-design 运行时
+   (--fd-*, --color-*, --fm-color-*, --tw-* 共 1373 项)
+   ============================================================ */
+:root {
+  --fd-color-red-1: #fdeeee;
+  --fd-color-red-2: #f9cbcb;
+  --fd-color-red-3: #f7b9b9;
+  --fd-color-red-4: #f5a8a8;
+  --fd-color-red-5: #f18585;
+  --fd-color-red-6: #EB5050;
+  --fd-color-red-7: #bc4040;
+  --fd-color-red-8: #8d3030;
+  --fd-color-red-9: #5e2020;
+  --fd-color-red-10: #471818;
+  --fd-color-yellow-1: #fef6e6;
+  --fd-color-yellow-2: #fbe5b3;
+  --fd-color-yellow-3: #f9dc99;
+  --fd-color-yellow-4: #f8d480;
+  --fd-color-yellow-5: #f5c24d;
+  --fd-color-yellow-6: #F0A800;
+  --fd-color-yellow-7: #c08600;
+  --fd-color-yellow-8: #906500;
+  --fd-color-yellow-9: #604300;
+  --fd-color-yellow-10: #483200;
+  --fd-color-green-1: #edf9f1;
+  --fd-color-green-2: #c8edd4;
+  --fd-color-green-3: #b5e7c5;
+  --fd-color-green-4: #a3e1b7;
+  --fd-color-green-5: #7ed49a;
+  --fd-color-green-6: #46C26F;
+  --fd-color-green-7: #389b59;
+  --fd-color-green-8: #2a7443;
+  --fd-color-green-9: #1c4e2c;
+  --fd-color-green-10: #153a21;
+  --fd-color-blue-1: #eaf2fd;
+  --fd-color-blue-2: #c1d8f9;
+  --fd-color-blue-3: #accbf7;
+  --fd-color-blue-4: #97bef5;
+  --fd-color-blue-5: #6da4f1;
+  --fd-color-blue-6: #2F7DEB;
+  --fd-color-blue-7: #2664bc;
+  --fd-color-blue-8: #1c4b8d;
+  --fd-color-blue-9: #13325e;
+  --fd-color-blue-10: #0e2647;
+  --fd-color-orange-1: #fff2e8;
+  --fd-color-orange-2: #fed9ba;
+  --fd-color-orange-3: #fdcda3;
+  --fd-color-orange-4: #fdc08c;
+  --fd-color-orange-5: #fca75d;
+  --fd-color-orange-6: #FA8118;
+  --fd-color-orange-7: #c86713;
+  --fd-color-orange-8: #964d0e;
+  --fd-color-orange-9: #64340a;
+  --fd-color-orange-10: #4b2707;
+  --fd-color-maize-1: #fbf8dd;
+  --fd-color-maize-2: #f7f3be;
+  --fd-color-maize-3: #f5ed98;
+  --fd-color-maize-4: #ebe067;
+  --fd-color-maize-5: #e0d236;
+  --fd-color-maize-6: #d1c004;
+  --fd-color-maize-7: #ab9e03;
+  --fd-color-maize-8: #807602;
+  --fd-color-maize-9: #575002;
+  --fd-color-maize-10: #383401;
+  --fd-color-lime-1: #f6f9e6;
+  --fd-color-lime-2: #e3edb4;
+  --fd-color-lime-3: #dae79b;
+  --fd-color-lime-4: #d1e182;
+  --fd-color-lime-5: #bed44f;
+  --fd-color-lime-6: #A2C204;
+  --fd-color-lime-7: #829b03;
+  --fd-color-lime-8: #617402;
+  --fd-color-lime-9: #414e02;
+  --fd-color-lime-10: #313a01;
+  --fd-color-leaf-1: #f0f9ec;
+  --fd-color-leaf-2: #d2eec5;
+  --fd-color-leaf-3: #c3e9b1;
+  --fd-color-leaf-4: #b5e39e;
+  --fd-color-leaf-5: #97d877;
+  --fd-color-leaf-6: #6AC73C;
+  --fd-color-leaf-7: #559f30;
+  --fd-color-leaf-8: #407724;
+  --fd-color-leaf-9: #2a5018;
+  --fd-color-leaf-10: #203c12;
+  --fd-color-teal-1: #e9f7f6;
+  --fd-color-teal-2: #d8f2f0;
+  --fd-color-teal-3: #b0e8e3;
+  --fd-color-teal-4: #74dbd4;
+  --fd-color-teal-5: #3cc7be;
+  --fd-color-teal-6: #03aba0;
+  --fd-color-teal-7: #05948a;
+  --fd-color-teal-8: #037a72;
+  --fd-color-teal-9: #01615c;
+  --fd-color-teal-10: #004d49;
+  --fd-color-cyan-1: #e6f7fa;
+  --fd-color-cyan-2: #b3e7f1;
+  --fd-color-cyan-3: #99dfed;
+  --fd-color-cyan-4: #80d7e8;
+  --fd-color-cyan-5: #4dc6df;
+  --fd-color-cyan-6: #00AED1;
+  --fd-color-cyan-7: #008ba7;
+  --fd-color-cyan-8: #00687d;
+  --fd-color-cyan-9: #004654;
+  --fd-color-cyan-10: #00343f;
+  --fd-color-indigo-1: #edf1ff;
+  --fd-color-indigo-2: #dce3fd;
+  --fd-color-indigo-3: #c3cefa;
+  --fd-color-indigo-4: #9aacf9;
+  --fd-color-indigo-5: #7187f5;
+  --fd-color-indigo-6: #5169e0;
+  --fd-color-indigo-7: #3f52bf;
+  --fd-color-indigo-8: #2d3ea1;
+  --fd-color-indigo-9: #212f80;
+  --fd-color-indigo-10: #131e5c;
+  --fd-color-violet-1: #f2edfd;
+  --fd-color-violet-2: #d8c8f9;
+  --fd-color-violet-3: #cbb5f7;
+  --fd-color-violet-4: #bfa3f5;
+  --fd-color-violet-5: #a57ef1;
+  --fd-color-violet-6: #7E47EB;
+  --fd-color-violet-7: #6539bc;
+  --fd-color-violet-8: #4c2b8d;
+  --fd-color-violet-9: #321c5e;
+  --fd-color-violet-10: #261547;
+  --fd-color-purple-1: #f9ecfc;
+  --fd-color-purple-2: #eec7f6;
+  --fd-color-purple-3: #e8b4f3;
+  --fd-color-purple-4: #e3a1f0;
+  --fd-color-purple-5: #d77be9;
+  --fd-color-purple-6: #C643E0;
+  --fd-color-purple-7: #9e36b3;
+  --fd-color-purple-8: #772886;
+  --fd-color-purple-9: #4f1b5a;
+  --fd-color-purple-10: #3b1443;
+  --fd-color-lilac-1: #fbecf9;
+  --fd-color-lilac-2: #f4c6ec;
+  --fd-color-lilac-3: #f0b3e6;
+  --fd-color-lilac-4: #eca0e0;
+  --fd-color-lilac-5: #e47ad3;
+  --fd-color-lilac-6: #D941C0;
+  --fd-color-lilac-7: #ae349a;
+  --fd-color-lilac-8: #822773;
+  --fd-color-lilac-9: #571a4d;
+  --fd-color-lilac-10: #41143a;
+  --fd-color-pink-1: #feecf2;
+  --fd-color-pink-2: #fbc7d8;
+  --fd-color-pink-3: #f9b4cb;
+  --fd-color-pink-4: #f8a1be;
+  --fd-color-pink-5: #f57ba4;
+  --fd-color-pink-6: #F0437D;
+  --fd-color-pink-7: #c03664;
+  --fd-color-pink-8: #90284b;
+  --fd-color-pink-9: #601b32;
+  --fd-color-pink-10: #481426;
+  --fd-color-slate-1: #edeef1;
+  --fd-color-slate-2: #c8cdd4;
+  --fd-color-slate-3: #b6bdc6;
+  --fd-color-slate-4: #a4acb8;
+  --fd-color-slate-5: #7f8b9b;
+  --fd-color-slate-6: #485970;
+  --fd-color-slate-7: #3a475a;
+  --fd-color-slate-8: #2b3543;
+  --fd-color-slate-9: #1d242d;
+  --fd-color-slate-10: #161b22;
+  --fd-color-brand-1: #e9f7f6;
+  --fd-color-brand-2: #d8f2f0;
+  --fd-color-brand-3: #b0e8e3;
+  --fd-color-brand-4: #74dbd4;
+  --fd-color-brand-5: #3cc7be;
+  --fd-color-brand-6: #03aba0;
+  --fd-color-brand-7: #05948a;
+  --fd-color-brand-8: #037a72;
+  --fd-color-brand-9: #01615c;
+  --fd-color-brand-10: #004d49;
+  --fd-color-error-1: #fef1f0;
+  --fd-color-error-2: #ffdfdd;
+  --fd-color-error-3: #ffc4c2;
+  --fd-color-error-4: #ffa3a0;
+  --fd-color-error-5: #fd7d79;
+  --fd-color-error-6: #ef5655;
+  --fd-color-error-7: #c54746;
+  --fd-color-error-8: #9f3937;
+  --fd-color-error-9: #782a28;
+  --fd-color-error-10: #4a1817;
+  --fd-color-warning-1: #fff7e4;
+  --fd-color-warning-2: #ffeec7;
+  --fd-color-warning-3: #ffe29e;
+  --fd-color-warning-4: #fcd379;
+  --fd-color-warning-5: #f7be54;
+  --fd-color-warning-6: #eda426;
+  --fd-color-warning-7: #c77f14;
+  --fd-color-warning-8: #a8660a;
+  --fd-color-warning-9: #824a01;
+  --fd-color-warning-10: #4d2b00;
+  --fd-color-success-1: #ecf8ed;
+  --fd-color-success-2: #d2f3d6;
+  --fd-color-success-3: #afe6b6;
+  --fd-color-success-4: #88d593;
+  --fd-color-success-5: #64c871;
+  --fd-color-success-6: #3bad4a;
+  --fd-color-success-7: #358c41;
+  --fd-color-success-8: #316f39;
+  --fd-color-success-9: #2b5530;
+  --fd-color-success-10: #1f4024;
+  --fd-color-info-1: #ebf3ff;
+  --fd-color-info-2: #d9e8ff;
+  --fd-color-info-3: #b7d2fe;
+  --fd-color-info-4: #80b1ff;
+  --fd-color-info-5: #4d91ff;
+  --fd-color-info-6: #2b73f0;
+  --fd-color-info-7: #3062c1;
+  --fd-color-info-8: #174291;
+  --fd-color-info-9: #143266;
+  --fd-color-info-10: #0b224d;
+  --fd-color-grey-1: #ffffff;
+  --fd-color-grey-2: #f7f8fa;
+  --fd-color-grey-3: #f0f2f5;
+  --fd-color-grey-4: #e6e8ed;
+  --fd-color-grey-5: #dadee5;
+  --fd-color-grey-6: #c9ced6;
+  --fd-color-grey-7: #b4b9c2;
+  --fd-color-grey-8: #9ea4ad;
+  --fd-color-grey-9: #878d99;
+  --fd-color-grey-10: #646c7a;
+  --fd-color-grey-11: #49515e;
+  --fd-color-grey-12: #2e3642;
+  --fd-color-grey-13: #151c29;
+  --fd-color-transparent-1: #131d2e;
+  --fd-color-transparent-2: rgba(19, 29, 46, 0.9);
+  --fd-color-transparent-3: rgba(19, 29, 46, 0.78);
+  --fd-color-transparent-4: rgba(19, 29, 46, 0.66);
+  --fd-color-transparent-5: rgba(19, 29, 46, 0.47);
+  --fd-color-transparent-6: rgba(19, 29, 46, 0.37);
+  --fd-color-transparent-7: rgba(19, 29, 46, 0.29);
+  --fd-color-transparent-8: rgba(19, 29, 46, 0.24);
+  --fd-color-transparent-9: rgba(19, 29, 46, 0.19);
+  --fd-color-transparent-10: rgba(19, 29, 46, 0.13);
+  --fd-color-transparent-11: rgba(19, 29, 46, 0.08);
+  --fd-color-transparent-12: rgba(19, 29, 46, 0.05);
+  --fd-color-transparent-13: rgba(19, 29, 46, 0);
+  --fd-color-trans-white-1: #FFFFFF;
+  --fd-color-trans-white-2: rgba(255, 255, 255, 0.9);
+  --fd-color-trans-white-3: rgba(255, 255, 255, 0.78);
+  --fd-color-trans-white-4: rgba(255, 255, 255, 0.66);
+  --fd-color-trans-white-5: rgba(255, 255, 255, 0.47);
+  --fd-color-trans-white-6: rgba(255, 255, 255, 0.37);
+  --fd-color-trans-white-7: rgba(255, 255, 255, 0.29);
+  --fd-color-trans-white-8: rgba(255, 255, 255, 0.24);
+  --fd-color-trans-white-9: rgba(255, 255, 255, 0.19);
+  --fd-color-trans-white-10: rgba(255, 255, 255, 0.15);
+  --fd-color-trans-white-11: rgba(255, 255, 255, 0.11);
+  --fd-color-trans-white-12: rgba(255, 255, 255, 0.07);
+  --fd-color-trans-white-13: transparent;
+  --fd-border-radius-xs: 2px;
+  --fd-border-radius-sm: 4px;
+  --fd-border-radius: 6px;
+  --fd-border-radius-lg: 8px;
+  --fd-border-radius-xl: 10px;
+  --fd-gap-xs: 2px;
+  --fd-gap-sm: 4px;
+  --fd-gap: 8px;
+  --fd-gap-lg: 10px;
+  --fd-gap-xl: 12px;
+  --fd-gap-2xl: 16px;
+  --fd-gap-3xl: 20px;
+  --fd-gap-4xl: 24px;
+  --fd-gap-5xl: 32px;
+  --fd-padding-layout-3xs: 2px;
+  --fd-padding-layout-2xs: 4px;
+  --fd-padding-layout-xs: 8px;
+  --fd-padding-layout-sm: 12px;
+  --fd-padding-layout: 16px;
+  --fd-padding-layout-lg: 20px;
+  --fd-padding-layout-xl: 24px;
+  --fd-padding-layout-2xl: 32px;
+  --fd-padding-layout-3xl: 48px;
+  --fd-padding-zero: 0;
+  --fd-padding-2xs: 2px;
+  --fd-padding-xs: 4px;
+  --fd-padding-sm: 6px;
+  --fd-padding: 8px;
+  --fd-padding-lg: 12px;
+  --fd-padding-xl: 12px;
+  --fd-padding-2xl: 20px;
+  --fd-padding-3xl: 24px;
+  --fd-padding-4xl: 32px;
+  --fd-control-height-xs: 16px;
+  --fd-control-height-sm: 24px;
+  --fd-control-height-msm: 28px;
+  --fd-control-height: 32px;
+  --fd-control-height-mlg: 36px;
+  --fd-control-height-lg: 40px;
+  --fd-font-size-sm: 12px;
+  --fd-font-size-msm: 13px;
+  --fd-font-size: 14px;
+  --fd-font-size-lg: 16px;
+  --fd-font-size-xl: 18px;
+  --fd-font-size-2xl: 20px;
+  --fd-font-size-heading-1: 38px;
+  --fd-font-size-heading-2: 30px;
+  --fd-font-size-heading-3: 24px;
+  --fd-font-size-heading-4: 20px;
+  --fd-font-size-heading-5: 16px;
+  --fd-control-item-font-weight-active: 400;
+  --fd-icon-size-2sm: 12px;
+  --fd-icon-size-sm: 14px;
+  --fd-icon-size: 16px;
+  --fd-icon-size-lg: 18px;
+  --fd-line-height-sm: 20px;
+  --fd-line-height: 22px;
+  --fd-line-height-lg: 24px;
+  --fd-line-height-xl: 26px;
+  --fd-line-height-2xl: 28px;
+  --fd-line-height-heading-1: 46px;
+  --fd-line-height-heading-2: 38px;
+  --fd-line-height-heading-3: 32px;
+  --fd-line-height-heading-4: 28px;
+  --fd-line-height-heading-5: 24px;
+  --fd-line-width: 1px;
+  --fd-line-width-bold: 2px;
+  --fd-line-width-focus: 4px;
+  --fd-control-outline-width: 2px;
+  --fd-color-primary: #03aba0;
+  --fd-color-primary-active: #05948a;
+  --fd-color-primary-hover: #3cc7be;
+  --fd-color-primary-bg: #e9f7f6;
+  --fd-color-primary-bg-active: #b0e8e3;
+  --fd-color-primary-bg-hover: #d8f2f0;
+  --fd-color-primary-border: #b0e8e3;
+  --fd-color-primary-border-hover: #74dbd4;
+  --fd-color-primary-text: #03aba0;
+  --fd-color-primary-text-active: #05948a;
+  --fd-color-primary-text-hover: #3cc7be;
+  --fd-color-control-outline: rgb(from #03aba0 r g b / 15%);
+  --fd-color-link: #03aba0;
+  --fd-color-link-active: #05948a;
+  --fd-color-link-hover: #74dbd4;
+  --fd-color-info: #2b73f0;
+  --fd-color-info-active: #3062c1;
+  --fd-color-info-hover: #80b1ff;
+  --fd-color-info-bg: #ebf3ff;
+  --fd-color-info-bg-hover: #d9e8ff;
+  --fd-color-info-border: #b7d2fe;
+  --fd-color-info-border-hover: #80b1ff;
+  --fd-color-info-text: #2b73f0;
+  --fd-color-info-text-active: #3062c1;
+  --fd-color-info-text-hover: #4d91ff;
+  --fd-color-success: #3bad4a;
+  --fd-color-success-active: #358c41;
+  --fd-color-success-hover: #88d593;
+  --fd-color-success-bg: #ecf8ed;
+  --fd-color-success-bg-hover: #d2f3d6;
+  --fd-color-success-border: #afe6b6;
+  --fd-color-success-border-hover: #88d593;
+  --fd-color-success-text: #3bad4a;
+  --fd-color-success-text-active: #358c41;
+  --fd-color-success-text-hover: #64c871;
+  --fd-color-warning: #eda426;
+  --fd-color-warning-active: #c77f14;
+  --fd-color-warning-hover: #fcd379;
+  --fd-color-warning-bg: #fff7e4;
+  --fd-color-warning-bg-hover: #ffeec7;
+  --fd-color-warning-border: #ffe29e;
+  --fd-color-warning-border-hover: #fcd379;
+  --fd-color-warning-text: #eda426;
+  --fd-color-warning-text-active: #c77f14;
+  --fd-color-warning-text-hover: #f7be54;
+  --fd-color-warning-outline: rgba(237, 164, 38, 0.12);
+  --fd-color-error: #ef5655;
+  --fd-color-error-active: #c54746;
+  --fd-color-error-hover: #fd7d79;
+  --fd-color-error-bg: #fef1f0;
+  --fd-color-error-bg-hover: #ffdfdd;
+  --fd-color-error-bg-active: #ffc4c2;
+  --fd-color-error-border: #ffc4c2;
+  --fd-color-error-border-hover: #ffa3a0;
+  --fd-color-error-text: #ef5655;
+  --fd-color-error-text-active: #c54746;
+  --fd-color-error-text-hover: #fd7d79;
+  --fd-color-error-outline: rgba(239, 86, 85, 0.1);
+  --fd-color-white: #ffffff;
+  --fd-color-white-fixation: #FFFFFF;
+  --fd-color-black: #151c29;
+  --fd-color-zero: rgba(19, 29, 46, 0);
+  --fd-color-text: #131d2e;
+  --fd-color-text-secondary: rgba(19, 29, 46, 0.78);
+  --fd-color-text-tertiary: rgba(19, 29, 46, 0.66);
+  --fd-color-text-quaternary: rgba(19, 29, 46, 0.47);
+  --fd-color-text-placeholder: rgba(19, 29, 46, 0.47);
+  --fd-color-text-description: rgba(19, 29, 46, 0.66);
+  --fd-color-text-disabled: rgba(19, 29, 46, 0.37);
+  --fd-color-text-data-disabled: rgba(19, 29, 46, 0.37);
+  --fd-color-text-heading: #131d2e;
+  --fd-color-text-white: #ffffff;
+  --fd-color-text-white-fixation: #FFFFFF;
+  --fd-color-text-label: rgba(19, 29, 46, 0.78);
+  --fd-control-item-text-active: #131d2e;
+  --fd-color-icon: rgba(19, 29, 46, 0.66);
+  --fd-color-icon-hover: rgba(19, 29, 46, 0.78);
+  --fd-color-icon-active: #131d2e;
+  --fd-color-icon-normal: rgba(19, 29, 46, 0.78);
+  --fd-color-icon-disabled: rgba(19, 29, 46, 0.29);
+  --fd-color-fill: rgba(19, 29, 46, 0.24);
+  --fd-color-fill-secondary: rgba(19, 29, 46, 0.19);
+  --fd-color-fill-tertiary: rgba(19, 29, 46, 0.08);
+  --fd-color-fill-quaternary: rgba(19, 29, 46, 0.05);
+  --fd-color-bg-container: #ffffff;
+  --fd-color-bg-container-secondary: rgba(255, 255, 255, 0.66);
+  --fd-color-bg-container-tertiary: rgba(255, 255, 255, 0.37);
+  --fd-color-bg-container-grey: #f7f8fa;
+  --fd-color-bg-container-grey-secondary: #f0f2f5;
+  --fd-color-bg-container-grey-tertiary: #e6e8ed;
+  --fd-color-bg-container-disabled: rgba(19, 29, 46, 0.05);
+  --fd-color-bg-elevated: #ffffff;
+  --fd-color-bg-elevated-fixation: #FFFFFF;
+  --fd-color-bg-shape: rgba(19, 29, 46, 0.13);
+  --fd-color-bg-spotlight: #49515e;
+  --fd-color-bg-mask-white: rgba(255, 255, 255, 0.66);
+  --fd-control-item-bg-active: #e9f7f6;
+  --fd-control-item-bg-active-hover: #d8f2f0;
+  --fd-control-item-bg-active-disabled: rgba(19, 29, 46, 0.19);
+  --fd-color-bg-text-hover: #e9f7f6;
+  --fd-color-bg-text-active: #d8f2f0;
+  --fd-color-bg-text-normal-hover: rgba(19, 29, 46, 0.05);
+  --fd-color-bg-text-normal-active: rgba(19, 29, 46, 0.08);
+  --fd-color-bg-text-error-hover: #fef1f0;
+  --fd-color-bg-text-error-active: #ffdfdd;
+  --fd-color-fill-alter: rgba(19, 29, 46, 0.05);
+  --fd-color-fill-content: rgba(19, 29, 46, 0.19);
+  --fd-color-border-primary: #b4b9c2;
+  --fd-color-border: #dadee5;
+  --fd-color-border-secondary: #e6e8ed;
+  --fd-color-border-tertiary: #f0f2f5;
+  --fd-color-split: #e6e8ed;
+  --fd-color-split-white: rgba(255, 255, 255, 0.15);
+  --fd-box-shadow: 0 0 2px 0 rgba(19, 29, 46, .02), 0 4px 8px 0 rgba(19, 29, 46, .06), 0 4px 24px 6px rgba(19, 29, 46, .04);
+  --fd-box-shadow-secondary: 0 0 4px 0 rgba(19, 29, 46, .05), 0 6px 16px -1px rgba(19, 29, 46, .06), 0 6px 32px 8px rgba(19, 29, 46, .04);
+  --fd-box-shadow-tertiary: 0 0 5px 0 rgba(19, 29, 46, .06), 0 10px 24px -2px rgba(19, 29, 46, .1), 0 10px 48px 12px rgba(19, 29, 46, .04);
+  --fd-box-shadow-subtle: 0 0 2px 0 rgba(19, 29, 46, .02), 0 1px 4px 0 rgba(19, 29, 46, .06);
+  --fd-outline-shadow: 0 0 0 2px rgb(from #03aba0 r g b / 15%);
+  --fd-error-outline-shadow: 0 0 0 2px rgba(239, 86, 85, 0.1);
+  --fd-warning-outline-shadow: 0 0 0 2px rgba(237, 164, 38, 0.12);
+  --fd-scroll-bar-color-fill: rgba(19, 29, 46, 0.19);
+  --fd-scroll-bar-color-bg: rgba(19, 29, 46, 0.05);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --fd-datetime-height-time-panel: 280px;
+  --tw-content: "";
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-border-opacity: 1;
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  --tw-shadow-color: var(--fd-color-error-outline);
+  --color-brand-1: #e9f7f6;
+  --color-brand-2: #d8f2f0;
+  --color-brand-3: #b0e8e3;
+  --color-brand-4: #74dbd4;
+  --color-brand-5: #3cc7be;
+  --color-brand-6: #03aba0;
+  --color-brand-7: #05948a;
+  --color-brand-8: #037a72;
+  --color-brand-9: #01615c;
+  --color-brand-10: #004d49;
+  --color-gradient-primary: #19bfa9;
+  --color-brand-11: rgb(from #03aba0 r g b / 8%);
+  --color-brand-12: rgb(from #03aba0 r g b / 12%);
+  --color-brand-13: rgb(from #03aba0 r g b / 20%);
+  --color-brand-dark-11: rgba(25, 180, 197, 0.12);
+  --color-brand-dark-12: rgba(25, 180, 197, 0.16);
+  --color-brand-dark-13: rgba(25, 180, 197, 0.2);
+  --color-svg-icon-1: #05948a;
+  --color-svg-icon-2: rgba(3, 171, 160, 0.35);
+  --color-svg-icon-3: #b0e8e3;
+  --color-svg-icon-4: rgba(3, 171, 160, 0.6);
+  --color-svg-icon-5: rgba(3, 171, 160, 0.2);
+  --color-primary-transparent-8-dark: rgba(25, 180, 197, 0.08);
+  --color-primary-transparent-12-dark: rgba(25, 180, 197, 0.12);
+  --color-primary-transparent-20-dark: rgba(25, 180, 197, 0.2);
+  --color-control-outline: rgb(from #03aba0 r g b / 15%);
+  --fm-color-1-1: #fcfdff;
+  --fm-color-2-1: #fcfdff;
+  --fm-color-3-1: #fcfdff;
+  --fm-color-4-1: #e8e9eb;
+  --fm-color-5-1: #d4d5d7;
+  --fm-color-1-2: #0d1540;
+  --fm-color-2-2: #2d49d8;
+  --fm-color-3-2: #253cb2;
+  --fm-color-4-2: #1d2f8c;
+  --fm-color-5-2: #152266;
+  --fm-color-1-3: #86a5f8;
+  --fm-color-2-3: #d6ddff;
+  --fm-color-3-3: #b0c2ff;
+  --fm-color-4-3: #527bd2;
+  --fm-color-5-3: #295aac;
+  --fm-color-1-4: #5368b1;
+  --fm-color-2-4: #c3cafd;
+  --fm-color-3-4: #8593d7;
+  --fm-color-4-4: #2c468b;
+  --fm-color-5-4: #112c65;
+  --fm-color-1-5: #65bfb9;
+  --fm-color-2-5: #d4fdff;
+  --fm-color-3-5: #9ce5e4;
+  --fm-color-4-5: #3a998e;
+  --fm-color-5-5: #1a7364;
+  --fm-color-1-6: #9ed6e0;
+  --fm-color-2-6: #fff;
+  --fm-color-3-6: #daf8ff;
+  --fm-color-4-6: #67b1ba;
+  --fm-color-5-6: #3c8f94;
+  --fm-color-1-7: #fbb24a;
+  --fm-color-2-7: #ffdf97;
+  --fm-color-3-7: #ffcc71;
+  --fm-color-4-7: #d5811f;
+  --fm-color-5-7: #af5500;
+  --fm-color-1-8: #9dc4e0;
+  --fm-color-2-8: #fff;
+  --fm-color-3-8: #d9edff;
+  --fm-color-4-8: #669bba;
+  --fm-color-5-8: #3b7794;
+  --fm-color-1-9: #5b89c1;
+  --fm-color-2-9: #c5daff;
+  --fm-color-3-9: #90b3e7;
+  --fm-color-4-9: #32669b;
+  --fm-color-5-9: #144975;
+  --fm-color-1-10: #828ae5;
+  --fm-color-2-10: #deddff;
+  --fm-color-3-10: #b7b9ff;
+  --fm-color-4-10: #505ebf;
+  --fm-color-5-10: #293d99;
+  --fm-color-1-11: #c9d969;
+  --fm-color-2-11: #f2ffc8;
+  --fm-color-3-11: #edffa2;
+  --fm-color-4-11: #a8b33c;
+  --fm-color-5-11: #888d1a;
+  --fm-color-1-12: #90ad71;
+  --fm-color-2-12: #f3f9ee;
+  --fm-color-3-12: #bdd3aa;
+  --fm-color-4-12: #6a8744;
+  --fm-color-5-12: #496122;
+  --fm-color-1-13: #ed994d;
+  --fm-color-2-13: #ffd69f;
+  --fm-color-3-13: #ffbf79;
+  --fm-color-4-13: #c76823;
+  --fm-color-5-13: #a13e04;
+  --fm-color-1-14: #7dc4fa;
+  --fm-color-2-14: #cce4ff;
+  --fm-color-3-14: #a6d4ff;
+  --fm-color-4-14: #4a9fd4;
+  --fm-color-5-14: #237fae;
+  --color-brand-dark-5: #009bab;
+  --color-brand-dark-6: #19b4c5;
+  --color-brand-dark-7: #4cc4d2;
+  --color-info-1: #ebf3ff;
+  --color-info-2: #d9e8ff;
+  --color-info-3: #b7d2fe;
+  --color-info-4: #80b1ff;
+  --color-info-5: #4d91ff;
+  --color-info-6: #2b73f0;
+  --color-info-7: #3062c1;
+  --color-info-8: #174291;
+  --color-info-9: #143266;
+  --color-info-10: #0b224d;
+  --color-info-11: rgba(43, 115, 240, 0.1);
+  --color-success-1: #ecf8ed;
+  --color-success-2: #d2f3d6;
+  --color-success-3: #afe6b6;
+  --color-success-4: #88d593;
+  --color-success-5: #64c871;
+  --color-success-6: #3bad4a;
+  --color-success-7: #358c41;
+  --color-success-8: #316f39;
+  --color-success-9: #2b5530;
+  --color-success-10: #1f4024;
+  --color-success-11: rgba(59, 173, 74, 0.1);
+  --color-warning-1: #fff7e4;
+  --color-warning-2: #ffeec7;
+  --color-warning-3: #ffe29e;
+  --color-warning-4: #fcd379;
+  --color-warning-5: #f7be54;
+  --color-warning-6: #eda426;
+  --color-warning-7: #c77f14;
+  --color-warning-8: #a8660a;
+  --color-warning-9: #824a01;
+  --color-warning-10: #4d2b00;
+  --color-error-1: #fef1f0;
+  --color-error-2: #ffdfdd;
+  --color-error-3: #ffc4c2;
+  --color-error-4: #ffa3a0;
+  --color-error-5: #fd7d79;
+  --color-error-6: #ef5655;
+  --color-error-7: #c54746;
+  --color-error-8: #9f3937;
+  --color-error-9: #782a28;
+  --color-error-10: #4a1817;
+  --color-grey-1: #ffffff;
+  --color-grey-2: #f7f8fa;
+  --color-grey-3: #f0f2f5;
+  --color-grey-4: #e6e8ed;
+  --color-grey-5: #dadee5;
+  --color-grey-6: #c9ced6;
+  --color-grey-7: #b4b9c2;
+  --color-grey-8: #9ea4ad;
+  --color-grey-9: #878d99;
+  --color-grey-10: #646c7a;
+  --color-grey-11: #49515e;
+  --color-grey-12: #2e3642;
+  --color-grey-13: #151c29;
+  --color-grey-dark-2: #23283e;
+  --color-grey-dark-3: #2b3046;
+  --color-transparent-dark-1: #ffffff;
+  --color-transparent-dark-2: rgba(255, 255, 255, 0.94);
+  --color-transparent-dark-3: rgba(255, 255, 255, 0.82);
+  --color-transparent-dark-4: rgba(255, 255, 255, 0.72);
+  --color-transparent-dark-5: rgba(255, 255, 255, 0.62);
+  --color-transparent-dark-6: rgba(255, 255, 255, 0.5);
+  --color-transparent-dark-7: rgba(255, 255, 255, 0.4);
+  --color-transparent-dark-8: rgba(255, 255, 255, 0.35);
+  --color-transparent-dark-9: rgba(255, 255, 255, 0.2);
+  --color-transparent-dark-10: rgba(255, 255, 255, 0.16);
+  --color-transparent-dark-11: rgba(255, 255, 255, 0.13);
+  --color-transparent-dark-12: rgba(255, 255, 255, 0.08);
+  --color-transparent-dark-13: rgba(255, 255, 255, 0);
+  --color-white-transparent-dark-1: #0d1540;
+  --color-white-transparent-dark-2: rgba(13, 21, 64, 0.9);
+  --color-white-transparent-dark-3: rgba(13, 21, 64, 0.78);
+  --color-white-transparent-dark-4: rgba(13, 21, 64, 0.66);
+  --color-white-transparent-dark-5: rgba(13, 21, 64, 0.47);
+  --color-white-transparent-dark-6: rgba(13, 21, 64, 0.37);
+  --color-white-transparent-dark-7: rgba(13, 21, 64, 0.29);
+  --color-white-transparent-dark-8: rgba(13, 21, 64, 0.24);
+  --color-white-transparent-dark-9: rgba(13, 21, 64, 0.19);
+  --color-white-transparent-dark-10: rgba(13, 21, 64, 0.15);
+  --color-white-transparent-dark-11: rgba(13, 21, 64, 0.11);
+  --color-white-transparent-dark-12: rgba(13, 21, 64, 0.07);
+  --color-white-transparent-dark-13: rgba(13, 21, 64, 0);
+  --color-red-1: #fef1f0;
+  --color-red-2: #ffdfdd;
+  --color-red-3: #ffc4c2;
+  --color-red-4: #ffa3a0;
+  --color-red-5: #fd7d79;
+  --color-red-6: #ef5655;
+  --color-red-7: #c54746;
+  --color-red-8: #9f3937;
+  --color-red-9: #782a28;
+  --color-red-10: #4a1817;
+  --color-yellow-1: #fff7e4;
+  --color-yellow-2: #ffeec7;
+  --color-yellow-3: #ffe29e;
+  --color-yellow-4: #fcd379;
+  --color-yellow-5: #f7be54;
+  --color-yellow-6: #eda426;
+  --color-yellow-7: #c77f14;
+  --color-yellow-8: #a8660a;
+  --color-yellow-9: #824a01;
+  --color-yellow-10: #4d2b00;
+  --color-green-1: #ecf8ed;
+  --color-green-2: #d2f3d6;
+  --color-green-3: #afe6b6;
+  --color-green-4: #88d593;
+  --color-green-5: #64c871;
+  --color-green-6: #3bad4a;
+  --color-green-7: #358c41;
+  --color-green-8: #316f39;
+  --color-green-9: #2b5530;
+  --color-green-10: #1f4024;
+  --color-blue-1: #ebf3ff;
+  --color-blue-2: #d9e8ff;
+  --color-blue-3: #b7d2fe;
+  --color-blue-4: #80b1ff;
+  --color-blue-5: #4d91ff;
+  --color-blue-6: #2b73f0;
+  --color-blue-7: #3062c1;
+  --color-blue-8: #174291;
+  --color-blue-9: #143266;
+  --color-blue-10: #0b224d;
+  --color-teal-1: #e9f7f6;
+  --color-teal-2: #d8f2f0;
+  --color-teal-3: #b0e8e3;
+  --color-teal-4: #74dbd4;
+  --color-teal-5: #3cc7be;
+  --color-teal-6: #03aba0;
+  --color-teal-7: #05948a;
+  --color-teal-8: #037a72;
+  --color-teal-9: #01615c;
+  --color-teal-10: #004d49;
+  --color-gray-1: #ffffff;
+  --color-gray-2: #f7f8fa;
+  --color-gray-3: #f0f2f5;
+  --color-gray-4: #e6e8ed;
+  --color-gray-5: #dadee5;
+  --color-gray-6: #c9ced6;
+  --color-gray-7: #b4b9c2;
+  --color-gray-8: #9ea4ad;
+  --color-gray-9: #878d99;
+  --color-gray-10: #646c7a;
+  --color-gray-11: #49515e;
+  --color-gray-12: #2e3642;
+  --color-gray-13: #151c29;
+  --color-transparent-1: #131d2e;
+  --color-transparent-2: rgba(19, 29, 46, 0.9);
+  --color-transparent-3: rgba(19, 29, 46, 0.78);
+  --color-transparent-4: rgba(19, 29, 46, 0.66);
+  --color-transparent-5: rgba(19, 29, 46, 0.47);
+  --color-transparent-6: rgba(19, 29, 46, 0.37);
+  --color-transparent-7: rgba(19, 29, 46, 0.29);
+  --color-transparent-8: rgba(19, 29, 46, 0.24);
+  --color-transparent-9: rgba(19, 29, 46, 0.19);
+  --color-transparent-10: rgba(19, 29, 46, 0.13);
+  --color-transparent-11: rgba(19, 29, 46, 0.08);
+  --color-transparent-12: rgba(19, 29, 46, 0.05);
+  --color-transparent-13: rgba(19, 29, 46, 0);
+  --color-white-transparent-1: #ffffff;
+  --color-white-transparent-2: rgba(255, 255, 255, 0.9);
+  --color-white-transparent-3: rgba(255, 255, 255, 0.78);
+  --color-white-transparent-4: rgba(255, 255, 255, 0.66);
+  --color-white-transparent-5: rgba(255, 255, 255, 0.47);
+  --color-white-transparent-6: rgba(255, 255, 255, 0.37);
+  --color-white-transparent-7: rgba(255, 255, 255, 0.29);
+  --color-white-transparent-8: rgba(255, 255, 255, 0.24);
+  --color-white-transparent-9: rgba(255, 255, 255, 0.19);
+  --color-white-transparent-10: rgba(255, 255, 255, 0.15);
+  --color-white-transparent-11: rgba(255, 255, 255, 0.11);
+  --color-white-transparent-12: rgba(255, 255, 255, 0.07);
+  --color-white-transparent-13: rgba(255, 255, 255, 0);
+  --color-maize-1: #fbf8dd;
+  --color-maize-2: #f7f3be;
+  --color-maize-3: #f5ed98;
+  --color-maize-4: #ebe067;
+  --color-maize-5: #e0d236;
+  --color-maize-6: #d1c004;
+  --color-maize-7: #ab9e03;
+  --color-maize-8: #807602;
+  --color-maize-9: #575002;
+  --color-maize-10: #383401;
+  --color-lime-1: #f6f9e6;
+  --color-lime-2: #e7f0c0;
+  --color-lime-3: #dbe8a0;
+  --color-lime-4: #cde079;
+  --color-lime-5: #b8cf53;
+  --color-lime-6: #9bba04;
+  --color-lime-7: #829b03;
+  --color-lime-8: #617402;
+  --color-lime-9: #414e02;
+  --color-lime-10: #313a01;
+  --color-lightgreen-1: #f1f9ec;
+  --color-lightgreen-2: #dcf5ce;
+  --color-lightgreen-3: #c3edab;
+  --color-lightgreen-4: #b2e396;
+  --color-lightgreen-5: #92d66b;
+  --color-lightgreen-6: #69b83b;
+  --color-lightgreen-7: #599f30;
+  --color-lightgreen-8: #427724;
+  --color-lightgreen-9: #2c5018;
+  --color-lightgreen-10: #1f3811;
+  --color-orange-1: #fff5e8;
+  --color-orange-2: #ffe5c7;
+  --color-orange-3: #ffcf99;
+  --color-orange-4: #ffb566;
+  --color-orange-5: #ff9f3e;
+  --color-orange-6: #fa851e;
+  --color-orange-7: #d26919;
+  --color-orange-8: #b5560d;
+  --color-orange-9: #773503;
+  --color-orange-10: #471f00;
+  --color-cyan-1: #ebf8fc;
+  --color-cyan-2: #cff1fc;
+  --color-cyan-3: #aae6fa;
+  --color-cyan-4: #83daf2;
+  --color-cyan-5: #4ac6e8;
+  --color-cyan-6: #0dadd9;
+  --color-cyan-7: #038cb2;
+  --color-cyan-8: #036c8a;
+  --color-cyan-9: #015066;
+  --color-cyan-10: #013b4f;
+  --color-indigo-1: #edf1ff;
+  --color-indigo-2: #dce3fd;
+  --color-indigo-3: #c3cefa;
+  --color-indigo-4: #9aacf9;
+  --color-indigo-5: #7187f5;
+  --color-indigo-6: #5169e0;
+  --color-indigo-7: #3f52bf;
+  --color-indigo-8: #2d3ea1;
+  --color-indigo-9: #212f80;
+  --color-indigo-10: #131e5c;
+  --color-violet-1: #f2effe;
+  --color-violet-2: #e3dbff;
+  --color-violet-3: #cdc0fc;
+  --color-violet-4: #b09cf7;
+  --color-violet-5: #9176f5;
+  --color-violet-6: #7758e8;
+  --color-violet-7: #6246c7;
+  --color-violet-8: #5036ad;
+  --color-violet-9: #3f2b8a;
+  --color-violet-10: #2e2259;
+  --color-purple-1: #faf0fe;
+  --color-purple-2: #f6dfff;
+  --color-purple-3: #eec5ff;
+  --color-purple-4: #e5a4ff;
+  --color-purple-5: #d181f0;
+  --color-purple-6: #b94fdb;
+  --color-purple-7: #9a31bd;
+  --color-purple-8: #81299e;
+  --color-purple-9: #601e75;
+  --color-purple-10: #40204d;
+  --color-lilac-1: #fbecf9;
+  --color-lilac-2: #fad9f4;
+  --color-lilac-3: #f0b3e6;
+  --color-lilac-4: #eca0e0;
+  --color-lilac-5: #e47ad3;
+  --color-lilac-6: #d952c3;
+  --color-lilac-7: #ae349a;
+  --color-lilac-8: #822773;
+  --color-lilac-9: #571a4d;
+  --color-lilac-10: #41143a;
+  --color-pink-1: #feecf2;
+  --color-pink-2: #fbd0de;
+  --color-pink-3: #f9b4cb;
+  --color-pink-4: #f8a1be;
+  --color-pink-5: #f57ba4;
+  --color-pink-6: #e54e81;
+  --color-pink-7: #c03664;
+  --color-pink-8: #90284b;
+  --color-pink-9: #601b32;
+  --color-pink-10: #481426;
+  --color-bluegrey-1: #edeef1;
+  --color-bluegrey-2: #d7dbe0;
+  --color-bluegrey-3: #bcc2cc;
+  --color-bluegrey-4: #9fa7b2;
+  --color-bluegrey-5: #778291;
+  --color-bluegrey-6: #5b687a;
+  --color-bluegrey-7: #465263;
+  --color-bluegrey-8: #36404f;
+  --color-bluegrey-9: #272f3b;
+  --color-bluegrey-10: #191e26;
+  --color-primary: #03aba0;
+  --color-primary-active: #05948a;
+  --color-primary-hover: #3cc7be;
+  --color-primary-bg: #e9f7f6;
+  --color-primary-bg-active: #b0e8e3;
+  --color-primary-bg-hover: #d8f2f0;
+  --color-primary-border: #b0e8e3;
+  --color-primary-border-hover: #74dbd4;
+  --color-primary-text: #03aba0;
+  --color-primary-text-active: #05948a;
+  --color-primary-text-hover: #3cc7be;
+  --color-link: #03aba0;
+  --color-link-active: #05948a;
+  --color-link-hover: #74dbd4;
+  --color-primary-text-dark: #19b4c5;
+  --color-primary-text-active-dark: #4cc4d2;
+  --color-primary-text-hover-dark: #009bab;
+  --color-info: #2b73f0;
+  --color-info-active: #3062c1;
+  --color-info-hover: #80b1ff;
+  --color-info-bg: #ebf3ff;
+  --color-info-bg-hover: #d9e8ff;
+  --color-info-border: #b7d2fe;
+  --color-info-border-hover: #80b1ff;
+  --color-info-text: #2b73f0;
+  --color-info-text-active: #3062c1;
+  --color-info-text-hover: #4d91ff;
+  --color-success: #3bad4a;
+  --color-success-active: #358c41;
+  --color-success-hover: #88d593;
+  --color-success-bg: #ecf8ed;
+  --color-success-bg-hover: #d2f3d6;
+  --color-success-border: #afe6b6;
+  --color-success-border-hover: #88d593;
+  --color-success-text: #3bad4a;
+  --color-success-text-active: #358c41;
+  --color-success-text-hover: #64c871;
+  --color-warning: #eda426;
+  --color-warning-active: #c77f14;
+  --color-warning-hover: #fcd379;
+  --color-warning-bg: #fff7e4;
+  --color-warning-bg-hover: #ffeec7;
+  --color-warning-border: #ffe29e;
+  --color-warning-border-hover: #fcd379;
+  --color-warning-text: #eda426;
+  --color-warning-text-active: #c77f14;
+  --color-warning-text-hover: #f7be54;
+  --color-error: #ef5655;
+  --color-error-active: #c54746;
+  --color-error-hover: #fd7d79;
+  --color-error-bg: #fef1f0;
+  --color-error-bg-active: #ffc4c2;
+  --color-error-bg-hover: #ffdfdd;
+  --color-error-border: #ffc4c2;
+  --color-error-border-hover: #ffa3a0;
+  --color-error-text: #ef5655;
+  --color-error-text-active: #c54746;
+  --color-error-text-hover: #fd7d79;
+  --color-white: #ffffff;
+  --color-black: #151c29;
+  --color-black-dark: #1c2136;
+  --color-white-fixation: #ffffff;
+  --color-fill: rgba(19, 29, 46, 0.24);
+  --color-fill-secondary: rgba(19, 29, 46, 0.19);
+  --color-fill-tertiary: rgba(19, 29, 46, 0.08);
+  --color-fill-quaternary: rgba(19, 29, 46, 0.05);
+  --color-fill-alter: rgba(19, 29, 46, 0.05);
+  --color-fill-content: rgba(19, 29, 46, 0.19);
+  --color-bg-text-normal-active: rgba(19, 29, 46, 0.08);
+  --color-bg-text-normal-hover: rgba(19, 29, 46, 0.05);
+  --color-bg-text-hover: #e9f7f6;
+  --color-bg-text-active: #d8f2f0;
+  --color-bg-text-error-hover: #fef1f0;
+  --color-bg-text-error-active: #ffdfdd;
+  --color-control-item-bg-active: #e9f7f6;
+  --control-item-bg-active-hover: #d8f2f0;
+  --control-item-bg-active-disabled: rgba(19, 29, 46, 0.19);
+  --color-bg-container: #ffffff;
+  --color-bg-container-secondary: rgba(255, 255, 255, 0.66);
+  --color-bg-container-tertiary: rgba(255, 255, 255, 0.37);
+  --color-bg-container-grey: #f7f8fa;
+  --color-bg-container-grey-secondary: #f0f2f5;
+  --color-bg-container-grey-tertiary: #e6e8ed;
+  --color-bg-container-disabled: rgba(19, 29, 46, 0.05);
+  --color-bg-elevated: #ffffff;
+  --color-bg-elevated-fixation: #ffffff;
+  --color-bg-spotlight: #49515e;
+  --color-bg-shape: rgba(19, 29, 46, 0.13);
+  --color-bg-layout: #f2f3f8;
+  --color-bg-mask-white: rgba(19, 29, 46, 0.66);
+  --color-border: #dadee5;
+  --color-border-secondary: rgba(19, 29, 46, 0.13);
+  --color-border-tertiary: rgba(19, 29, 46, 0.08);
+  --color-transparent-border: rgba(19, 29, 46, 0.13);
+  --color-split: rgba(19, 29, 46, 0.13);
+  --color-border-white: rgba(255, 255, 255, 0.15);
+  --color-text: #131d2e;
+  --color-text-secondary: rgba(19, 29, 46, 0.78);
+  --color-text-tertiary: rgba(19, 29, 46, 0.66);
+  --color-text-quaternary: rgba(19, 29, 46, 0.47);
+  --color-text-placeholder: rgba(19, 29, 46, 0.47);
+  --color-text-description: rgba(19, 29, 46, 0.66);
+  --color-text-disabled: rgba(19, 29, 46, 0.37);
+  --color-text-data-disabled: rgba(19, 29, 46, 0.37);
+  --color-text-heading: #131d2e;
+  --color-text-white: #ffffff;
+  --color-text-white-fixation: #FFFFFF;
+  --color-text-label: rgba(19, 29, 46, 0.78);
+  --color-icon: rgba(19, 29, 46, 0.66);
+  --color-icon-active: #131d2e;
+  --color-icon-hover: rgba(19, 29, 46, 0.78);
+  --color-icon-normal: rgba(19, 29, 46, 0.78);
+  --color-icon-disabled: rgba(19, 29, 46, 0.29);
+  --color-fill-dark: rgba(255, 255, 255, 0.4);
+  --color-fill-secondary-dark: rgba(255, 255, 255, 0.2);
+  --color-fill-tertiary-dark: rgba(255, 255, 255, 0.13);
+  --color-fill-quaternary-dark: rgba(255, 255, 255, 0.08);
+  --color-fill-alter-dark: rgba(255, 255, 255, 0.08);
+  --color-fill-content-dark: rgba(255, 255, 255, 0.2);
+  --color-bg-text-normal-active-dark: rgba(255, 255, 255, 0.13);
+  --color-bg-text-normal-hover-dark: rgba(255, 255, 255, 0.08);
+  --color-bg-container-dark: #1c2136;
+  --color-bg-container-disabled-dark: rgba(255, 255, 255, 0.08);
+  --color-bg-elevated-dark: #1c2136;
+  --color-bg-spotlight-dark: rgba(255, 255, 255, 0.82);
+  --color-bg-mask-dark: rgba(255, 255, 255, 0.62);
+  --color-bg-container-grey-dark: #23283e;
+  --color-bg-container-grey-secondary-dark: #2b3046;
+  --color-bg-tip-dark: rgba(255, 255, 255, 0.5);
+  --color-border-dark: rgba(255, 255, 255, 0.2);
+  --color-border-secondary-dark: rgba(255, 255, 255, 0.16);
+  --color-border-tertiary-dark: rgba(255, 255, 255, 0.13);
+  --color-border-white-dark: rgba(13, 21, 64, 0.15);
+  --color-split-dark: rgba(255, 255, 255, 0.16);
+  --color-text-dark: rgba(255, 255, 255, 0.94);
+  --color-text-secondary-dark: rgba(255, 255, 255, 0.82);
+  --color-text-tertiary-dark: rgba(255, 255, 255, 0.72);
+  --color-text-quaternary-dark: rgba(255, 255, 255, 0.62);
+  --color-text-placeholder-dark: rgba(255, 255, 255, 0.62);
+  --color-text-description-dark: rgba(255, 255, 255, 0.72);
+  --color-text-disabled-dark: rgba(255, 255, 255, 0.5);
+  --color-text-data-disabled-dark: rgba(255, 255, 255, 0.5);
+  --color-text-heading-dark: rgba(255, 255, 255, 0.94);
+  --color-text-white-dark: #1c2136;
+  --color-text-label-dark: rgba(255, 255, 255, 0.82);
+  --color-icon-dark: rgba(255, 255, 255, 0.72);
+  --color-icon-active-dark: rgba(255, 255, 255, 0.94);
+  --color-icon-hover-dark: rgba(255, 255, 255, 0.82);
+  --color-icon-normal-dark: rgba(255, 255, 255, 0.82);
+  --color-icon-disabled-dark: rgba(255, 255, 255, 0.4);
+  --color-bg-mask: rgba(19, 29, 46, 0.47);
+  --color-profession-light: #4a5590;
+  --color-profession: #2c3863;
+  --color-primary-fixation: #00acbe;
+  --color-white-40: rgba(255, 255, 255, 0.4);
+  --color-control-error-outline: rgba(239, 86, 85, 0.1);
+  --color-control-warning-outline: rgba(237, 164, 38, 0.12);
+  --color-primary-alpha-10: rgb(from #03aba0 r g b / 8%);
+  --color-primary-alpha-60: #74dbd4;
+  --fvs-controller-highlight-color: #03aba0;
+  --scroll-bar-color-bg: rgba(19, 29, 46, 0.05);
+  --scroll-bar-color-fill: rgba(19, 29, 46, 0.19);
+  --color-indigo-drag: #edf1ff;
+  --color-indigo-bg-selected: #c3cefa;
+  --color-indigo-bg-active: #dce3fd;
+  --color-indigo-bg-hover: #edf1ff;
+  --color-indigo-text: #5169e0;
+  --color-indigo-text-active: #3f52bf;
+  --color-indigo-border: #5169e0;
+  --color-teal-drag: #e9f7f6;
+  --color-teal-bg-selected: #b0e8e3;
+  --color-teal-bg-active: #d8f2f0;
+  --color-teal-bg-hover: #e9f7f6;
+  --color-teal-text: #03aba0;
+  --color-teal-text-active: #05948a;
+  --color-teal-border: #03aba0;
+  --color-purple-text: #b94fdb;
+  --color-purple-text-active: #9a31bd;
+  --color-purple-border: #b94fdb;
+  --color-orange-drag: #fff5e8;
+  --color-orange-bg-selected: #ffcf99;
+  --color-orange-bg-active: #ffe5c7;
+  --color-orange-bg-hover: #fff5e8;
+  --color-orange-text: #fa851e;
+  --color-orange-text-active: #d26919;
+  --color-orange-border: #fa851e;
+  --color-maize-drag: #fbf8dd;
+  --color-maize-bg-selected: #f5ed98;
+  --color-maize-bg-active: #f7f3be;
+  --color-maize-bg-hover: #fbf8dd;
+  --color-maize-text: #d1c004;
+  --color-maize-text-active: #ab9e03;
+  --color-maize-border: #d1c004;
+  --color-shadow-rgb: 13, 21, 64;
+  --shadow: 0 1px 8px 0 rgb(13, 21, 64, 0.1);
+  --shadow-secondary: 0 0 16px 0 rgb(13, 21, 64, 0.1);
+  --shadow-tertiary: 0 0 16px 0 rgb(13, 21, 64, 0.16);
+  --color-shadow-dark-rgb: 15, 16, 26;
+  --shadow-dark: 0 1px 8px 0 rgb(15, 16, 26, 0.6);
+  --shadow-dark-secondary: 0 0 16px 0 rgb(15, 16, 26, 0.6);
+  --shadow-dark-tertiary: 0 0 16px 0 15, 16, 26;
+  --color-shadow-datasource-nav: rgba(240, 242, 245, 0);
+  --border-radius: 2px;
+  --border-radius-lg: 4px;
+  --font-size-sm: 12px;
+  --font-size: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-xxl: 20px;
+  --font-size-xxxl: 24px;
+  --line-height-sm: 20px;
+  --line-height: 22px;
+  --line-height-lg: 24px;
+  --line-height-xl: 26px;
+  --line-height-xxl: 28px;
+  --line-height-xxxl: 32px;
+  --line-width: 1px;
+  --line-width-bold: 2px;
+  --fx-icon-color-gradient-primary-0: #03aba0;
+  --fx-icon-color-gradient-primary-1: #3cc7be;
+  --fx-icon-color-gradient-secondary-0: #3cc7be;
+  --fx-icon-color-gradient-secondary-1: #74dbd4;
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x: ;
+  --tw-pan-y: ;
+  --tw-pinch-zoom: ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position: 0%;
+  --tw-gradient-via-position: 50%;
+  --tw-gradient-to-position: 100%;
+  --tw-ordinal: ;
+  --tw-slashed-zero: ;
+  --tw-numeric-figure: ;
+  --tw-numeric-spacing: ;
+  --tw-numeric-fraction: ;
+  --tw-ring-inset: ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-blur: ;
+  --tw-brightness: ;
+  --tw-contrast: ;
+  --tw-grayscale: ;
+  --tw-hue-rotate: ;
+  --tw-invert: ;
+  --tw-saturate: ;
+  --tw-sepia: ;
+  --tw-drop-shadow: ;
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
+  --tw-space-x-reverse: 0;
+  --tw-space-y-reverse: 0;
+  --tw-gradient-from: rgba(0, 0, 0, 0);
+  --tw-gradient-to: rgba(0, 0, 0, 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  --vc-spacing: .25rem;
+  --vc-radius-sm: 4px;
+  --vc-radius-md: 6px;
+  --vc-color-primary: #03aba0;
+  --vc-color-error: #ef5655;
+  --vc-color-text: #131d2e;
+  --vc-color-placeholder: rgba(19, 29, 46, 0.47);
+  --vc-color-disabled: rgba(19, 29, 46, 0.37);
+  --vc-color-fill-secondary: rgba(19, 29, 46, 0.19);
+  --vc-color-container-grey: #f7f8fa;
+  --vc-color-bg-text-normal-hover: rgba(19, 29, 46, 0.05);
+  --vc-color-icon-normal: rgba(19, 29, 46, 0.78);
+  --vc-color-border: #dadee5;
+  --vc-spacing-xs: 4px;
+  --vc-spacing-layout-sm: 12px;
+  --vc-spacing-control-sm: 24px;
+  --vc-spacing-control: 32px;
+  --vc-spacing-control-lg: 40px;
+  --vc-spacing-gap-xs: 2px;
+  --vc-spacing-gap-sm: 4px;
+  --vc-spacing-gap: 8px;
+  --vc-text-icon-base: 16px;
+  --contexify-zIndex: 666;
+  --contexify-menu-minWidth: 220px;
+  --contexify-menu-padding: 6px;
+  --contexify-menu-radius: 6px;
+  --contexify-menu-bgColor: #fff;
+  --contexify-menu-shadow: 1px 2px 2px rgba(0,0,0,.1),2px 4px 4px rgba(0,0,0,.1),3px 6px 6px rgba(0,0,0,.1);
+  --contexify-menu-negatePadding: 6px;
+  --contexify-separator-color: rgba(0,0,0,.2);
+  --contexify-separator-margin: 5px;
+  --contexify-itemContent-padding: 6px;
+  --contexify-activeItem-radius: 4px;
+  --contexify-item-color: #333;
+  --contexify-activeItem-color: #fff;
+  --contexify-activeItem-bgColor: #3498db;
+  --contexify-rightSlot-color: #6f6e77;
+  --contexify-activeRightSlot-color: #fff;
+  --contexify-arrow-color: #6f6e77;
+  --contexify-activeArrow-color: #fff;
+  --tw-contain-size: ;
+  --tw-contain-layout: ;
+  --tw-contain-paint: ;
+  --tw-contain-style: ;
+  --univer-tw-border-spacing-x: 0;
+  --univer-tw-border-spacing-y: 0;
+  --univer-tw-translate-x: 0;
+  --univer-tw-translate-y: 0;
+  --univer-tw-rotate: 0;
+  --univer-tw-skew-x: 0;
+  --univer-tw-skew-y: 0;
+  --univer-tw-scale-x: 1;
+  --univer-tw-scale-y: 1;
+  --univer-tw-pan-x: ;
+  --univer-tw-pan-y: ;
+  --univer-tw-pinch-zoom: ;
+  --univer-tw-scroll-snap-strictness: proximity;
+  --univer-tw-gradient-from-position: ;
+  --univer-tw-gradient-via-position: ;
+  --univer-tw-gradient-to-position: ;
+  --univer-tw-ordinal: ;
+  --univer-tw-slashed-zero: ;
+  --univer-tw-numeric-figure: ;
+  --univer-tw-numeric-spacing: ;
+  --univer-tw-numeric-fraction: ;
+  --univer-tw-ring-inset: ;
+  --univer-tw-ring-offset-width: 0px;
+  --univer-tw-ring-offset-color: #fff;
+  --univer-tw-ring-color: rgba(147, 197, 253, .5);
+  --univer-tw-ring-offset-shadow: 0 0 rgba(0,0,0,0);
+  --univer-tw-ring-shadow: 0 0 rgba(0,0,0,0);
+  --univer-tw-shadow: 0 0 rgba(0,0,0,0);
+  --univer-tw-shadow-colored: 0 0 rgba(0,0,0,0);
+  --univer-tw-blur: ;
+  --univer-tw-brightness: ;
+  --univer-tw-contrast: ;
+  --univer-tw-grayscale: ;
+  --univer-tw-hue-rotate: ;
+  --univer-tw-invert: ;
+  --univer-tw-saturate: ;
+  --univer-tw-sepia: ;
+  --univer-tw-drop-shadow: ;
+  --univer-tw-backdrop-blur: ;
+  --univer-tw-backdrop-brightness: ;
+  --univer-tw-backdrop-contrast: ;
+  --univer-tw-backdrop-grayscale: ;
+  --univer-tw-backdrop-hue-rotate: ;
+  --univer-tw-backdrop-invert: ;
+  --univer-tw-backdrop-opacity: ;
+  --univer-tw-backdrop-saturate: ;
+  --univer-tw-backdrop-sepia: ;
+  --univer-tw-contain-size: ;
+  --univer-tw-contain-layout: ;
+  --univer-tw-contain-paint: ;
+  --univer-tw-contain-style: ;
+  --scrollbar-track: var(--univer-gray-900);
+  --scrollbar-thumb: var(--univer-gray-700);
+  --univer-tw-gradient-from: var(--univer-gray-800) var(--univer-tw-gradient-from-position);
+  --univer-tw-gradient-to: rgba(255, 255, 255, 0) var(--univer-tw-gradient-to-position);
+  --univer-tw-gradient-stops: var(--univer-tw-gradient-from), var(--univer-tw-gradient-to);
+  --fd-control-outline: 0 0 0 2px rgb(from #03aba0 r g b / 15%);
+  --fd-control-warning-outline: 0 0 0 2px rgba(240, 168, 0, .1);
+  --fd-control-error-outline: 0 0 0 2px rgba(235, 80, 80, .06);
+  --fd-notification-vertical-distance: 52px;
+  --fd-notification-horizontal-distance: 8px;
+  --fd-spin-height-sm: 14px;
+  --fd-spin-height: 20px;
+  --fd-spin-height-lg: 32px;
+  --fdt-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --fdt-color-gray-500: oklch(55.1% .027 264.364);
+  --fdt-color-white: #fff;
+  --fdt-spacing: .25rem;
+  --fdt-text-xs: .75rem;
+  --fdt-text-xs--line-height: calc(1 / .75);
+  --fdt-text-sm: .875rem;
+  --fdt-text-sm--line-height: calc(1.25 / .875);
+  --fdt-text-2xl: 20px;
+  --fdt-text-2xl--line-height: 28px;
+  --fdt-font-weight-normal: 400;
+  --fdt-font-weight-medium: 500;
+  --fdt-font-weight-semibold: 600;
+  --fdt-font-weight-bold: 700;
+  --fdt-leading-normal: 1.5;
+  --fdt-radius-xs: 2px;
+  --fdt-radius-sm: 4px;
+  --fdt-radius-md: 6px;
+  --fdt-radius-lg: 8px;
+  --fdt-radius-xl: 10px;
+  --fdt-radius-2xl: 1rem;
+  --fdt-animate-spin: spin 1s linear infinite;
+  --fdt-animate-pulse: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+  --fdt-default-transition-duration: .15s;
+  --fdt-default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  --fdt-color-teal-7: #05948a;
+  --fdt-color-warning-8: #906500;
+  --fdt-color-primary: #03aba0;
+  --fdt-color-primary-hover: #3cc7be;
+  --fdt-color-primary-bg: #e9f7f6;
+  --fdt-color-primary-bg-hover: #d8f2f0;
+  --fdt-color-primary-border: #b0e8e3;
+  --fdt-color-primary-border-hover: #74dbd4;
+  --fdt-color-primary-text: #03aba0;
+  --fdt-color-info: #2b73f0;
+  --fdt-color-info-text-hover: #4d91ff;
+  --fdt-color-success: #3bad4a;
+  --fdt-color-success-bg: #ecf8ed;
+  --fdt-color-warning: #eda426;
+  --fdt-color-warning-bg: #fff7e4;
+  --fdt-color-error: #ef5655;
+  --fdt-color-error-bg: #fef1f0;
+  --fdt-color-text: #131d2e;
+  --fdt-color-secondary: rgba(19, 29, 46, 0.78);
+  --fdt-color-tertiary: rgba(19, 29, 46, 0.66);
+  --fdt-color-quaternary: rgba(19, 29, 46, 0.47);
+  --fdt-color-placeholder: rgba(19, 29, 46, 0.47);
+  --fdt-color-description: rgba(19, 29, 46, 0.66);
+  --fdt-color-heading: #131d2e;
+  --fdt-color-icon: rgba(19, 29, 46, 0.66);
+  --fdt-color-icon-normal: rgba(19, 29, 46, 0.78);
+  --fdt-color-icon-disabled: rgba(19, 29, 46, 0.29);
+  --fdt-color-fill: rgba(19, 29, 46, 0.24);
+  --fdt-color-fill-secondary: rgba(19, 29, 46, 0.19);
+  --fdt-color-fill-tertiary: rgba(19, 29, 46, 0.08);
+  --fdt-color-fill-quaternary: rgba(19, 29, 46, 0.05);
+  --fdt-color-container: #ffffff;
+  --fdt-color-container-grey: #f7f8fa;
+  --fdt-color-container-grey-secondary: #f0f2f5;
+  --fdt-color-container-grey-tertiary: #e6e8ed;
+  --fdt-color-elevated: #ffffff;
+  --fdt-color-border: #dadee5;
+  --fdt-color-border-secondary: #e6e8ed;
+  --fdt-color-border-tertiary: #f0f2f5;
+  --fdt-spacing-2xs: 2px;
+  --fdt-spacing-xs: 4px;
+  --fdt-spacing-sm: 6px;
+  --fdt-spacing-md: 8px;
+  --fdt-spacing-lg: 12px;
+  --fdt-spacing-2xl: 20px;
+  --fdt-spacing-layout-2xs: 4px;
+  --fdt-spacing-layout-xs: 8px;
+  --fdt-spacing-layout-sm: 12px;
+  --fdt-spacing-layout: 16px;
+  --fdt-spacing-layout-lg: 20px;
+  --fdt-spacing-layout-2xl: 32px;
+  --fdt-spacing-gap-xs: 2px;
+  --fdt-spacing-gap-sm: 4px;
+  --fdt-spacing-gap: 8px;
+  --fdt-spacing-gap-lg: 10px;
+  --fdt-spacing-gap-xl: 12px;
+  --fdt-spacing-gap-2xl: 16px;
+  --fdt-text-md: 14px;
+  --fdt-text-md--line-height: 22px;
+  --fdt-leading-md: 22px;
+  --fdt-text-heading-2: 30px;
+  --fdt-text-heading-2--line-height: 38px;
+  --tw-leading: var(--fdt-leading-normal);
+  --tw-font-weight: var(--fdt-font-weight-normal);
+  --fdt-color-blue-100: oklch(93.2% .032 255.585);
+  --fdt-color-blue-500: oklch(62.3% .214 259.815);
+  --fdt-color-blue-600: oklch(54.6% .245 262.881);
+  --fdt-animate-text-fade-in: text-fade-in 1s cubic-bezier(.32, .72, 0, 1) forwards;
+  --vc-color-white: #ffffff;
+  --vc-text-sm: 12px;
+  --vc-text-sm--line-height: 20px;
+  --vc-text-base: 1rem;
+  --vc-text-base--line-height: calc(1.5 / 1);
+  --vc-text-lg: 16px;
+  --vc-text-lg--line-height: 24px;
+  --vc-font-weight-normal: 400;
+  --vc-font-weight-semibold: 600;
+  --vc-font-weight-bold: 700;
+  --vc-radius-xs: 2px;
+  --vc-radius-xl: 10px;
+  --vc-ease-in-out: cubic-bezier(.4, 0, .2, 1);
+  --vc-default-transition-duration: .15s;
+  --vc-default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  --vc-color-primary-active: #05948a;
+  --vc-color-primary-bg: #e9f7f6;
+  --vc-color-primary-bg-active: #b0e8e3;
+  --vc-color-primary-bg-hover: #d8f2f0;
+  --vc-color-error-text: #ef5655;
+  --vc-color-border-tertiary: #f0f2f5;
+  --vc-color-indigo-2: #dce3fd;
+  --vc-color-indigo-3: #c3cefa;
+  --vc-color-indigo-4: #9aacf9;
+  --vc-color-indigo-6: #5169e0;
+  --vc-color-teal-2: #d8f2f0;
+  --vc-color-teal-3: #b0e8e3;
+  --vc-color-teal-4: #74dbd4;
+  --vc-color-teal-6: #03aba0;
+  --vc-color-teal-7: #05948a;
+  --vc-color-maize-2: #f7f3be;
+  --vc-color-maize-3: #f5ed98;
+  --vc-color-maize-4: #ebe067;
+  --vc-color-maize-6: #d1c004;
+  --vc-color-secondary: rgba(19, 29, 46, 0.78);
+  --vc-color-tertiary: rgba(19, 29, 46, 0.66);
+  --vc-color-quaternary: rgba(19, 29, 46, 0.47);
+  --vc-color-description: rgba(19, 29, 46, 0.66);
+  --vc-color-data-disabled: rgba(19, 29, 46, 0.37);
+  --vc-color-container: #ffffff;
+  --vc-color-container-grey-secondary: #f0f2f5;
+  --vc-color-container-disabled: rgba(19, 29, 46, 0.05);
+  --vc-color-control-item-bg-active: #e9f7f6;
+  --vc-color-icon: rgba(19, 29, 46, 0.66);
+  --vc-color-icon-hover: rgba(19, 29, 46, 0.78);
+  --vc-color-border-secondary: #e6e8ed;
+  --vc-spacing-2xs: 2px;
+  --vc-spacing-sm: 6px;
+  --vc-spacing-md: 8px;
+  --vc-spacing-xl: 12px;
+  --vc-spacing-layout-3xs: 2px;
+  --vc-spacing-layout-2xs: 4px;
+  --vc-spacing-layout-xs: 8px;
+  --vc-spacing-layout: 16px;
+  --vc-spacing-layout-lg: 20px;
+  --vc-spacing-layout-xl: 24px;
+  --vc-spacing-gap-lg: 10px;
+  --vc-spacing-gap-xl: 12px;
+  --vc-spacing-gap-2xl: 16px;
+  --vc-spacing-gap-3xl: 20px;
+  --vc-spacing-icon: 16px;
+  --vc-text-size-sm: 12px;
+  --vc-leading-sm: 20px;
+  --vc-text-md: 14px;
+  --vc-text-md--line-height: 22px;
+  --vc-leading-md: 22px;
+  --animate-duration: 1s;
+  --animate-delay: 1s;
+  --animate-repeat: 1;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  font-size: var(--font-size);
+  color: var(--color-text);
+  background: var(--color-bg-layout);
+  -webkit-font-smoothing: antialiased;
+}
+svg { display: block; }
+button { font-family: inherit; border: none; background: none; cursor: pointer; }
+
+.app { position: relative; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* ---------------- Header (52px, 透明覆盖布局底色) ---------------- */
+.header { height: 52px; flex: 0 0 52px; display: flex; align-items: center; padding: 0 16px 0 21px; gap: 0; }
+.header .app-grid { width: 20px; height: 20px; color: var(--color-text); }
+.header .app-grid svg { width: 20px; height: 20px; }
+.header .divider { width: 1px; height: 16px; background: var(--color-border-secondary); margin: 0 16px; }
+.header .logo { height: 50px; width: 100px; display: flex; align-items: center; }
+.header .logo img { height: 44px; width: auto; object-fit: contain; }
+.header .spacer { flex: 1; }
+.header .h-btn { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 8px;
+  border-radius: var(--fd-border-radius); color: var(--color-text); font-size: 14px; }
+.header .h-btn:hover { background: var(--color-bg-text-normal-hover); }
+.header .h-btn svg { width: 20px; height: 20px; color: var(--color-icon-normal); }
+.header .h-icon { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--fd-border-radius); color: var(--color-icon-normal); }
+.header .h-icon:hover { background: var(--color-bg-text-normal-hover); }
+.header .h-icon svg { width: 20px; height: 20px; }
+.header .avatar { width: 24px; height: 24px; border-radius: 9999px; background: var(--color-primary);
+  color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; margin-left: 8px; }
+
+/* ---------------- Body ---------------- */
+.body { flex: 1; display: flex; min-height: 0; overflow-x: auto; overflow-y: hidden; }
+
+/* ---- Left rail (62px) ---- */
+.rail { width: 62px; flex: 0 0 62px; display: flex; flex-direction: column; align-items: center; padding-top: 11px; }
+.nav-item { width: 100%; height: 68px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; cursor: pointer; color: var(--color-text-tertiary); position: relative; }
+.nav-item.nav-proj { height: 56px; }
+.nav-ic { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: var(--fd-border-radius); }
+.nav-ic svg { width: 24px; height: 24px; }
+.nav-proj .nav-ic svg { width: 20px; height: 20px; }
+.nav-label { font-size: 12px; line-height: 16px; width: 58px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-item:hover .nav-ic { background: var(--color-bg-text-normal-hover); }
+.nav-item.is-active .nav-ic { background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-subtle); }
+.nav-item.is-active .nav-label { color: var(--color-primary); }
+.rail .rail-divider { width: 38px; height: 1px; background: var(--color-border-secondary); margin: 6px 0; }
+
+/* ---- Center card (white, rounded, floating) ---- */
+.card { --resource-panel-width: 332px; position: relative; flex: 1; min-width: 380px; display: flex; background: var(--color-bg-container); border-radius: 10px;
+  margin: 0 8px 8px 0; box-shadow: var(--fd-box-shadow-subtle); overflow: hidden; }
+.card:not(.resource-collapsed) { min-width: calc(380px + var(--resource-panel-width)); }
+
+.center { flex: 1; min-width: 380px; display: flex; flex-direction: column; background: var(--color-bg-container); container-type: inline-size; }
+
+/* sub header */
+.sub-header { height: 49px; flex: 0 0 49px; display: flex; align-items: center; gap: 6px; min-width: 0; padding: 0 12px 0 8px; }
+.sub-header .icon-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--fd-border-radius); color: var(--color-icon-normal); }
+.sub-header .icon-btn:hover { background: var(--color-bg-text-normal-hover); }
+.sub-header .icon-btn svg { width: 16px; height: 16px; }
+.sub-header .title { flex: 0 1 max-content; width: max-content; min-width: 42px; max-width: 320px; font-size: 14px; font-weight: 500; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sub-header .slash { color: var(--color-text-quaternary); font-size: 14px; line-height: 22px; }
+.conversation { position: relative; flex: 0 1 auto; min-width: 74px; max-width: 320px; }
+.conversation-trigger { width: 100%; height: 32px; max-width: 320px; min-width: 0; display: inline-flex; align-items: center; gap: 4px; padding: 0 6px;
+  border-radius: var(--fd-border-radius); color: var(--color-text); font-size: 14px; line-height: 22px; }
+.conversation-trigger:hover, .conversation.is-open .conversation-trigger { background: var(--color-bg-text-normal-hover); }
+.conversation-name { flex: 1 1 auto; min-width: 42px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.conversation-trigger svg { width: 16px; height: 16px; flex: 0 0 16px; color: var(--color-icon-normal); }
+.conversation-menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: 90; width: max-content; min-width: 200px; max-width: min(320px, calc(100vw - 32px));
+  display: none; padding: 8px; border: 1px solid var(--color-border-secondary); border-radius: var(--fd-border-radius-lg);
+  background: var(--color-bg-elevated); box-shadow: 0 8px 24px rgba(13, 21, 64, 0.14); }
+.conversation.is-open .conversation-menu { display: block; }
+.conversation-item { width: 100%; height: 32px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  padding: 0 8px; border-radius: var(--fd-border-radius); color: var(--color-text); font-size: 14px; line-height: 22px; white-space: nowrap; text-align: left; }
+.conversation-item:hover, .conversation-item.is-active { background: var(--color-bg-text-normal-hover); }
+.conversation-item span:first-child { overflow: hidden; text-overflow: ellipsis; }
+.conversation-time { color: var(--color-text-tertiary); font-size: 12px; line-height: 16px; }
+.beta { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; font-size: 12px; border-radius: 4px;
+  background: var(--color-warning-bg); border: 1px solid var(--color-warning-border); color: var(--color-yellow-9); margin-left: 2px; }
+.sub-header .grow { flex: 1; }
+.text-btn { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 8px; border-radius: var(--fd-border-radius);
+  color: var(--color-text); font-size: 14px; }
+.text-btn span { white-space: nowrap; }
+.text-btn:hover { background: var(--color-bg-text-normal-hover); }
+.text-btn svg { width: 16px; height: 16px; color: var(--color-icon-normal); }
+.sub-actions { position: relative; display: inline-flex; align-items: center; gap: 8px; min-width: 0; flex: 0 1 auto; }
+.sub-actions-more { position: relative; display: none; }
+.sub-actions-more > .icon-btn { width: 32px; height: 32px; }
+.sub-actions.has-overflow .sub-actions-more { display: inline-flex; }
+.sub-actions .sub-action-collected { display: none !important; }
+.more-menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: 80; display: none; min-width: 144px; padding: 4px;
+  border: 1px solid var(--color-border-secondary); border-radius: var(--fd-border-radius-lg); background: var(--color-bg-elevated);
+  box-shadow: var(--fd-box-shadow-secondary); }
+.sub-actions-more.is-open .more-menu { display: block; }
+.more-item { width: 100%; height: 32px; display: none; align-items: center; gap: 8px; padding: 0 8px; border-radius: var(--fd-border-radius);
+  color: var(--color-text); font-size: 14px; white-space: nowrap; }
+.more-item.is-visible { display: flex; }
+.more-item:hover { background: var(--color-bg-text-normal-hover); }
+.more-item svg { width: 16px; height: 16px; color: var(--color-icon-normal); }
+.sub-header.is-icon-only-actions .text-btn { width: 32px; justify-content: center; padding: 0; white-space: nowrap; }
+.sub-header.is-icon-only-actions .text-btn > span { display: none; }
+
+/* 小窗态复刻 test: 会话在左, 全屏保留文字, 其他操作保持 icon/更多 */
+.card.is-side-window { max-width: 520px; min-width: 380px; margin-left: auto; }
+.card.is-side-window:not(.resource-collapsed) { min-width: calc(380px + var(--resource-panel-width)); }
+.card.is-side-window .sub-header { padding-inline: 8px; }
+.card.is-side-window .sub-header > .icon-btn:first-child,
+.card.is-side-window .sub-header > .title,
+.card.is-side-window .sub-header > .beta,
+.card.is-side-window .sub-header > .grow { display: none; }
+.card.is-side-window .sub-actions { flex: 1 1 auto; width: auto; min-width: 0; }
+.card.is-side-window .conversation { flex: 0 1 auto; min-width: 74px; max-width: 160px; }
+.card.is-side-window .sub-action-new { margin-left: auto; }
+.card.is-side-window .sub-action-new,
+.card.is-side-window .sub-action-share,
+.card.is-side-window .sub-action-usage,
+.card.is-side-window .sub-action-memory,
+.card.is-side-window .sub-actions-more .icon-btn,
+.sub-header.is-icon-only-actions .text-btn,
+.sub-header .icon-btn {
+  flex: 0 0 32px;
+}
+.card.is-side-window .sub-action-share,
+.card.is-side-window .sub-action-usage,
+.card.is-side-window .sub-action-memory { width: 32px; justify-content: center; padding: 0; }
+.card.is-side-window .sub-action-share > span { display: none; }
+.card.is-side-window .sub-action-window { width: auto; padding: 0 8px; }
+.card.is-side-window .sub-header.is-icon-only-actions .sub-action-window { width: 32px; padding: 0; }
+.card.is-side-window .sub-header.is-icon-only-actions .sub-action-window > span { display: none; }
+
+/* chat body */
+.chat { flex: 1; min-height: 0; position: relative; display: flex; flex-direction: column; }
+.switch-old { position: absolute; left: 8px; top: 18px; z-index: 30; height: 23px; display: inline-flex; align-items: center;
+  padding: 0 10px; font-size: 12px; color: #555; background: rgba(255,255,255,0.86); border: 1px solid var(--color-border);
+  border-radius: 10px; box-shadow: 0 1px 4px 0 rgba(0,0,0,0.12); cursor: pointer; }
+.msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 56px 42px 8px; display: flex; flex-direction: column; gap: 8px; }
+
+.row { display: flex; flex-direction: column; }
+.row.user { align-items: flex-end; }
+.row.ai { align-items: flex-start; }
+.bubble { max-width: 70%; padding: 8px 12px; font-size: 14px; line-height: 22px; color: var(--color-text);
+  background: oklch(0.932 0.032 255.585); border-radius: 8px 8px 0 8px; word-break: break-word; }
+.ai-text { max-width: 78%; font-size: 14px; line-height: 22px; color: var(--color-text); padding: 2px 0; }
+.ts { font-size: 12px; line-height: 16px; color: var(--color-text-quaternary); user-select: none; }
+.row.user .ts { margin-top: 6px; }
+
+/* reference chip inside user bubble */
+.chip { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 9999px;
+  background: var(--color-teal-drag); border: 1px solid var(--color-teal-bg-selected); color: var(--color-teal-text-active);
+  font-size: 14px; vertical-align: middle; }
+.chip svg { width: 14px; height: 14px; }
+.bubble .ref-line { display: inline-flex; align-items: center; gap: 6px; }
+
+/* ai message footer */
+.ai-foot { display: flex; align-items: center; gap: 8px; margin-top: 4px; width: 100%; }
+.ai-foot .copy { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--fd-border-radius); color: var(--color-icon-normal); cursor: pointer; }
+.ai-foot .copy:hover { background: var(--color-bg-text-normal-hover); }
+.ai-foot .copy svg { width: 14px; height: 14px; }
+.ai-foot .grow { flex: 1; }
+.feedback { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 4px;
+  background: var(--color-bg-container-grey); }
+.feedback .label { font-size: 12px; color: var(--color-text-tertiary); margin-right: 4px; }
+.feedback .star { width: 16px; height: 16px; display: inline-flex; cursor: pointer; color: var(--color-fill-tertiary); }
+.feedback .star svg { width: 16px; height: 16px; }
+
+/* ai message body: 线上 AI 气泡占满消息列宽 (非 78%), 段落 / 资源卡片 / 表格纵向排列 */
+.ai-body { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.ai-body .ai-text { max-width: 100%; padding: 0; }
+
+/* 资源卡片 (Created Storyboard / Analysis Table / Chart) —— 取自线上 fdt:rounded-lg 卡片 */
+.res-card { width: 100%; display: flex; flex-direction: column; overflow: hidden; margin: 0;
+  border: 1px solid var(--fd-color-primary-border); border-radius: var(--fd-border-radius-lg); background: var(--color-bg-container); }
+.res-card__head { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: var(--fd-color-primary-bg); cursor: pointer; }
+.res-card__ic { display: inline-flex; flex-shrink: 0; }
+.res-card__ic svg { width: 16px; height: 16px; }
+.res-card.is-chart .res-card__ic { color: var(--fd-color-primary); }
+.res-card__title { flex: 1; min-width: 0; font-size: 14px; line-height: 22px; color: var(--color-text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.res-card__view { flex-shrink: 0; height: 24px; padding: 0 8px; display: inline-flex; align-items: center;
+  font-size: 12px; line-height: 1; color: var(--color-text); border-radius: var(--fd-border-radius); cursor: pointer; }
+.res-card__view:hover { background: var(--color-bg-text-hover); }
+.res-card__caret { flex-shrink: 0; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;
+  color: var(--color-icon-normal); }
+.res-card__caret svg { width: 16px; height: 16px; }
+
+/* ai markdown 表格 —— 1px 边框, 8x12 内边距, 表头加粗, 透明底 */
+.md-table { border-collapse: collapse; margin: 0; font-size: 14px; line-height: 22px; }
+.md-table th, .md-table td { border: 1px solid var(--color-border); padding: 8px 12px; text-align: left; color: var(--color-text); }
+.md-table th { font-weight: 600; }
+
+/* AI「思考中」指示器 —— 取自 desktop style.css: 念头重组 6 小点动效 (nines-reform) + 扫光文字 (stream-blink) */
+@keyframes stream-blink {
+  0%   { background-position-x: -200%; background-position-y: 100%; }
+  25%  { background-position-x: -100%; background-position-y: 100%; }
+  50%  { background-position-x: -0%;   background-position-y: 100%; }
+  75%  { background-position-x: 100%;  background-position-y: 100%; }
+  100% { background-position-x: 200%;  background-position-y: 100%; }
+}
+.stream-blink {
+  background-clip: text; -webkit-background-clip: text;
+  color: var(--fd-color-text-secondary);
+  background-image: linear-gradient(90deg, transparent, var(--fd-color-text), transparent);
+  background-size: 50%; background-repeat: no-repeat;
+  animation: stream-blink 1s linear infinite;
+}
+@keyframes nines-reform {
+  0%, 100% { transform: translate(0, 0); opacity: 0.35; }
+  30%      { transform: translate(var(--x1), var(--y1)); opacity: 0.8; }
+  62%      { transform: translate(var(--x2), var(--y2)); opacity: 0.95; }
+}
+.nines-reform {
+  position: relative; display: inline-block;
+  --reform-c1: var(--fd-color-primary);
+  --reform-c2: color-mix(in srgb, var(--fd-color-primary) 58%, transparent);
+  --reform-c3: color-mix(in srgb, var(--fd-color-primary) 30%, transparent);
+}
+.nines-reform span {
+  position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%; background: var(--reform-c1); opacity: 0.75;
+  animation: nines-reform 3.2s infinite cubic-bezier(0.65, 0, 0.35, 1);
+}
+.nines-reform span:nth-child(1) { --x1: -17px; --y1: -7px; --x2: 15px;  --y2: 6px; }
+.nines-reform span:nth-child(2) { --x1: -8px;  --y1: 8px;  --x2: -18px; --y2: -4px; background: var(--reform-c2); animation-delay: 0.12s; }
+.nines-reform span:nth-child(3) { --x1: 11px;  --y1: -8px; --x2: 5px;   --y2: 9px;  background: var(--reform-c2); animation-delay: 0.24s; }
+.nines-reform span:nth-child(4) { --x1: 19px;  --y1: 5px;  --x2: -3px;  --y2: -9px; background: var(--reform-c3); animation-delay: 0.36s; }
+.nines-reform span:nth-child(5) { --x1: 2px;   --y1: 10px; --x2: 21px;  --y2: -5px; background: var(--reform-c1); animation-delay: 0.48s; }
+.nines-reform span:nth-child(6) { --x1: -21px; --y1: 1px;  --x2: -11px; --y2: 8px;  background: var(--reform-c2); animation-delay: 0.6s; }
+.thinking { display: flex; min-height: 24px; align-items: center; gap: 8px; font-size: 14px; }
+.thinking .nines-reform { width: 48px; height: 24px; flex-shrink: 0; }
+.thinking .stream-blink { flex-shrink: 0; }
+/* 输出过程中: 已出正文后只显示「正在输入中…」(同款 stream-blink 扫光, 对齐 ThinkingIndicator awaitingReply=false 分支) */
+.typing { display: flex; min-height: 24px; align-items: center; font-size: 14px; }
+.typing .stream-blink { color: var(--fd-color-text-description); }
+
+/* 停止生成提示 (ConversationAborted: 灰底圆角 pill + 警告色实心 info 图标 + 文案) */
+.aborted-hint { align-self: flex-start; display: inline-flex; width: fit-content; align-items: center; gap: 4px;
+  border-radius: var(--fd-border-radius-lg); background: var(--color-bg-container-grey);
+  padding: 4px 8px; font-size: 14px; line-height: 20px; color: var(--fd-color-text-secondary); }
+.aborted-hint svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--fd-color-warning); }
+
+/* input area */
+.input-wrap { padding: 0 42px 8px; }
+.ai-input { position: relative; border-radius: 12px; padding: 14px 12px 8px; min-height: 123px; display: flex; flex-direction: column;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(90deg, #904dff 0%, #03aba0 100%) border-box;
+  border: 1.5px solid transparent; }
+.ai-input .placeholder { font-size: 14px; line-height: 22px; color: var(--color-text-tertiary); }
+.ai-input .toolbar { margin-top: auto; display: flex; align-items: center; gap: 8px; }
+.pill { height: 24px; display: inline-flex; align-items: center; gap: 6px; padding: 0 8px; border-radius: 9999px;
+  background: var(--color-grey-3); color: var(--color-text); font-size: 12px; cursor: pointer; }
+.pill.icon-only { width: 24px; padding: 0; justify-content: center; }
+.pill svg { width: 16px; height: 16px; }
+.pill.skills svg, .pill .sk { width: 14px; height: 14px; }
+.toolbar .grow { flex: 1; }
+.auto-pill { height: 24px; display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; border-radius: 9999px;
+  font-size: 12px; color: var(--color-text); cursor: pointer; }
+.auto-pill svg { width: 16px; height: 16px; }
+.send-btn { width: 32px; height: 32px; border-radius: 9999px; background: #f2f4f7; display: inline-flex; align-items: center;
+  justify-content: center; color: var(--color-text); cursor: not-allowed; }
+.send-btn svg { width: 16px; height: 16px; }
+.disclaimer { text-align: center; font-size: 14px; color: var(--color-text-quaternary); padding: 4px 0 10px; }
+
+/* ---- Right panel (Analysis Resources) ---- */
+.right { width: var(--resource-panel-width); flex: 0 0 var(--resource-panel-width); background: var(--color-bg-container-grey); display: flex; flex-direction: column; min-height: 0; }
+.right-head { padding: 13px 16px 0; }
+.right-title { font-size: 15px; font-weight: 700; color: var(--color-text); line-height: 22px; }
+.right-tools { display: flex; align-items: center; gap: 6px; margin-top: 11px; }
+.search { flex: 1; height: 32px; display: flex; align-items: center; gap: 6px; padding: 0 8px; background: var(--color-bg-container);
+  border-radius: var(--fd-border-radius); border: 1px solid transparent; }
+.search svg { width: 16px; height: 16px; color: var(--color-icon-normal); }
+.search input { flex: 1; border: none; outline: none; background: transparent; font-size: 14px; color: var(--color-text); }
+.search input::placeholder { color: var(--color-text-placeholder); }
+.tool-btn { height: 24px; display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border-radius: var(--fd-border-radius);
+  color: var(--color-text); font-size: 12px; cursor: pointer; }
+.tool-btn:hover { background: var(--color-bg-text-normal-hover); }
+.tool-btn { flex: 0 0 auto; }
+.tool-btn span { white-space: nowrap; }
+.tool-btn svg { width: 15px; height: 15px; }
+.tool-btn.icon-only { width: 24px; padding: 0; justify-content: center; }
+.search { min-width: 0; }
+
+.section-header { height: 50px; display: flex; align-items: center; padding: 0 18px; background: #fafbfc; }
+.section-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--color-text-tertiary); }
+.add-btn { height: 24px; display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; border-radius: var(--fd-border-radius);
+  background: var(--color-primary); color: #fff; font-size: 12px; font-weight: 500; cursor: pointer; }
+.add-btn svg { width: 13px; height: 13px; }
+
+.ds-empty { height: 84px; position: relative; }
+.ds-empty .handle { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; display: flex; align-items: center;
+  justify-content: center; gap: 3px; }
+.ds-empty .handle i { width: 3px; height: 3px; border-radius: 50%; background: var(--color-fill); display: block; }
+
+.tree { flex: 1; min-height: 0; overflow-y: auto; padding: 6px 0; }
+.file-item, .group-label { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 16px; margin: 0 10px;
+  border-radius: var(--fd-border-radius); cursor: pointer; }
+.file-item.is-child { padding-left: 40px; }
+.file-item:hover, .group-label:hover { background: var(--color-bg-text-normal-hover); }
+.file-ic { width: 16px; height: 16px; display: inline-flex; flex: 0 0 16px; }
+.file-ic svg { width: 16px; height: 16px; }
+.file-name { font-size: 13.5px; font-weight: 600; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.group-label { font-weight: 600; }
+.group-caret { width: 16px; height: 16px; display: inline-flex; flex: 0 0 16px; color: var(--color-text-tertiary); }
+.group-caret svg { width: 16px; height: 16px; }
+.group-name { font-size: 13.5px; font-weight: 600; color: var(--color-text); }
+
+.right-foot { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 14px 16px; }
+.x-switch { width: 28px; height: 16px; flex: 0 0 28px; border-radius: 11px; background: var(--color-fill); position: relative; }
+.x-switch i { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+.right-foot .foot-label { font-size: 14px; line-height: 20px; color: var(--color-text); }
+.card.resource-collapsed .right, .card.resource-collapsed .right-resizer { display: none; }
+.right-resizer { flex: 0 0 8px; width: 8px; cursor: col-resize; background: var(--color-bg-container-grey); position: relative; touch-action: none; }
+.right-resizer::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 2px; border-radius: 999px; background: transparent; }
+.right-resizer:hover::after, .right-resizer.is-dragging::after { background: var(--color-primary); }
+.resource-drawer-toggle { display: inline-flex; position: absolute; right: calc(var(--resource-panel-width) + 8px); top: 50%; z-index: 70; width: 28px; height: 54px;
+  align-items: center; justify-content: center; border: 1px solid var(--color-border-secondary); border-right: 0;
+  border-radius: 10px 0 0 10px; color: var(--color-icon-normal); background: var(--color-bg-container);
+  box-shadow: var(--fd-box-shadow-subtle); transform: translateY(-50%); }
+.resource-drawer-toggle svg { width: 16px; height: 16px; }
+.card:not(.resource-collapsed) .resource-drawer-toggle svg { transform: rotate(180deg); }
+.card.resource-collapsed .resource-drawer-toggle { right: 0; }
+
+/* ============================================================
+   交互态 hover / active / focus —— 取自线上 @fx-ui/fine-design
+   规则 (.x-button.style-*、x-inner-wrapper、lineage-panel)
+   ============================================================ */
+.h-btn, .h-icon, .icon-btn, .text-btn, .tool-btn, .nav-ic, .nav-label, .file-item, .group-label,
+.copy, .pill, .auto-pill, .add-btn, .switch-old, .star, .search, .send-btn {
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease; }
+
+/* style-text-normal: 顶栏 / 子栏 / 资源工具 / 复制 / Auto */
+.h-btn:hover, .h-icon:hover, .icon-btn:hover, .text-btn:hover, .tool-btn:hover,
+.copy:hover, .auto-pill:hover { background: var(--color-bg-text-normal-hover); color: var(--color-text); }
+.h-btn:active, .h-icon:active, .icon-btn:active, .text-btn:active, .tool-btn:active,
+.copy:active, .auto-pill:active { background: var(--color-bg-text-normal-active); }
+
+/* style-primary: Add */
+.add-btn:hover { background: var(--color-primary-hover); }
+.add-btn:active { background: var(--color-primary-active); }
+
+/* 左侧导航项 */
+.nav-item:not(.is-active):hover .nav-ic { background: var(--color-bg-text-normal-hover); }
+.nav-item:not(.is-active):active .nav-ic { background: var(--color-bg-text-normal-active); }
+.nav-item:not(.is-active):hover { color: var(--color-text); }
+.nav-item.is-active:hover .nav-ic { background: var(--color-bg-container); }
+
+/* 资源树行：.lineage-panel__group-label:hover { background: var(--fd-color-bg-text-normal-hover) } */
+.file-item:hover, .group-label:hover { background: var(--color-bg-text-normal-hover); }
+.file-item:active, .group-label:active { background: var(--color-bg-text-normal-active); }
+
+/* 输入区会话 pill (@ / Skills / Plan)：grey-3 → grey-4 */
+.pill:hover { background: var(--color-grey-4); }
+.pill:active { background: var(--color-grey-5); }
+
+/* 切到老面板浮层按钮 */
+.switch-old:hover { background: #fff; box-shadow: 0 2px 8px 0 rgba(13, 21, 64, 0.16); }
+.switch-old:active { background: var(--color-grey-2); }
+
+/* 搜索框：x-inner-wrapper:hover -> border primary-hover；聚焦加 control-outline */
+.search:hover { border-color: var(--color-primary-hover); }
+.search:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 2px var(--color-control-outline); }
+
+/* 评分星：悬停整行点亮，悬停星之后的归灰（经典 rating 交互） */
+.feedback:hover .star { color: var(--color-warning); }
+.feedback .star:hover ~ .star { color: var(--color-fill-tertiary); }
+
+/* 禁用态发送按钮：无 hover 反馈 */
+.send-btn { cursor: not-allowed; }
+
+/* ============================================================
+   AI first 自适应规则
+   - Header 操作栏: <640px 时文字按钮整体隐藏文案, 保留纯 icon。
+   - 操作按钮放不下时, 从右到左进入更多, 菜单内保留原 icon。
+   - 聊天区保留最小宽度; 更窄时由 body 横向滚动兜底。
+   ============================================================ */
+@container (max-width: 639px) {
+  .sub-header { gap: 4px; padding-inline: 8px; }
+  .sub-header .title { max-width: 118px; }
+  .conversation { max-width: 120px; }
+  .msgs { padding-inline: 24px; }
+  .input-wrap { padding-inline: 24px; }
+}
+
+@container (max-width: 400px) {
+  .msgs { padding-inline: 16px; }
+  .input-wrap { padding-inline: 16px; }
+  .ai-text, .bubble { max-width: 100%; }
+  .feedback .label { display: none; }
+}
+
+/* 项目记忆抽屉：仅叠加在现有 .app 容器内，不改动底层线上页面 */
+.pm-entry.is-active { color: var(--color-primary); background: var(--color-bg-text-normal-hover); }
+.pm-entry { position: relative; }
+.pm-entry:hover { color: var(--color-text); background: var(--color-bg-text-normal-hover); }
+.pm-entry:not(.is-active):hover::before {
+  position: absolute; left: 50%; top: calc(100% + var(--fd-padding)); z-index: 130; width: var(--fd-padding-lg); height: var(--fd-padding-lg);
+  background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-secondary); content: ""; transform: translateX(-50%) rotate(45deg);
+}
+.pm-entry:not(.is-active):hover::after {
+  position: absolute; left: 50%; top: calc(100% + var(--fd-icon-size-sm)); z-index: 131; padding: var(--fd-padding) var(--fd-icon-size-sm); border-radius: var(--fd-border-radius-lg);
+  color: var(--color-text); background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-secondary);
+  content: "项目记忆"; font-size: var(--fd-font-size); line-height: var(--fd-line-height); white-space: nowrap; transform: translateX(-50%);
+}
+.pm-layer { position: absolute; inset: 0; z-index: 100; visibility: hidden; pointer-events: none; overflow: hidden; }
+.pm-layer.is-open { visibility: visible; pointer-events: none; }
+.pm-drawer { position: absolute; top: 0; right: 0; display: flex; width: min(400px, 100%); max-width: min(960px, 100%); height: 100%; flex-direction: column;
+  border-left: 1px solid var(--color-border-secondary); background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-secondary);
+  transform: translateX(100%); transition: transform .2s ease; pointer-events: auto; }
+.pm-layer.is-open .pm-drawer { transform: translateX(0); }
+.pm-resizer { position: absolute; top: 0; bottom: 0; left: -5px; z-index: 2; width: 10px; cursor: ew-resize; touch-action: none; }
+.pm-resizer::after { position: absolute; top: 0; bottom: 0; left: 4px; width: 1px; background: transparent; content: ""; }
+.pm-drawer.is-resizing { user-select: none; transition: none; }
+.pm-head { height: 59px; flex: 0 0 59px; display: flex; align-items: center; padding: 0 var(--fd-padding-layout-lg); border-bottom: 1px solid var(--color-border-secondary); }
+.pm-title { font-size: var(--fd-font-size-xl); line-height: var(--fd-line-height-xl); font-weight: 600; color: var(--color-text); }
+.pm-help { position: relative; width: var(--fd-icon-size); height: var(--fd-icon-size); margin-left: var(--fd-gap); color: var(--color-icon-normal); cursor: help; }
+.pm-help svg { width: var(--fd-icon-size); height: var(--fd-icon-size); }
+.pm-help:hover::before, .pm-help:focus-visible::before {
+  position: absolute; left: 50%; top: calc(100% + var(--fd-padding)); z-index: 130; width: var(--fd-gap-lg); height: var(--fd-gap-lg);
+  background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-secondary); content: ""; transform: translateX(-50%) rotate(45deg);
+}
+.pm-help:hover::after, .pm-help:focus-visible::after {
+  position: absolute; left: 50%; top: calc(100% + var(--fd-font-size-msm)); z-index: 131; width: 260px; padding: var(--fd-padding) var(--fd-padding-layout-sm); border-radius: var(--fd-border-radius-lg);
+  color: var(--color-text); background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-secondary);
+  content: attr(data-tip); font-size: var(--fd-font-size-sm); line-height: var(--fd-line-height-sm); transform: translateX(-50%);
+}
+.pm-close { width: var(--fd-control-height-sm); height: var(--fd-control-height-sm); margin-left: auto; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--fd-border-radius); color: var(--color-icon-normal); }
+.pm-close:hover { background: var(--color-bg-text-normal-hover); }
+.pm-close svg { width: var(--fd-icon-size); height: var(--fd-icon-size); }
+.pm-body { flex: 1; min-height: 0; padding: var(--fd-padding-layout-sm) var(--fd-padding-layout-lg); overflow: hidden; }
+.pm-state { display: none; height: 100%; }
+.pm-state.is-active { display: flex; }
+.pm-empty { align-items: center; justify-content: center; flex-direction: column; padding-bottom: 72px; text-align: center; }
+.pm-empty-art { width: 120px; height: 120px; margin-bottom: var(--fd-padding-lg); color: var(--color-fill-tertiary); }
+.pm-empty-art svg { width: 120px; height: 120px; }
+.pm-empty-title { color: var(--color-text-quaternary); font-size: var(--fd-font-size); line-height: var(--fd-line-height); }
+.pm-empty-desc { width: 320px; margin: var(--fd-padding) 0 var(--fd-padding-layout-sm); color: var(--color-text-quaternary); font-size: var(--fd-font-size-sm); line-height: var(--fd-line-height-sm); }
+.pm-btn { height: var(--fd-control-height); padding: 0 var(--fd-padding-layout-sm); display: inline-flex; align-items: center; justify-content: center; gap: var(--fd-padding-sm);
+  border: 1px solid var(--color-border); border-radius: var(--fd-border-radius); color: var(--color-text); background: var(--color-bg-container); font-size: var(--fd-font-size); line-height: var(--fd-line-height); }
+.pm-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.pm-btn.is-primary { border-color: var(--color-primary); color: var(--color-text-white); background: var(--color-primary); }
+.pm-btn.is-primary:hover { background: var(--fd-color-brand-7); }
+.pm-btn.is-brand { border-color: var(--color-primary); color: var(--color-primary); }
+.pm-btn.is-danger { border-color: transparent; color: var(--color-error); }
+.pm-spark { color: var(--fd-color-violet-6); }
+.pm-memory { flex-direction: column; }
+.pm-action-bar { height: 47px; display: flex; align-items: center; }
+.pm-grow-tip { margin-bottom: var(--fd-padding); color: var(--color-text-quaternary); font-size: var(--fd-font-size-sm); line-height: var(--fd-line-height-sm); }
+.pm-status { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-start; gap: var(--fd-gap-xs); margin-bottom: var(--fd-gap-sm); color: var(--color-text-quaternary); font-size: var(--fd-font-size-sm); line-height: var(--fd-line-height-sm); }
+.pm-status-main { display: flex; align-items: center; gap: var(--fd-gap-sm); }
+.pm-status strong { font-size: var(--fd-font-size); line-height: var(--fd-line-height); font-weight: 600; }
+.pm-status.is-done strong { color: var(--color-primary); }
+.pm-status.is-done .pm-status-icon { color: var(--color-primary); }
+.pm-status.is-growing strong { color: var(--color-info); }
+.pm-status-icon { width: 16px; height: 16px; flex: 0 0 16px; }
+.pm-status-icon svg { width: 16px; height: 16px; }
+.pm-spinner { width: var(--fd-icon-size-sm); height: var(--fd-icon-size-sm); flex: 0 0 var(--fd-icon-size-sm); border: 1.5px solid transparent; border-top-color: var(--color-info); border-right-color: var(--color-info);
+  border-radius: 50%; animation: pm-spin 1s cubic-bezier(.45,.05,.55,.95) infinite; }
+@keyframes pm-spin { to { transform: rotate(360deg); } }
+.pm-doc { min-height: 0; flex: 1; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--color-border);
+  border-radius: var(--fd-border-radius-lg); background: var(--color-bg-container); }
+.pm-doc-meta { height: 31px; flex: 0 0 31px; padding: 5px var(--fd-padding-layout); border-bottom: 1px solid var(--color-border-secondary);
+  color: var(--color-text-quaternary); background: var(--color-bg-container-grey); font-size: var(--fd-font-size-sm); line-height: var(--fd-line-height-sm); }
+.pm-change-meta { height: 39px; flex: 0 0 39px; padding: 9px var(--fd-padding-layout-sm); display: flex; align-items: center; gap: var(--fd-padding-xs);
+  border-bottom: 1px solid var(--color-border-secondary); color: var(--color-text); background: var(--color-bg-container-grey); font-size: var(--fd-font-size-sm); line-height: var(--fd-line-height-sm); }
+.pm-change-add { color: var(--color-primary); }
+.pm-change-del { color: var(--color-error); }
+.pm-change-legend { margin-left: auto; color: var(--color-text-quaternary); }
+.pm-doc-content { position: relative; flex: 1; padding: var(--fd-padding-lg) var(--fd-padding-xl) var(--fd-padding-layout-lg); overflow-y: auto; color: var(--color-grey-11); font-family: "PingFang SC", "Microsoft YaHei", sans-serif; font-size: var(--fd-font-size); line-height: var(--fd-line-height); font-weight: 400; }
+.pm-doc-content h3 { margin: 0 0 var(--fd-padding); color: var(--color-text); font-size: var(--fd-font-size); line-height: var(--fd-line-height); font-weight: 600; }
+.pm-growing .pm-doc-content h3 { color: var(--color-text-quaternary); }
+.pm-growing .pm-doc-content h3:not(:first-child), .pm-doc-content h3:not(:first-child) { margin-top: var(--fd-padding-3xl); }
+.pm-doc-content p { margin: 0; }
+.pm-diff { margin: 0 0 var(--fd-padding-sm); padding: 0 var(--fd-padding-sm); border-radius: var(--fd-border-radius-sm); }
+.pm-diff.is-add { color: var(--color-primary); background: var(--fd-color-brand-1); }
+.pm-diff.is-del { color: var(--color-error); background: var(--fd-color-error-1); text-decoration: line-through; }
+.pm-doc-foot { height: 57px; flex: 0 0 57px; display: flex; align-items: center; gap: var(--fd-gap); padding: 0 var(--fd-padding-layout-lg); border-top: 1px solid var(--color-border-tertiary); background: color-mix(in srgb, var(--color-bg-container) 97%, transparent); box-shadow: var(--fd-box-shadow); }
+.pm-doc-actions { display: flex; gap: var(--fd-gap); margin-left: auto; }
+.pm-growing .pm-doc-content h3,
+.pm-growing .pm-doc-content p {
+  color: var(--color-grey-11);
+  background-image: linear-gradient(90deg, transparent, var(--fd-color-text), transparent);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: stream-blink 1s linear infinite;
+}
+.pm-editor { min-height: 0; flex: 1; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--color-primary); border-radius: var(--fd-border-radius-lg); }
+.pm-editor-tools { height: 47px; flex: 0 0 47px; display: flex; align-items: center; gap: var(--fd-icon-size-sm); padding: 0 var(--fd-padding-layout);
+  border-bottom: 1px solid var(--color-border-secondary); background: var(--color-bg-container-grey); }
+.pm-format { height: var(--fd-control-height-sm); min-width: 78px; display: inline-flex; align-items: center; gap: var(--fd-gap-sm); color: var(--color-text-secondary);
+  border-radius: var(--fd-border-radius); font-size: var(--fd-font-size); line-height: var(--fd-line-height); cursor: pointer; }
+.pm-format:hover, .pm-format-btn:hover { background: var(--color-bg-text-normal-hover); }
+.pm-format svg { width: var(--fd-icon-size); height: var(--fd-icon-size); color: var(--color-icon-normal); }
+.pm-format-btn { width: var(--fd-control-height-sm); height: var(--fd-control-height-sm); display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--fd-border-radius); color: var(--color-text-secondary); font-size: var(--fd-font-size); line-height: var(--fd-line-height); font-weight: 600; }
+.pm-format-btn svg { width: var(--fd-icon-size); height: var(--fd-icon-size); color: var(--color-icon-normal); }
+.pm-editor-area { flex: 1; padding: var(--fd-icon-size-sm) var(--fd-padding-layout); outline: 0; overflow-y: auto; color: var(--color-text-secondary); font-family: "PingFang SC", "Microsoft YaHei", sans-serif; font-size: var(--fd-font-size); line-height: var(--fd-line-height); font-weight: 400; }
+.pm-editor-area h3 { margin: 0 0 var(--fd-padding); color: var(--color-text); font-size: var(--fd-font-size); }
+.pm-editor-area h3:not(:first-child) { margin-top: var(--fd-padding-layout-lg); }
+.pm-editor-foot { height: 57px; flex: 0 0 57px; display: flex; align-items: center; justify-content: flex-end; gap: var(--fd-padding-layout-sm); padding: 0 var(--fd-padding-layout); border-top: 1px solid var(--color-border-secondary); }
+.pm-toast { position: absolute; top: 16px; left: 50%; z-index: 110; width: fit-content; max-width: 360px; min-height: 40px; padding: 9px 16px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--color-border-secondary);
+  border-radius: var(--fd-border-radius-lg); color: var(--color-text); background: var(--color-bg-container); box-shadow: var(--fd-box-shadow-secondary);
+  font-size: 14px; line-height: 22px; opacity: 0; transform: translate(-50%, -12px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
+.pm-toast::before { width: 16px; height: 16px; display: grid; place-items: center; border-radius: 50%; color: var(--color-text-white); background: var(--color-success); content: "✓"; font-size: var(--fd-font-size-sm); line-height: 16px; }
+.pm-toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+.pm-notice { position: absolute; top: 132px; right: 34px; z-index: 95; width: 400px; min-height: 116px; padding: 20px;
+  display: none; border: 1px solid var(--fd-color-zero); border-radius: var(--fd-border-radius); background: var(--color-bg-elevated);
+  box-shadow: var(--fd-box-shadow-tertiary); }
+.pm-notice.is-show { display: block; }
+.pm-notice-main { display: flex; align-items: flex-start; gap: 12px; }
+.pm-notice-icon { width: 16px; height: 16px; flex: 0 0 16px; margin-top: 3px; display: grid; place-items: center;
+  border-radius: 50%; color: var(--color-text-white); font-size: var(--fd-font-size-sm); line-height: 16px; font-weight: 600; }
+.pm-notice.is-success .pm-notice-icon { background: var(--color-success); }
+.pm-notice.is-error .pm-notice-icon { background: var(--color-error); }
+.pm-notice-title { color: var(--color-text); font-size: 14px; line-height: 22px; font-weight: 600; }
+.pm-notice-desc { margin-top: 6px; color: var(--color-text-secondary); font-size: 14px; line-height: 22px; }
+.pm-notice-action { position: absolute; right: var(--fd-padding-2xl); bottom: var(--fd-padding-2xl); height: var(--fd-control-height); padding: 0 var(--fd-padding-layout); display: inline-flex; align-items: center;
+  border-radius: var(--fd-border-radius); color: var(--color-text-white); background: var(--color-primary); font-size: var(--fd-font-size); line-height: var(--fd-line-height); }
+.pm-notice-action:hover { background: var(--color-primary-hover); }
+.pm-confirm { position: absolute; top: 50px; right: var(--fd-padding-layout-lg); z-index: 150; width: 340px; padding: var(--fd-padding-layout-sm);
+  display: none; border: 1px solid var(--fd-color-zero); border-radius: var(--fd-border-radius); background: var(--color-bg-elevated);
+  box-shadow: var(--fd-box-shadow-tertiary); }
+.pm-confirm.is-show { display: block; }
+.pm-confirm::before { position: absolute; top: calc(-1 * var(--fd-padding-sm)); right: var(--fd-padding-layout-lg); width: var(--fd-padding-layout-sm); height: var(--fd-padding-layout-sm); background: var(--color-bg-elevated);
+  box-shadow: -1px -1px 1px rgba(19, 29, 46, .03); content: ""; transform: rotate(45deg); }
+.pm-confirm-text { color: var(--color-text); font-size: var(--fd-font-size); line-height: var(--fd-line-height); }
+.pm-confirm-actions { margin-top: var(--fd-padding-layout-sm); display: flex; justify-content: flex-end; gap: var(--fd-gap); }
+.pm-confirm-btn { height: var(--fd-control-height); padding: 0 var(--fd-padding-layout-sm); border: 1px solid var(--color-border); border-radius: var(--fd-border-radius);
+  color: var(--color-text); background: var(--color-bg-container); font-size: var(--fd-font-size); line-height: var(--fd-line-height); }
+.pm-confirm-btn:hover { border-color: var(--color-primary-hover); color: var(--color-primary); }
+.pm-confirm-btn.is-primary { border-color: var(--color-primary); color: var(--color-text-white); background: var(--color-primary); }
+.pm-confirm-btn.is-primary:hover { background: var(--color-primary-hover); }
+
+/* scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--scroll-bar-color-fill); border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+<!-- ============================================================
+     jsy-icon 雪碧图 —— 取自线上 SVG sprite, 让 <use xlink:href> 在
+     单文件中正常渲染 (document/analysis-table/custom-table-green
+     自带多色 fill; chart 继承 currentColor)
+     ============================================================ -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" focusable="false">
+  <symbol id="jsy-icon-menu" viewBox="0 0 1024 1024"><path d="M536.941 310.664c-18.745-18.745-18.745-49.137 0-67.882L720.789 58.934c18.745-18.745 49.137-18.745 67.882 0l183.848 183.848c18.745 18.745 18.745 49.137 0 67.882L788.671 494.512c-18.745 18.745-49.137 18.745-67.882 0L536.941 310.664zM133 92.996c-26.51 0-48 21.491-48 48v272c0 26.51 21.49 48 48 48h272c26.51 0 48-21.49 48-48v-272c0-26.509-21.49-48-48-48H133z m0 470c-26.51 0-48 21.491-48 48v272c0 26.51 21.49 48 48 48h272c26.51 0 48-21.49 48-48v-272c0-26.509-21.49-48-48-48H133z m486 0c-26.51 0-48 21.491-48 48v272c0 26.51 21.49 48 48 48h272c26.51 0 48-21.49 48-48v-272c0-26.509-21.49-48-48-48H619z"></path></symbol>
+  <symbol id="jsy-icon-gongzuotai-dock-mian" viewBox="0 0 1024 1024"><path d="M476.8 176V428.8c0 27.2-22.4 51.2-51.2 51.2H174.4c-27.2 0-51.2-22.4-51.2-51.2V176c0-27.2 22.4-51.2 51.2-51.2h252.8c27.2 0 49.6 22.4 49.6 51.2z m-49.6 369.6h-252.8c-27.2 0-51.2 22.4-51.2 51.2v251.2c0 27.2 22.4 51.2 51.2 51.2h252.8c27.2 0 51.2-22.4 51.2-51.2V595.2a52.352 52.352 0 0 0-51.2-49.6z m422.4 0h-252.8c-27.2 0-51.2 22.4-51.2 51.2v251.2c0 27.2 22.4 51.2 51.2 51.2h252.8c27.2 0 51.2-22.4 51.2-51.2V595.2c0-27.2-24-49.6-51.2-49.6z m0-420.8h-252.8c-27.2 0-51.2 22.4-51.2 51.2V428.8c0 27.2 22.4 51.2 51.2 51.2h252.8c27.2 0 51.2-22.4 51.2-51.2V176c0-28.8-24-51.2-51.2-51.2z"></path></symbol>
+  <symbol id="jsy-icon-message-planarity" viewBox="0 0 1024 1024"><path d="M813.139 630.174c0 33.573 16.925 63.021 42.795 80.366 12.809 7.998 21.638 22.327 21.566 37.864 0 23.8-19.176 42.972-42.981 42.972H189.481c-23.805 0-42.981-19.172-42.981-42.972 0-10.441 3.69-19.97 9.834-27.388a51.482 51.482 0 0 1 10.235-9.422c0.6-0.416 1.211-0.82 1.832-1.21 25.641-17.365 42.57-46.738 42.57-80.21V439.002c0-140.156 101.28-256.953 236.613-285.712v-6.831c0-35.59 28.874-64.459 64.471-64.459 35.597 0 64.471 28.758 64.471 64.459v6.831c135.333 28.759 236.613 145.666 236.613 285.712v191.172z m44.413 81.428zM512.165 942c59.401 0 107.562-48.151 107.562-107.541H404.604c0 59.39 48.05 107.541 107.561 107.541z"></path></symbol>
+  <symbol id="jsy-icon-mian" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448S759.424 960 512 960 64 759.424 64 512 264.576 64 512 64z m42 660h-84v84h84v-84z m-42-506.668c-57.24 0-103.341 18.579-134.66 56.462-29.804 36.05-43.699 86.545-43.664 150.456l84.004-0.05 0.001-1.376c0.148-45.28 8.92-76.783 24.4-95.508 14.121-17.081 36.213-25.984 69.919-25.984 2.187 0 4.335 0.02 6.446 0.062l2.098 0.048 2.072 0.062c2.746 0.09 5.425 0.218 8.037 0.38l1.946 0.129c0.645 0.045 1.285 0.092 1.921 0.141l1.897 0.155 1.872 0.168c3.099 0.29 6.094 0.633 8.988 1.03l1.724 0.244 1.7 0.256c10.406 1.62 19.425 3.946 27.127 6.901 12.419 4.766 20.834 10.893 26.712 18.512 6.488 8.412 10.596 19.456 12.782 34.618l0.205 1.48 0.098 0.75 0.188 1.52 0.09 0.769 0.17 1.559 0.08 0.79 0.153 1.599 0.072 0.81 0.135 1.64 0.124 1.669c0.06 0.841 0.114 1.693 0.165 2.556l0.096 1.739c0.03 0.584 0.059 1.174 0.085 1.768l0.074 1.797c0.012 0.302 0.023 0.605 0.033 0.91l0.058 1.841c0.018 0.62 0.033 1.243 0.047 1.872l0.037 1.902 0.026 1.932 0.015 1.963 0.005 1.994c0 18.38-12.556 38.202-39.78 63.397l-1.777 1.633a388.157 388.157 0 0 1-4.62 4.15l-0.669 0.59-2.04 1.787-1.399 1.214-2.168 1.868-1.502 1.284-1.553 1.322-3.045 2.572-13.732 11.488-2.928 2.467-2.72 2.31-2.041 1.75-0.978 0.845-1.419 1.233-1.364 1.196-1.74 1.544-1.662 1.495-1.2 1.094-1.165 1.077-1.134 1.063-1.11 1.052-1.086 1.047-1.07 1.045-1.055 1.047c-20.445 20.418-34.646 44.82-43.317 73.426C473.362 607.11 470 635.41 470 668.87h84l0.003-1.508c0.18-49.54 9.277-79.085 29.676-99.458l0.67-0.664 0.938-0.91 1.249-1.183 0.796-0.74 1.413-1.292 1.532-1.373 1.32-1.165 1.778-1.55 2.339-2.012 3.04-2.582 2.897-2.438 14.08-11.783 2.645-2.238 2.525-2.153 1.628-1.397 1.59-1.373 1.56-1.355 2.297-2.012 1.832-1.621c19.98-17.756 35.21-33.962 47.38-51.927 16.738-24.708 26.09-50.976 26.09-79.237 0-21.9-1.36-39.955-5.032-57.49-4.835-23.095-13.521-43.565-27.193-61.29-31.317-40.602-83.912-60.786-159.053-60.786z"></path></symbol>
+  <symbol id="jsy-icon-exploratory-chart" viewBox="0 0 1024 1024"><path d="M428 548c25.504 0 46.352 19.888 47.904 45C420.548 608.704 380 659.616 380 720s40.548 111.3 95.904 127.004C474.352 872.116 453.5 892 428 892H180c-26.508 0-48-21.492-48-48v-248c0-26.508 21.492-48 48-48h248z m227.488 0a71.68 71.68 0 0 0-7.488 32c0 39.764 32.236 72 72 72s72-32.236 72-72c0-11.496-2.696-22.36-7.488-32H844c26.508 0 48 21.492 48 48v248c0 26.508-21.492 48-48 48h-248c-26.508 0-48-21.492-48-48v-64.128A71.644 71.644 0 0 1 508 792c-39.764 0-72-32.236-72-72s32.236-72 72-72c14.8 0 28.56 4.468 40 12.124V596c0-26.508 21.492-48 48-48h59.488zM428 132c26.508 0 48 21.492 48 48v64.124A71.668 71.668 0 0 1 516 232c39.764 0 72 32.236 72 72s-32.236 72-72 72c-14.804 0-28.56-4.472-40-12.128V428c0 26.508-21.492 48-48 48H368.512A71.696 71.696 0 0 0 376 444c0-39.764-32.236-72-72-72s-72 32.236-72 72c0 11.496 2.696 22.36 7.488 32H180c-26.508 0-48-21.492-48-48V180c0-26.508 21.492-48 48-48h248z m416 0c26.508 0 48 21.492 48 48v248c0 26.508-21.492 48-48 48h-248c-26.352 0-47.74-21.232-47.996-47.524C599.268 410.352 636 361.472 636 304c0-57.472-36.732-106.36-87.996-124.48C548.26 153.232 569.652 132 596 132h248z"></path></symbol>
+  <symbol id="jsy-icon-custom-table-green" viewBox="0 0 1024 1024"><path d="M64 160c0-53.02 42.98-96 96-96h704c53.02 0 96 42.98 96 96v704c0 53.02-42.98 96-96 96H160c-53.02 0-96-42.98-96-96V160z" fill="#3BAD4A"></path><path d="M332 664a32 32 0 0 1 32 32v72a32 32 0 0 1-32 32H260a32 32 0 0 1-32-32v-72a32 32 0 0 1 32-32h72zM548 664a32 32 0 0 1 32 32v72a32 32 0 0 1-32 32h-72a32 32 0 0 1-32-32v-72a32 32 0 0 1 32-32h72zM764 664a32 32 0 0 1 32 32v72a32 32 0 0 1-32 32h-72a32 32 0 0 1-32-32v-72a32 32 0 0 1 32-32h72zM332 448a32 32 0 0 1 32 32v72a32 32 0 0 1-32 32H260a32 32 0 0 1-32-32v-72a32 32 0 0 1 32-32h72zM548 448a32 32 0 0 1 32 32v72a32 32 0 0 1-32 32h-72a32 32 0 0 1-32-32v-72a32 32 0 0 1 32-32h72zM764 448a32 32 0 0 1 32 32v72a32 32 0 0 1-32 32h-72a32 32 0 0 1-32-32v-72a32 32 0 0 1 32-32h72zM764 224a32 32 0 0 1 32 32v80a32 32 0 0 1-32 32H260a32 32 0 0 1-32-32V256a32 32 0 0 1 32-32h504z" fill="#FFFFFF"></path></symbol>
+  <symbol id="jsy-icon-analysis-table" viewBox="0 0 1024 1024"><path d="M268 88c0 61.856 50.144 112 112 112h264c61.856 0 112-50.144 112-112h68c53.02 0 96 42.98 96 96v696c0 53.02-42.98 96-96 96H200c-53.02 0-96-42.98-96-96V184c0-53.02 42.98-96 96-96h68z" fill="#2B73F0"></path><path d="M644 24c35.348 0 64 28.652 64 64s-28.652 64-64 64H380c-35.348 0-64-28.652-64-64S344.652 24 380 24h264z" fill="#2B73F0"></path><path d="M760 348c39.764 0 72 32.236 72 72s-32.236 72-72 72a71.96 71.96 0 0 1-17.804-2.224l-79.284 92.192A83.66 83.66 0 0 1 672 620c0 46.392-37.608 84-84 84s-84-37.608-84-84c0-12.14 2.576-23.676 7.212-34.096l-76.084-79.712a64.144 64.144 0 0 1-27.956 0.52l-76.432 86.232A71.812 71.812 0 0 1 336 620c0 39.764-32.236 72-72 72s-72-32.236-72-72 32.236-72 72-72c6.52 0 12.84 0.872 18.84 2.496l76.44-86.236A63.932 63.932 0 0 1 356 444c0-35.348 28.652-64 64-64s64 28.652 64 64c0 6.252-0.908 12.292-2.58 18.004l76.088 79.704A83.788 83.788 0 0 1 588 536c9.22 0 18.092 1.488 26.392 4.236l79.272-92.184A71.808 71.808 0 0 1 688 420c0-39.764 32.236-72 72-72z" fill="#FFFFFF"></path></symbol>
+  <symbol id="jsy-icon-document" viewBox="0 0 1024 1024"><path d="M640 248c0 44.184 35.816 80 80 80h200v552c0 53.02-42.98 96-96 96H200c-53.02 0-96-42.98-96-96V144c0-53.02 42.98-96 96-96h440v200z" fill="#E54E81"></path><path d="M696 48c29.88 0 58.536 11.872 79.664 33l111.336 111.336A112.664 112.664 0 0 1 920 272h-176c-26.508 0-48-21.492-48-48V48z" fill="#E54E81"></path><path d="M728 720a32 32 0 0 1 32 32v32a32 32 0 0 1-32 32H296a32 32 0 0 1-32-32v-32a32 32 0 0 1 32-32h432zM728 512a32 32 0 0 1 32 32v32a32 32 0 0 1-32 32H296a32 32 0 0 1-32-32v-32a32 32 0 0 1 32-32h432zM456 240a32 32 0 0 1 32 32v32a32 32 0 0 1-32 32H296a32 32 0 0 1-32-32v-32a32 32 0 0 1 32-32h160z" fill="#FFFFFF"></path></symbol>
+  <symbol id="jsy-icon-chart" viewBox="0 0 1024 1024"><path d="M950 140v744H74V140h876z m-96 96H170v552h684V236z m-294 84v384h-96V320h96zM374 441v263h-96V441h96z m372 71v192h-96V512h96z"></path></symbol>
+</svg>
+<div class="app">
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <button class="app-grid"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 20px; color: currentcolor;"><use xlink:href="#jsy-icon-menu"></use></svg></button>
+    <span class="divider"></span>
+    <span class="logo"><img src="https://qfx-cdn.oss-cn-hangzhou.aliyuncs.com/logo/jsy_logo.png" alt="九数云" /></span>
+    <span class="spacer"></span>
+    <button class="h-btn"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 20px; color: currentcolor;"><use xlink:href="#jsy-icon-gongzuotai-dock-mian"></use></svg><span>Template Center</span></button>
+    <button class="h-icon"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 20px; color: currentcolor;"><use xlink:href="#jsy-icon-message-planarity"></use></svg></button>
+    <button class="h-icon"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 20px; color: currentcolor;"><use xlink:href="#jsy-icon-mian"></use></svg></button>
+    <span class="avatar">用</span>
+  </header>
+
+  <div class="body">
+    <!-- ===== Left rail ===== -->
+    <nav class="rail">
+        <div class="nav-item">
+          <div class="nav-ic"><svg class="fx-icon" viewBox="0 0 256 256" width="1em" height="1em"><path fill="url(#svg-icon-21)" d="M240 62v132c0 13.255-10.745 24-24 24h-63.855a23.998 23.998 0 0 1-14.607-4.957l-8.673-6.653a2.208 2.208 0 0 1-.865-1.752V51.362c0-.687.32-1.334.865-1.752l8.673-6.653A24 24 0 0 1 152.145 38H216c13.255 0 24 10.745 24 24Z"></path><path fill="url(#svg-icon-20)" d="M16 62v132c0 13.255 10.745 24 24 24h62.597c4.823 0 9.535-1.453 13.52-4.171l10.918-7.444a2.21 2.21 0 0 0 .965-1.825V51.44a2.21 2.21 0 0 0-.965-1.825l-10.918-7.445a24 24 0 0 0-13.52-4.17H40c-13.255 0-24 10.745-24 24Z"></path><path fill="#fff" d="M38 64a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v36.387c0 3.223-3.615 5.122-6.27 3.294l-9.46-6.518a4 4 0 0 0-4.54 0l-9.46 6.518c-2.655 1.828-6.27-.071-6.27-3.294V64Zm110 14a6 6 0 0 1 6-6h60a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6h-60a6 6 0 0 1-6-6V78Zm0 42a6 6 0 0 1 6-6h36a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6h-36a6 6 0 0 1-6-6v-10Z" data-follow-fill="#fff"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="148.599" x2="13.211" y1="225.863" x1="229.127" id="svg-icon-21"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="139.527" x2="-19.465" y1="154.724" x1="88.628" id="svg-icon-20"><stop stop-color="color(display-p3 .7059 .7255 .7608)"></stop><stop stop-color="color(display-p3 .7608 .7804 .8118)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">Learning</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-ic"><svg class="fx-icon" viewBox="0 0 256 256" width="1em" height="1em"><path fill="url(#svg-icon-24)" d="M28 48c0-11.046 8.954-20 20-20h160c11.046 0 20 8.954 20 20v34c0 11.046-8.954 20-20 20H48c-11.046 0-20-8.954-20-20V48Z"></path><path fill="#fff" d="M48 53c0-6.627 5.373-12 12-12h48v12c0 6.627-5.373 12-12 12H48V53Z" data-follow-fill="#fff"></path><path fill="url(#svg-icon-23)" d="M28 174c0-11.046 8.954-20 20-20h160c11.046 0 20 8.954 20 20v34c0 11.046-8.954 20-20 20H48c-11.046 0-20-8.954-20-20v-34Z"></path><path fill="#fff" d="M148 202c0-6.627 5.373-12 12-12h48v12c0 6.627-5.373 12-12 12h-48v-12Z" data-follow-fill="#fff"></path><path fill="url(#svg-icon-22)" d="M80 102v12.248h108c8.837 0 16 7.163 16 16V154h-28v-11.752H68c-8.837 0-16-7.163-16-16V102h28Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="-92.672" x2="81.26" y1="105.233" x1="208.583" id="svg-icon-24"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="33.328" x2="81.26" y1="231.233" x1="208.583" id="svg-icon-23"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="66.925" x2="46.406" y1="135.72" x1="150.567" id="svg-icon-22"><stop stop-color="color(display-p3 .7059 .7255 .7608)"></stop><stop stop-color="color(display-p3 .7608 .7804 .8118)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">Connection</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-ic"><svg class="fx-icon" viewBox="0 0 256 256" width="1em" height="1em"><path fill="url(#svg-icon-27)" d="M28 79c0-13.255 10.745-24 24-24h107.678a24 24 0 0 1 16.2 6.293L208.2 90.864a23.998 23.998 0 0 1 7.8 17.707V203c0 13.255-10.745 24-24 24H52c-13.255 0-24-10.745-24-24V79Z"></path><path fill="url(#svg-icon-26)" d="M245.8 66.154c2.209 0 4.015 1.793 3.856 3.996a55.576 55.576 0 0 1-9.224 26.885 55.585 55.585 0 1 1-50.213-86.322c2.203-.159 3.997 1.647 3.997 3.856v47.585a4 4 0 0 0 4 4H245.8Z"></path><path fill="url(#svg-icon-25)" d="M199.775 8c0-2.21 1.794-4.015 3.997-3.856a55.587 55.587 0 0 1 51.444 51.444c.159 2.203-1.647 3.996-3.856 3.996h-47.585a4 4 0 0 1-4-4V8Z"></path><path fill="#fff" d="M63 137a6 6 0 0 1 6-6h14a6 6 0 0 1 6 6v52a6 6 0 0 1-6 6H69a6 6 0 0 1-6-6v-52Zm46-31a6 6 0 0 1 6-6h14a6 6 0 0 1 6 6v83a6 6 0 0 1-6 6h-14a6 6 0 0 1-6-6v-83Zm46 47a6 6 0 0 1 6-6h14a6 6 0 0 1 6 6v36a6 6 0 0 1-6 6h-14a6 6 0 0 1-6-6v-36Z" data-follow-fill="#fff"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="50.304" x2="-95.296" y1="234.514" x1="197.748" id="svg-icon-27"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="59.213" x2="106.661" y1="82.706" x1="210.633" id="svg-icon-26"><stop stop-color="color(display-p3 .7059 .7255 .7608)"></stop><stop stop-color="color(display-p3 .7608 .7804 .8118)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="9.893" x2="159.227" y1="62.007" x1="249.843" id="svg-icon-25"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">Analysis Space</div>
+        </div>
+        <div class="nav-item is-active">
+          <div class="nav-ic"><svg class="fx-icon" viewBox="0 0 256 256" width="1em" height="1em"><g><path d="M207 140.5c0-9.665 7.835-17.5 17.5-17.5s17.5 7.835 17.5 17.5v18c0 9.665-7.835 17.5-17.5 17.5s-17.5-7.835-17.5-17.5v-18Z" fill="url(#svg-icon-34)"></path><path d="M14 140.5c0-9.665 7.835-17.5 17.5-17.5S49 130.835 49 140.5v18c0 9.665-7.835 17.5-17.5 17.5S14 168.165 14 158.5v-18Z" fill="url(#svg-icon-33)"></path><path d="M159.001 16.287c6.217 3.59 8.372 11.499 4.812 17.665-2.743 4.75-8.077 7.08-13.224 6.258l-19.538 33.841-8.034-4.638 19.524-33.816c-3.331-4.05-4.002-9.87-1.245-14.645 3.56-6.166 11.487-8.255 17.705-4.665Z" fill="url(#svg-icon-32)"></path><path d="M128 52c11.195 0 20.737 7.037 24.398 16.904H174c27.614 0 50 22.259 50 49.717v59.661C224 205.74 201.614 228 174 228H82c-27.614 0-50-22.26-50-49.718v-59.661c0-27.458 22.386-49.717 50-49.717h21.602C107.263 59.037 116.805 52 128 52Z" fill="url(#svg-icon-31)"></path><path d="M169.62 98c16.226 0 29.38 13.18 29.38 29.439v46.121c0 16.259-13.154 29.44-29.38 29.44H86.38C70.154 203 57 189.819 57 173.56v-46.121C57 111.18 70.154 98 86.38 98h83.24Z" fill-opacity="0.9" fill="#fff" data-follow-fill="#fff"></path><path d="M205.562 25.616c.356-3.828 5.282-5.148 7.504-2.01l10.129 14.302a4.145 4.145 0 0 0 2.997 1.73l17.452 1.62c3.828.356 5.148 5.283 2.01 7.505l-14.302 10.13a4.142 4.142 0 0 0-1.731 2.996l-1.62 17.45c-.356 3.83-5.282 5.149-7.504 2.011l-10.129-14.302a4.14 4.14 0 0 0-2.997-1.73l-17.451-1.62c-3.828-.357-5.148-5.283-2.011-7.505l14.303-10.129a4.14 4.14 0 0 0 1.73-2.997l1.62-17.451Z" fill="url(#svg-icon-30)"></path><rect rx="11" fill="url(#svg-icon-29)" y="126" x="85" height="34" width="22"></rect><rect rx="11" fill="url(#svg-icon-28)" y="126" x="149" height="34" width="22"></rect></g><defs><linearGradient gradientUnits="userSpaceOnUse" y2="176" y1="123" x2="224.5" x1="224.5" id="svg-icon-34"><stop stop-color="#266FFF"></stop><stop stop-color="#00F3FF" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="176" y1="123" x2="31.5" x1="31.5" id="svg-icon-33"><stop stop-color="#266FFF"></stop><stop stop-color="#00F3FF" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="55.065" y1="16.997" x2="139.113" x1="161.099" id="svg-icon-32"><stop stop-color="#00DDC3"></stop><stop stop-color="#00B2FF" offset="0.5"></stop><stop stop-color="#266FFF" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="228" y1="52" x2="128" x1="128" id="svg-icon-31"><stop stop-color="#266FFF"></stop><stop stop-color="#00F3FF" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="34.657" y1="83.103" x2="177.307" x1="247.407" id="svg-icon-30"><stop stop-color="#F9AF05" offset="0.15"></stop><stop stop-color="#FAC532" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="146.135" y1="160" x2="75.996" x1="107" id="svg-icon-29"><stop stop-color="#004AE0"></stop><stop stop-color="#2562FF" offset="0.4"></stop><stop stop-color="#3492FF" offset="0.875"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="146.135" y1="160" x2="139.996" x1="171" id="svg-icon-28"><stop stop-color="#004AE0"></stop><stop stop-color="#2562FF" offset="0.4"></stop><stop stop-color="#3492FF" offset="0.875"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">Smart Analysis</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-ic"><svg class="fx-icon" viewBox="0 0 256 256" width="1em" height="1em"><path fill="url(#svg-icon-36)" d="M28 52c0-13.255 10.745-24 24-24h152c13.255 0 24 10.745 24 24v112c0 13.255-10.745 24-24 24H52c-13.255 0-24-10.745-24-24V52Z"></path><path fill="#fff" d="M65 102a6 6 0 0 1 6-6h14a6 6 0 0 1 6 6v52a6 6 0 0 1-6 6H71a6 6 0 0 1-6-6v-52Zm50-36a6 6 0 0 1 6-6h14a6 6 0 0 1 6 6v88a6 6 0 0 1-6 6h-14a6 6 0 0 1-6-6V66Zm50 48a6 6 0 0 1 6-6h14a6 6 0 0 1 6 6v40a6 6 0 0 1-6 6h-14a6 6 0 0 1-6-6v-40Z" data-follow-fill="#fff"></path><path fill="url(#svg-icon-35)" d="M66 216c0-6.627 5.373-12 12-12h100c6.627 0 12 5.373 12 12s-5.373 12-12 12H78c-6.627 0-12-5.373-12-12Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="-11.149" x2="-78.162" y1="194.99" x1="208.583" id="svg-icon-36"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="159.267" x2="94.76" y1="219.563" x1="146.41" id="svg-icon-35"><stop stop-color="color(display-p3 .7059 .7255 .7608)"></stop><stop stop-color="color(display-p3 .7608 .7804 .8118)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">Portal</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-ic"><svg class="fx-icon" viewBox="0 0 256 256" width="1em" height="1em"><path fill="url(#svg-icon-39)" d="M142.093 16a8 8 0 0 1 7.751 6.018l4.036 15.78c.686 2.684 2.721 4.796 5.319 5.757a89.566 89.566 0 0 1 4.943 1.996c2.486 1.091 5.356 1.011 7.692-.373l13.953-8.27a8 8 0 0 1 9.736 1.225l21.344 21.344a8 8 0 0 1 1.226 9.736l-7.959 13.429c-1.411 2.38-1.467 5.31-.312 7.825a89.16 89.16 0 0 1 2.341 5.584c.974 2.564 3.074 4.567 5.732 5.247l15.087 3.858a8 8 0 0 1 6.018 7.751V128h-57c0-29.823-24.177-54-54-54s-54 24.177-54 54 24.177 54 54 54v58h-16.094a8 8 0 0 1-7.75-6.018l-4.254-16.628c-.668-2.613-2.617-4.689-5.123-5.685a89.776 89.776 0 0 1-3.96-1.685c-2.507-1.139-5.421-1.077-7.79.328l-14.816 8.781a8 8 0 0 1-9.736-1.226l-21.345-21.345a8 8 0 0 1-1.225-9.735l9.097-15.35c1.378-2.325 1.465-5.178.39-7.658a89.317 89.317 0 0 1-1.359-3.313c-.983-2.541-3.074-4.522-5.713-5.196l-17.304-4.426A8 8 0 0 1 15 143.093v-30.187a8 8 0 0 1 6.018-7.75l17.305-4.427c2.639-.675 4.728-2.656 5.711-5.196.432-1.115.885-2.22 1.36-3.313 1.075-2.48.988-5.333-.39-7.659l-9.097-15.348a8 8 0 0 1 1.226-9.736l21.344-21.344a8.001 8.001 0 0 1 9.736-1.226l14.815 8.78c2.37 1.405 5.284 1.467 7.791.328a89.53 89.53 0 0 1 3.96-1.685c2.506-.996 4.456-3.072 5.124-5.684l4.253-16.628a8 8 0 0 1 7.75-6.018h30.187Z"></path><path fill="url(#svg-icon-38)" d="M148 160a8 8 0 0 1 8-8h52a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8h-52a8 8 0 0 1-8-8v-12Z"></path><path fill="url(#svg-icon-37)" d="M148 208a8 8 0 0 1 8-8h76a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8h-76a8 8 0 0 1-8-8v-12Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="39.263" x2="-148.802" y1="249.785" x1="217.253" id="svg-icon-39"><stop stop-color="color(display-p3 .3922 .4235 .4784)"></stop><stop stop-color="color(display-p3 .6196 .6431 .6784)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="141.931" x2="140.659" y1="170.157" x1="192.096" id="svg-icon-38"><stop stop-color="color(display-p3 .7059 .7255 .7608)"></stop><stop stop-color="color(display-p3 .7608 .7804 .8118)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="174.82" x2="149.286" y1="218.157" x1="207.659" id="svg-icon-37"><stop stop-color="color(display-p3 .7059 .7255 .7608)"></stop><stop stop-color="color(display-p3 .7608 .7804 .8118)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">Settings</div>
+        </div>
+      <div class="rail-divider"></div>
+        <div class="nav-item nav-proj">
+          <div class="nav-ic"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1024 1024" width="1em" height="1em" style="height: 20px; width: 20px;"><path fill="url(#DataProject-path-a-:r6:)" d="M788 710.359 562.36 936.578c-31.155 31.234-81.666 31.234-112.821 0L348 834.777l282.051-282.773L788 710.359Z"></path><path fill="url(#DataProject-path-b-:r6:)" d="M472 630.055 313.645 788.004 87.425 562.363c-31.233-31.154-31.233-81.666 0-112.82l101.802-101.539L472 630.055Z"></path><path fill="url(#DataProject-path-c-:r6:)" d="M936.574 461.644c31.235 31.155 31.234 81.666 0 112.821l-101.8 101.539L552 393.953l158.356-157.949 226.218 225.64Z"></path><path fill="url(#DataProject-path-d-:r6:)" d="M461.641 87.43c31.154-31.235 81.666-31.235 112.82 0L676 189.23 393.949 472.004 236 313.648 461.641 87.43Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-a-:r6:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-b-:r6:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-c-:r6:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-d-:r6:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">项目1</div>
+        </div>
+        <div class="nav-item nav-proj">
+          <div class="nav-ic"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1024 1024" width="1em" height="1em" style="height: 20px; width: 20px;"><path fill="url(#DataProject-path-a-:r7:)" d="M788 710.359 562.36 936.578c-31.155 31.234-81.666 31.234-112.821 0L348 834.777l282.051-282.773L788 710.359Z"></path><path fill="url(#DataProject-path-b-:r7:)" d="M472 630.055 313.645 788.004 87.425 562.363c-31.233-31.154-31.233-81.666 0-112.82l101.802-101.539L472 630.055Z"></path><path fill="url(#DataProject-path-c-:r7:)" d="M936.574 461.644c31.235 31.155 31.234 81.666 0 112.821l-101.8 101.539L552 393.953l158.356-157.949 226.218 225.64Z"></path><path fill="url(#DataProject-path-d-:r7:)" d="M461.641 87.43c31.154-31.235 81.666-31.235 112.82 0L676 189.23 393.949 472.004 236 313.648 461.641 87.43Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-a-:r7:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-b-:r7:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-c-:r7:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-d-:r7:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">项目3</div>
+        </div>
+        <div class="nav-item nav-proj">
+          <div class="nav-ic"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1024 1024" width="1em" height="1em" style="height: 20px; width: 20px;"><path fill="url(#DataProject-path-a-:r8:)" d="M788 710.359 562.36 936.578c-31.155 31.234-81.666 31.234-112.821 0L348 834.777l282.051-282.773L788 710.359Z"></path><path fill="url(#DataProject-path-b-:r8:)" d="M472 630.055 313.645 788.004 87.425 562.363c-31.233-31.154-31.233-81.666 0-112.82l101.802-101.539L472 630.055Z"></path><path fill="url(#DataProject-path-c-:r8:)" d="M936.574 461.644c31.235 31.155 31.234 81.666 0 112.821l-101.8 101.539L552 393.953l158.356-157.949 226.218 225.64Z"></path><path fill="url(#DataProject-path-d-:r8:)" d="M461.641 87.43c31.154-31.235 81.666-31.235 112.82 0L676 189.23 393.949 472.004 236 313.648 461.641 87.43Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-a-:r8:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-b-:r8:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-c-:r8:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-d-:r8:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">项目</div>
+        </div>
+        <div class="nav-item nav-proj">
+          <div class="nav-ic"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1024 1024" width="1em" height="1em" style="height: 20px; width: 20px;"><path fill="url(#DataProject-path-a-:r9:)" d="M788 710.359 562.36 936.578c-31.155 31.234-81.666 31.234-112.821 0L348 834.777l282.051-282.773L788 710.359Z"></path><path fill="url(#DataProject-path-b-:r9:)" d="M472 630.055 313.645 788.004 87.425 562.363c-31.233-31.154-31.233-81.666 0-112.82l101.802-101.539L472 630.055Z"></path><path fill="url(#DataProject-path-c-:r9:)" d="M936.574 461.644c31.235 31.155 31.234 81.666 0 112.821l-101.8 101.539L552 393.953l158.356-157.949 226.218 225.64Z"></path><path fill="url(#DataProject-path-d-:r9:)" d="M461.641 87.43c31.154-31.235 81.666-31.235 112.82 0L676 189.23 393.949 472.004 236 313.648 461.641 87.43Z"></path><defs><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-a-:r9:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-b-:r9:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-c-:r9:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" y2="1085.57" x2="1018.9" y1="-.627" x1="-32.459" id="DataProject-path-d-:r9:"><stop stop-color="var(--color-brand-4)"></stop><stop stop-color="var(--color-brand-6)" offset="1"></stop></linearGradient></defs></svg></div>
+          <div class="nav-label">销量数量123</div>
+        </div>
+    </nav>
+
+    <!-- ===== Content card ===== -->
+    <div class="card">
+      <!-- center: chat -->
+      <section class="center">
+        <div class="sub-header">
+          <button class="icon-btn"><svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16" width="16"><path d="M10 3.5L5.5 8L10 12.5"></path></svg></button>
+          <span class="title">销量数量123</span>
+          <span class="beta">Beta</span>
+          <span class="grow"></span>
+          <div class="sub-actions" id="subActions">
+            <div class="conversation" id="conversation">
+              <button class="conversation-trigger" id="conversationTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="conversation-name" id="conversationName">你好</span>
+                <svg viewBox="0 0 16 16" fill="none"><path d="M4.5 6.25 8 9.75l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="conversation-menu" id="conversationMenu" role="listbox">
+                <button class="conversation-item is-active" type="button" data-name="你好"><span>你好</span><span class="conversation-time">2天前</span></button>
+                <button class="conversation-item" type="button" data-name="很长很长的对话名称很长很长很长"><span>很长很长的对话名称很长很长很长</span><span class="conversation-time">6天前</span></button>
+              </div>
+            </div>
+            <button class="text-btn sub-action-new"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 4.875C8.31066 4.875 8.5625 5.12684 8.5625 5.4375V7.4375H10.5625C10.8732 7.4375 11.125 7.68934 11.125 8C11.125 8.31066 10.8732 8.5625 10.5625 8.5625H8.5625V10.5625C8.5625 10.8732 8.31066 11.125 8 11.125C7.68934 11.125 7.4375 10.8732 7.4375 10.5625V8.5625H5.4375C5.12684 8.5625 4.875 8.31066 4.875 8C4.875 7.68934 5.12684 7.4375 5.4375 7.4375H7.4375V5.4375C7.4375 5.12684 7.68934 4.875 8 4.875Z" fill="currentColor"></path><path d="M8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C7.87811 15 7.75695 14.9969 7.6366 14.9907H1.90149C1.51279 14.9907 1.27276 14.5666 1.47284 14.2333L2.56592 12.4128C1.5869 11.2086 1 9.67288 1 8C1 4.13401 4.13401 1.00001 8 1ZM8 2.125C4.75533 2.12501 2.125 4.75533 2.125 8C2.125 9.40502 2.61686 10.6921 3.43878 11.7031L3.93665 12.3154L3.00574 13.8657H7.66534L7.69403 13.8672C7.7953 13.8724 7.89732 13.875 8 13.875C11.2447 13.875 13.875 11.2447 13.875 8C13.875 4.75533 11.2447 2.125 8 2.125Z" fill="currentColor"></path></svg><span>新会话</span></button>
+            <button class="text-btn sub-action-share"><svg fill="none" height="16" viewBox="0 0 256 256" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M202 28C216.359 28 228 39.6406 228 54C228 68.3594 216.359 80 202 80C194.131 80 187.079 76.5043 182.312 70.9814L82.6816 121.182C83.5379 123.97 84 126.931 84 130C84 132.086 83.786 134.121 83.3809 136.087L182.222 185.125C186.99 179.541 194.081 176 202 176C216.359 176 228 187.641 228 202C228 216.359 216.359 228 202 228C187.685 228 176.072 216.431 176.001 202.132L74.5889 151.816C69.2161 156.889 61.972 160 54 160C37.4315 160 24 146.569 24 130C24 113.431 37.4315 100 54 100C60.8992 100 67.2532 102.331 72.3213 106.245L176 54.0068C176 54.0046 176 54.0023 176 54C176 39.6406 187.641 28 202 28Z" fill="currentColor"></path></svg><span>分享</span></button>
+            <button class="text-btn sub-action-window" id="windowModeButton"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3.25h8.25v6.25H2.5V3.25Z" stroke="currentColor" stroke-width="1.25"/><path d="M5.25 11.75h8.25V5.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.25"/></svg><span id="windowModeText">小窗</span></button>
+            <button class="icon-btn sub-action-usage" aria-label="用量"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.96117 5.03033C6.25406 4.73744 6.72893 4.73744 7.02183 5.03033L9.52275 7.53125L11.7585 5.2955C11.9782 5.07583 12.3343 5.07583 12.554 5.2955C12.7737 5.51516 12.7737 5.87132 12.554 6.09099L10.0531 8.59191C9.76018 8.8848 9.28531 8.8848 8.99242 8.59191L6.4915 6.09099L4.25574 8.32675C4.03607 8.54641 3.67992 8.54641 3.46025 8.32675C3.24058 8.10708 3.24058 7.75092 3.46025 7.53125L5.96117 5.03033Z" fill="currentColor"></path><path clip-rule="evenodd" d="M2 1.5C1.44772 1.5 1 1.94772 1 2.5V11.375C1 11.9273 1.44771 12.375 2 12.375H14C14.5523 12.375 15 11.9273 15 11.375V2.5C15 1.94772 14.5523 1.5 14 1.5H2ZM2.125 2.625V11.25H13.875V2.625H2.125Z" fill="currentColor" fill-rule="evenodd"></path><path d="M11.375 14.5C11.6857 14.5 11.9375 14.2482 11.9375 13.9375C11.9375 13.6268 11.6857 13.375 11.375 13.375H4.5625C4.25184 13.375 4 13.6268 4 13.9375C4 14.2482 4.25184 14.5 4.5625 14.5H11.375Z" fill="currentColor"></path></svg></button>
+            <button class="icon-btn pm-entry sub-action-memory" id="pmEntry" aria-label="项目记忆"><svg width="16" height="16" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M132 151C136.971 151 141 155.029 141 160C141 164.971 136.971 169 132 169H78C73.0294 169 69 164.971 69 160C69 155.029 73.0294 151 78 151H132Z" fill="currentColor" fill-opacity="0.78"/><path d="M178 111C182.971 111 187 115.029 187 120C187 124.971 182.971 129 178 129H78C73.0294 129 69 124.971 69 120C69 115.029 73.0294 111 78 111H178Z" fill="currentColor" fill-opacity="0.78"/><path d="M178 71C182.971 71 187 75.0294 187 80C187 84.9706 182.971 89 178 89H78C73.0294 89 69 84.9706 69 80C69 75.0294 73.0294 71 78 71H178Z" fill="currentColor" fill-opacity="0.78"/><path fill-rule="evenodd" clip-rule="evenodd" d="M200 23C213.807 23 225 34.1929 225 48V208C225 221.807 213.807 233 200 233H56C42.1929 233 31 221.807 31 208V48C31 34.1929 42.1929 23 56 23H200ZM56 41C52.134 41 49 44.134 49 48V208C49 211.866 52.134 215 56 215H200C203.866 215 207 211.866 207 208V48C207 44.134 203.866 41 200 41H56Z" fill="currentColor" fill-opacity="0.78"/></svg></button>
+            <div class="sub-actions-more" id="subActionsMore">
+              <button class="icon-btn" id="moreButton" aria-label="更多操作" aria-haspopup="menu" aria-expanded="false">···</button>
+              <div class="more-menu" role="menu">
+                <button class="more-item more-new" type="button"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 4.875C8.31066 4.875 8.5625 5.12684 8.5625 5.4375V7.4375H10.5625C10.8732 7.4375 11.125 7.68934 11.125 8C11.125 8.31066 10.8732 8.5625 10.5625 8.5625H8.5625V10.5625C8.5625 10.8732 8.31066 11.125 8 11.125C7.68934 11.125 7.4375 10.8732 7.4375 10.5625V8.5625H5.4375C5.12684 8.5625 4.875 8.31066 4.875 8C4.875 7.68934 5.12684 7.4375 5.4375 7.4375H7.4375V5.4375C7.4375 5.12684 7.68934 4.875 8 4.875Z" fill="currentColor"></path><path d="M8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C7.87811 15 7.75695 14.9969 7.6366 14.9907H1.90149C1.51279 14.9907 1.27276 14.5666 1.47284 14.2333L2.56592 12.4128C1.5869 11.2086 1 9.67288 1 8C1 4.13401 4.13401 1.00001 8 1ZM8 2.125C4.75533 2.12501 2.125 4.75533 2.125 8C2.125 9.40502 2.61686 10.6921 3.43878 11.7031L3.93665 12.3154L3.00574 13.8657H7.66534L7.69403 13.8672C7.7953 13.8724 7.89732 13.875 8 13.875C11.2447 13.875 13.875 11.2447 13.875 8C13.875 4.75533 11.2447 2.125 8 2.125Z" fill="currentColor"></path></svg><span>新会话</span></button>
+                <button class="more-item more-share" type="button"><svg fill="none" height="16" viewBox="0 0 256 256" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M202 28C216.359 28 228 39.6406 228 54C228 68.3594 216.359 80 202 80C194.131 80 187.079 76.5043 182.312 70.9814L82.6816 121.182C83.5379 123.97 84 126.931 84 130C84 132.086 83.786 134.121 83.3809 136.087L182.222 185.125C186.99 179.541 194.081 176 202 176C216.359 176 228 187.641 228 202C228 216.359 216.359 228 202 228C187.685 228 176.072 216.431 176.001 202.132L74.5889 151.816C69.2161 156.889 61.972 160 54 160C37.4315 160 24 146.569 24 130C24 113.431 37.4315 100 54 100C60.8992 100 67.2532 102.331 72.3213 106.245L176 54.0068C176 54.0046 176 54.0023 176 54C176 39.6406 187.641 28 202 28Z" fill="currentColor"></path></svg><span>分享</span></button>
+                <button class="more-item more-window" id="moreWindowModeButton" type="button"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3.25h8.25v6.25H2.5V3.25Z" stroke="currentColor" stroke-width="1.25"/><path d="M5.25 11.75h8.25V5.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.25"/></svg><span id="moreWindowModeText">小窗</span></button>
+                <button class="more-item more-usage" type="button"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.96117 5.03033C6.25406 4.73744 6.72893 4.73744 7.02183 5.03033L9.52275 7.53125L11.7585 5.2955C11.9782 5.07583 12.3343 5.07583 12.554 5.2955C12.7737 5.51516 12.7737 5.87132 12.554 6.09099L10.0531 8.59191C9.76018 8.8848 9.28531 8.8848 8.99242 8.59191L6.4915 6.09099L4.25574 8.32675C4.03607 8.54641 3.67992 8.54641 3.46025 8.32675C3.24058 8.10708 3.24058 7.75092 3.46025 7.53125L5.96117 5.03033Z" fill="currentColor"></path><path clip-rule="evenodd" d="M2 1.5C1.44772 1.5 1 1.94772 1 2.5V11.375C1 11.9273 1.44771 12.375 2 12.375H14C14.5523 12.375 15 11.9273 15 11.375V2.5C15 1.94772 14.5523 1.5 14 1.5H2ZM2.125 2.625V11.25H13.875V2.625H2.125Z" fill="currentColor" fill-rule="evenodd"></path><path d="M11.375 14.5C11.6857 14.5 11.9375 14.2482 11.9375 13.9375C11.9375 13.6268 11.6857 13.375 11.375 13.375H4.5625C4.25184 13.375 4 13.6268 4 13.9375C4 14.2482 4.25184 14.5 4.5625 14.5H11.375Z" fill="currentColor"></path></svg><span>用量</span></button>
+                <button class="more-item more-memory" type="button"><svg width="16" height="16" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M132 151C136.971 151 141 155.029 141 160C141 164.971 136.971 169 132 169H78C73.0294 169 69 164.971 69 160C69 155.029 73.0294 151 78 151H132Z" fill="currentColor" fill-opacity="0.78"/><path d="M178 111C182.971 111 187 115.029 187 120C187 124.971 182.971 129 178 129H78C73.0294 129 69 124.971 69 120C69 115.029 73.0294 111 78 111H178Z" fill="currentColor" fill-opacity="0.78"/><path d="M178 71C182.971 71 187 75.0294 187 80C187 84.9706 182.971 89 178 89H78C73.0294 89 69 84.9706 69 80C69 75.0294 73.0294 71 78 71H178Z" fill="currentColor" fill-opacity="0.78"/><path fill-rule="evenodd" clip-rule="evenodd" d="M200 23C213.807 23 225 34.1929 225 48V208C225 221.807 213.807 233 200 233H56C42.1929 233 31 221.807 31 208V48C31 34.1929 42.1929 23 56 23H200ZM56 41C52.134 41 49 44.134 49 48V208C49 211.866 52.134 215 56 215H200C203.866 215 207 211.866 207 208V48C207 44.134 203.866 41 200 41H56Z" fill="currentColor" fill-opacity="0.78"/></svg><span>项目记忆</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat">
+          <button class="switch-old">切到老面板</button>
+          <div class="msgs">
+            <!-- ============ 资源卡片相关对话 (会话 d43bc082, 06-09 ~ 06-11) ============ -->
+
+            <!-- 1) 故事板 -->
+            <div class="row user">
+              <div class="bubble">新建一个故事板，名字叫"测试故事板repro"，内容写：# 测试\n这是一次用于复现问题的测试故事板。</div>
+              <div class="ts">06-09 14:52</div>
+            </div>
+            <div class="row ai">
+              <div class="ai-body">
+                <div class="res-card">
+                  <div class="res-card__head">
+                    <span class="res-card__ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size:16px;color:currentcolor"><use xlink:href="#jsy-icon-document"></use></svg></span>
+                    <span class="res-card__title" title="Created Storyboard &quot;测试故事板repro&quot;">Created Storyboard "测试故事板repro"</span>
+                    <span class="res-card__view">View Details</span>
+                    <i class="res-card__caret"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8.44194 10.0669C8.19786 10.311 7.80214 10.311 7.55806 10.0669L4.24556 6.75444C4.00148 6.51036 4.00148 6.11464 4.24556 5.87056C4.48964 5.62648 4.88536 5.62648 5.12944 5.87056L8 8.74112L10.8706 5.87056C11.1146 5.62648 11.5104 5.62648 11.7544 5.87056C11.9985 6.11464 11.9985 6.51036 11.7544 6.75444L8.44194 10.0669Z" fill="currentColor"></path></svg></i>
+                  </div>
+                </div>
+                <div class="ai-text">已创建故事板「测试故事板repro」，内容包含一级标题"测试"和一段说明文字。</div>
+              </div>
+              <div class="ai-foot">
+                <span class="copy"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="9" rx="2" stroke="currentColor" stroke-width="1.3" width="9" x="5.5" y="5.5"></rect><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></span>
+                <span class="ts">06-09 14:52</span>
+              </div>
+            </div>
+
+            <!-- 停止生成提示 (用户停止本次问答) -->
+            <div class="aborted-hint">
+              <svg fill="none" height="16" width="16" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M7 0C10.866 0 14 3.134 14 7C14 10.866 10.866 14 7 14C3.13402 14 8.76213e-06 10.866 0 7C0 3.13401 3.13401 4.12337e-06 7 0ZM7 5.6875C6.65483 5.6875 6.375 5.96732 6.375 6.3125V10.5625C6.375 10.9077 6.65483 11.1875 7 11.1875C7.34518 11.1875 7.625 10.9077 7.625 10.5625V6.3125C7.625 5.96732 7.34518 5.6875 7 5.6875ZM7 2.9375C6.58579 2.9375 6.25 3.27329 6.25 3.6875C6.25 4.10171 6.58579 4.4375 7 4.4375C7.41421 4.4375 7.75 4.10171 7.75 3.6875C7.75 3.27329 7.41421 2.9375 7 2.9375Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+              <span>您停止生成了本次问答</span>
+            </div>
+
+            <!-- 引用对话回合 (引用「Bug总数」图表) -->
+            <div class="row user">
+              <div class="bubble"><span class="ref-line"><span class="chip"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 14px; color: currentcolor;"><use xlink:href="#jsy-icon-exploratory-chart"></use></svg><span>Bug总数</span></span> test</span></div>
+              <div class="ts">22:38</div>
+            </div>
+            <div class="row ai">
+              <div class="ai-text">你好！看起来你在引用 Bug 总数图表时发了个 "test"。有什么具体想了解或者想做的吗？比如查看 Bug 总数的数据、调整图表样式、或者基于 Bug 数据做进一步分析？</div>
+              <div class="ai-foot">
+                <span class="copy"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="9" rx="2" stroke="currentColor" stroke-width="1.3" width="9" x="5.5" y="5.5"></rect><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></span>
+                <span class="ts">22:38</span>
+              </div>
+            </div>
+
+            <!-- 加演回合: AI 正在输入 (思考中指示器, 念头重组小点动效) -->
+            <div class="row user">
+              <div class="bubble">再深入分析一下</div>
+              <div class="ts">22:39</div>
+            </div>
+            <div class="row ai">
+              <div class="thinking">
+                <span class="nines-reform" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+                <span class="stream-blink">九思在想 · 已 3 秒</span>
+              </div>
+            </div>
+
+            <!-- 加演回合: AI 输出过程中 (已出正文 + 正在输入中… 流式) -->
+            <div class="row user">
+              <div class="bubble">各分类销量占比怎么算？</div>
+              <div class="ts">22:40</div>
+            </div>
+            <div class="row ai">
+              <div class="ai-body">
+                <div class="ai-text">各分类销量占比的算法：先按分类做 SUM(数量) 得到每个分类的销量汇总，再用各分类汇总除以全部分类的销量总和</div>
+                <div class="typing"><span class="stream-blink">正在输入中…</span></div>
+              </div>
+            </div>
+
+            <!-- 2) 依次新建 4 个分析表 -->
+            <div class="row user">
+              <div class="bubble">基于"销售数量"表，请依次新建这4个分析表，每个单独建好：1) 各分类销量汇总 2) 各分类销量占比 3) 销量TOP10明细 4) 各分类平均销量。每建好一个就继续下一个。</div>
+              <div class="ts">06-09 14:55</div>
+            </div>
+            <div class="row ai">
+              <div class="ai-body">
+                <div class="ai-text">字段清楚了：分类（STRING）和数量（DOUBLE）。开始依次建表。</div>
+                <div class="ai-text">第 1 个：各分类销量汇总</div>
+                <div class="res-card">
+                  <div class="res-card__head">
+                    <span class="res-card__ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size:16px;color:currentcolor"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+                    <span class="res-card__title" title="Created Analysis Table &quot;各分类销量汇总&quot;">Created Analysis Table "各分类销量汇总"</span>
+                    <span class="res-card__view">View Details</span>
+                    <i class="res-card__caret"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8.44194 10.0669C8.19786 10.311 7.80214 10.311 7.55806 10.0669L4.24556 6.75444C4.00148 6.51036 4.00148 6.11464 4.24556 5.87056C4.48964 5.62648 4.88536 5.62648 5.12944 5.87056L8 8.74112L10.8706 5.87056C11.1146 5.62648 11.5104 5.62648 11.7544 5.87056C11.9985 6.11464 11.9985 6.51036 11.7544 6.75444L8.44194 10.0669Z" fill="currentColor"></path></svg></i>
+                  </div>
+                </div>
+                <div class="ai-text">4 个分析表全部建好，汇总如下：</div>
+                <table class="md-table">
+                  <thead><tr><th>#</th><th>分析表</th><th>核心逻辑</th><th>关键字段</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td>各分类销量汇总</td><td>按分类 SUM(数量)</td><td>分类、销量汇总</td></tr>
+                    <tr><td>2</td><td>各分类销量占比</td><td>汇总后算占比</td><td>分类、销量汇总、销量占比</td></tr>
+                    <tr><td>3</td><td>销量TOP10明细</td><td>按数量降序排名的明细</td><td>分类、数量、排名</td></tr>
+                    <tr><td>4</td><td>各分类平均销量</td><td>按分类 AVG(数量)</td><td>分类、平均销量</td></tr>
+                  </tbody>
+                </table>
+                <div class="ai-text">源数据量较小（4行3个分类），所以 TOP10 明细实际只有 4 条记录。数据量增长后 TOP10 截断才会生效。</div>
+              </div>
+              <div class="ai-foot">
+                <span class="copy"><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><rect height="9" rx="2" stroke="currentColor" stroke-width="1.3" width="9" x="5.5" y="5.5"></rect><path d="M3.5 10.5H3A1.5 1.5 0 0 1 1.5 9V3A1.5 1.5 0 0 1 3 1.5h6A1.5 1.5 0 0 1 10.5 3v.5" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"></path></svg></span>
+                <span class="ts">06-09 14:56</span>
+                <span class="grow"></span>
+                <span class="feedback"><span class="label">How's this result?</span><span class="star"><svg fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.6l1.95 3.95 4.36.63-3.16 3.08.74 4.34L8 11.55l-3.9 2.05.75-4.34L1.7 6.18l4.36-.63L8 1.6z"></path></svg></span><span class="star"><svg fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.6l1.95 3.95 4.36.63-3.16 3.08.74 4.34L8 11.55l-3.9 2.05.75-4.34L1.7 6.18l4.36-.63L8 1.6z"></path></svg></span><span class="star"><svg fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.6l1.95 3.95 4.36.63-3.16 3.08.74 4.34L8 11.55l-3.9 2.05.75-4.34L1.7 6.18l4.36-.63L8 1.6z"></path></svg></span><span class="star"><svg fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.6l1.95 3.95 4.36.63-3.16 3.08.74 4.34L8 11.55l-3.9 2.05.75-4.34L1.7 6.18l4.36-.63L8 1.6z"></path></svg></span><span class="star"><svg fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.6l1.95 3.95 4.36.63-3.16 3.08.74 4.34L8 11.55l-3.9 2.05.75-4.34L1.7 6.18l4.36-.63L8 1.6z"></path></svg></span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-wrap">
+            <div class="ai-input">
+              <div class="placeholder">Describe your analysis request, or pick a skill at the bottom left</div>
+              <div class="toolbar">
+                <span class="pill icon-only"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M11.0987 12.9796C11.3651 12.8198 11.7106 12.9062 11.8704 13.1725C12.0303 13.4389 11.9439 13.7844 11.6776 13.9443C10.4604 14.6747 9.00249 15.0531 7.46527 14.9482C7.15533 14.927 6.92122 14.6586 6.94238 14.3487C6.96355 14.0388 7.23199 13.8046 7.54193 13.8258C8.84503 13.9148 10.0748 13.5941 11.0987 12.9796Z" fill="currentColor"></path><path d="M8 0.9375C11.8982 0.9375 15.0625 4.08456 15.0625 7.9718C15.0625 9.21122 14.4715 10.3022 13.6652 10.9752C12.8685 11.6402 11.7519 11.9693 10.7626 11.4317C10.3347 11.1991 10.0096 10.9094 9.81476 10.483C9.77933 10.4055 9.74934 10.3258 9.724 10.2439C8.86079 11.3607 7.55874 11.9167 6.36499 11.5447L6.32678 11.5325C4.72834 11.0065 3.93261 8.98933 4.53406 6.98798L4.54865 6.94037C5.1822 4.90762 7.02259 3.67326 8.6593 4.18335C9.3799 4.40794 9.94084 4.93328 10.289 5.62445C10.3109 5.54079 10.3317 5.46228 10.351 5.38995C10.3924 5.23444 10.4269 5.10727 10.4511 5.0188C10.4632 4.97457 10.4728 4.94001 10.4794 4.91638C10.4826 4.90457 10.4852 4.89546 10.4869 4.88928C10.4877 4.8862 10.4884 4.88382 10.4888 4.8822C10.4891 4.88139 10.4893 4.88075 10.4894 4.88031C10.4894 4.88011 10.4895 4.87994 10.4895 4.87982C10.4895 4.87976 10.4896 4.87967 10.4896 4.87964C10.4897 4.87963 10.4982 4.882 11.0312 5.03125L10.4896 4.87964C10.5733 4.58048 10.8838 4.4058 11.1829 4.48956C11.4821 4.57333 11.6567 4.88377 11.5729 5.18292L11.5729 5.18298C11.5729 5.18305 11.5729 5.18315 11.5728 5.18329C11.5727 5.18361 11.5726 5.18413 11.5724 5.18481C11.572 5.1862 11.5714 5.18837 11.5706 5.19122C11.569 5.19692 11.5666 5.2055 11.5635 5.2168C11.5572 5.23942 11.548 5.27294 11.5362 5.31604C11.5126 5.40225 11.4787 5.52679 11.4381 5.67938C11.3568 5.98481 11.2485 6.40145 11.1404 6.84735C11.0321 7.29415 10.9251 7.76573 10.8455 8.18225C10.7634 8.61151 10.7188 8.9416 10.7188 9.125C10.7188 9.59411 10.7613 9.84758 10.838 10.0154C10.9023 10.1562 11.0147 10.2883 11.2999 10.4433C11.7481 10.6869 12.3659 10.5942 12.9442 10.1115C13.5129 9.63684 13.9375 8.85431 13.9375 7.9718C13.9375 4.71048 11.2815 2.0625 8 2.0625C4.71851 2.0625 2.06251 4.71048 2.0625 7.9718C2.0625 10.2747 3.38622 12.2722 5.32227 13.2477C5.5997 13.3875 5.71131 13.7257 5.57153 14.0031C5.43175 14.2805 5.09353 14.3921 4.8161 14.2523C2.51711 13.094 0.9375 10.7178 0.9375 7.9718C0.937513 4.08456 4.1018 0.9375 8 0.9375ZM8.32458 5.25739C7.48667 4.99625 6.14274 5.60651 5.62268 7.27509C5.10263 8.94367 5.86186 10.2095 6.69977 10.4706C7.53768 10.7318 8.88161 10.1215 9.40167 8.45294C9.92173 6.78434 9.1625 5.51855 8.32458 5.25739Z" fill="currentColor"></path></svg></span>
+                <span class="pill skills"><span class="sk"><svg aria-hidden="true" fill="currentColor" height="14" viewBox="0 0 16 16" width="14"><path clip-rule="evenodd" d="M6.27582 8.75031C6.81617 8.764 7.25 9.20635 7.25 9.75V13.25L7.24969 13.2758C7.2362 13.8076 6.80758 14.2362 6.27582 14.2497L6.25 14.25H2.75C2.20636 14.25 1.76401 13.8162 1.75031 13.2758L1.75 13.25V9.75C1.75 9.19772 2.19772 8.75 2.75 8.75H6.25L6.27582 8.75031ZM2.875 13.125H6.125V9.875H2.875V13.125Z" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M13.2758 8.75031C13.8162 8.764 14.25 9.20635 14.25 9.75V13.25L14.2497 13.2758C14.2362 13.8076 13.8076 14.2362 13.2758 14.2497L13.25 14.25H9.75C9.20636 14.25 8.76401 13.8162 8.75031 13.2758L8.75 13.25V9.75C8.75 9.19772 9.19772 8.75 9.75 8.75H13.25L13.2758 8.75031ZM9.875 13.125H13.125V9.875H9.875V13.125Z" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M10.8192 1.31403C11.211 0.941632 11.8305 0.947677 12.215 1.3321L14.6836 3.80072C15.068 4.18515 15.074 4.80471 14.7016 5.19648L14.6836 5.21491L12.215 7.68354C11.8244 8.07406 11.1912 8.07406 10.8007 7.68354L8.33215 5.21491C7.94163 4.82438 7.94163 4.19125 8.33215 3.80072L10.8007 1.3321L10.8192 1.31403ZM9.216 4.50782L11.5079 6.79962L13.7997 4.50782L11.5079 2.21601L9.216 4.50782Z" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M6.27582 1.75031C6.81617 1.764 7.25 2.20635 7.25 2.75V6.25L7.24969 6.27582C7.2362 6.80758 6.80758 7.23622 6.27582 7.2497L6.25 7.25H2.75C2.20636 7.25 1.76401 6.81616 1.75031 6.27582L1.75 6.25V2.75C1.75 2.19772 2.19772 1.75 2.75 1.75H6.25L6.27582 1.75031ZM2.875 6.125H6.125V2.875H2.875V6.125Z" fill-rule="evenodd"></path></svg></span><span>Skills</span></span>
+                <span class="pill"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M3.49995 9.25C4.67355 9.25 5.62495 10.2014 5.62495 11.375C5.62495 12.5486 4.67356 13.5 3.49995 13.5C2.32636 13.5 1.37495 12.5486 1.37495 11.375C1.37496 10.2014 2.32636 9.25001 3.49995 9.25ZM3.49995 10.375C2.94768 10.375 2.49996 10.8227 2.49995 11.375C2.49995 11.9273 2.94768 12.375 3.49995 12.375C4.05224 12.375 4.49995 11.9273 4.49995 11.375C4.49995 10.8227 4.05223 10.375 3.49995 10.375Z" fill="currentColor" fill-rule="evenodd"></path><path d="M13.6875 10.8125C13.9981 10.8125 14.2499 11.0643 14.25 11.375C14.25 11.6857 13.9981 11.9375 13.6875 11.9375H7.87495C7.5643 11.9375 7.31245 11.6857 7.31245 11.375C7.31246 11.0644 7.56431 10.8125 7.87495 10.8125H13.6875Z" fill="currentColor"></path><path d="M5.71321 2.89502C5.91289 2.65706 6.26765 2.62603 6.50563 2.82569C6.74361 3.02537 6.77465 3.38019 6.57497 3.61817L3.9258 6.77533C3.72611 7.01331 3.37129 7.04435 3.13332 6.84467L1.26338 5.27558C1.02541 5.07588 0.99436 4.72107 1.19405 4.4831C1.39373 4.24514 1.74855 4.21409 1.98653 4.41376L3.42555 5.62128L5.71321 2.89502Z" fill="currentColor"></path><path d="M13.6875 4.4375C13.9981 4.4375 14.2499 4.68935 14.25 5C14.25 5.31066 13.9981 5.5625 13.6875 5.5625H7.87495C7.5643 5.56249 7.31245 5.31066 7.31245 5C7.31246 4.68935 7.56431 4.43751 7.87495 4.4375H13.6875Z" fill="currentColor"></path></svg><span>Plan</span></span>
+                <span class="grow"></span>
+                <span class="auto-pill"><span>Auto</span><svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M8.44194 10.0669C8.19786 10.311 7.80214 10.311 7.55806 10.0669L4.24556 6.75444C4.00148 6.51036 4.00148 6.11464 4.24556 5.87056C4.48964 5.62648 4.88536 5.62648 5.12944 5.87056L8 8.74112L10.8706 5.87056C11.1146 5.62648 11.5104 5.62648 11.7544 5.87056C11.9985 6.11464 11.9985 6.51036 11.7544 6.75444L8.44194 10.0669Z" fill="currentColor"></path></svg></span>
+                <span class="send-btn"><svg height="16" viewBox="0 0 16 16" width="16"><path d="M8 14.1768C8.31066 14.1768 8.5625 13.9249 8.5625 13.6143L8.5625 3.99816L11.4331 6.86872C11.6771 7.1128 12.0729 7.1128 12.3169 6.86872C12.561 6.62464 12.561 6.22891 12.3169 5.98483L8.35355 2.02145C8.15829 1.82618 7.84171 1.82618 7.64645 2.02145L3.68306 5.98483C3.43898 6.22891 3.43898 6.62464 3.68306 6.86872C3.92714 7.1128 4.32286 7.1128 4.56694 6.86872L7.4375 3.99816L7.4375 13.6143C7.4375 13.9249 7.68934 14.1768 8 14.1768Z"></path></svg></span>
+              </div>
+            </div>
+            <div class="disclaimer">The content is generated by AI for reference only.</div>
+          </div>
+        </div>
+      </section>
+
+      <button class="resource-drawer-toggle" id="resourceDrawerToggle" aria-label="展开分析资源" aria-expanded="false">
+        <svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M6.25 4.25 9.75 8l-3.5 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="right-resizer" id="rightResizer" aria-label="调整分析资源宽度" role="separator" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="332"></div>
+
+      <!-- right: analysis resources -->
+      <aside class="right">
+        <div class="right-head">
+          <div class="right-title">Analysis Resources</div>
+          <div class="right-tools">
+            <div class="search"><svg viewBox="0 0 1024 1024" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false"><path d="M892.8 835.2 726.4 668.8C772.8 609.6 800 536 800 456c0-190.4-153.6-344-344-344S112 265.6 112 456s153.6 344 344 344c80 0 155.2-27.2 212.8-73.6l166.4 166.4c8 8 17.6 11.2 28.8 11.2s20.8-3.2 28.8-11.2c14.4-16 14.4-41.6 0-57.6zM456 720c-145.6 0-264-118.4-264-264s118.4-264 264-264 264 118.4 264 264-118.4 264-264 264z"></path></svg><input placeholder="Search" /></div>
+            <span class="tool-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.125 3.5L13.9571 5.33211C14.1446 5.51964 14.25 5.774 14.25 6.03921V8.9375C14.25 9.24816 13.9982 9.5 13.6875 9.5C13.3768 9.5 13.125 9.24816 13.125 8.9375V6.09094L11.3295 4.29547L11.3235 4.28955L11.3177 4.28351L10 2.92584V7H4.9375V2.5H2.875V13.4375H6.9375C7.24816 13.4375 7.5 13.6893 7.5 14C7.5 14.3107 7.24816 14.5625 6.9375 14.5625H2.75C2.19772 14.5625 1.75 14.1148 1.75 13.5625V2.375C1.75 1.82272 2.19772 1.375 2.75 1.375H9.63952C9.90991 1.375 10.1688 1.4845 10.3571 1.67852L12.125 3.5ZM6.0625 5.875H8.875V2.875H6.0625V5.875Z" fill="currentColor"></path><path d="M10.9375 9.75C10.9375 9.54399 11.1727 9.42638 11.3375 9.54999L14.1708 11.675C14.3042 11.775 14.3042 11.975 14.1708 12.075L11.3375 14.2C11.1727 14.3236 10.9375 14.206 10.9375 14V12.5H8.125C7.77982 12.5 7.5 12.2202 7.5 11.875C7.5 11.5298 7.77982 11.25 8.125 11.25H10.9375V9.75Z" fill="currentColor"></path></svg><span>Save as</span></span>
+            <span class="tool-btn icon-only"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M7.0625 6.5C7.0625 6.18934 6.81066 5.9375 6.5 5.9375C6.18934 5.9375 5.9375 6.18934 5.9375 6.5V11.5C5.9375 11.8107 6.18934 12.0625 6.5 12.0625C6.81066 12.0625 7.0625 11.8107 7.0625 11.5V6.5Z" fill="currentColor"></path><path d="M9.5 5.9375C9.81066 5.9375 10.0625 6.18934 10.0625 6.5V11.5C10.0625 11.8107 9.81066 12.0625 9.5 12.0625C9.18934 12.0625 8.9375 11.8107 8.9375 11.5V6.5C8.9375 6.18934 9.18934 5.9375 9.5 5.9375Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 3V2C4.5 1.44772 4.94772 1 5.5 1H10.5C11.0523 1 11.5 1.44772 11.5 2V3H14.4375C14.7482 3 15 3.25184 15 3.5625C15 3.87316 14.7482 4.125 14.4375 4.125H13.4414L12.9244 14.052C12.8967 14.5834 12.4578 15 11.9257 15H4.07427C3.5422 15 3.1033 14.5834 3.07563 14.052L2.55859 4.125H1.5625C1.25184 4.125 1 3.87316 1 3.5625C1 3.25184 1.25184 3 1.5625 3H4.5ZM5.625 3V2.125H10.375V3H5.625ZM3.68512 4.125L4.19293 13.875H11.8071L12.3149 4.125H3.68512Z" fill="currentColor"></path></svg></span>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <span class="section-name">Data Sources</span>
+          <span class="add-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.9375 2.875H6.875V5.75C6.875 6.16421 6.53921 6.5 6.125 6.5H3.25V13.125H7C7.31066 13.125 7.5625 13.3768 7.5625 13.6875C7.5625 13.9982 7.31066 14.25 7 14.25H3.125C2.57272 14.25 2.125 13.8023 2.125 13.25V6.03921C2.125 5.774 2.23036 5.51964 2.41789 5.33211L5.70711 2.04289C5.89464 1.85536 6.149 1.75 6.41421 1.75H12.0625C12.6148 1.75 13.0625 2.19772 13.0625 2.75V7.1875C13.0625 7.49816 12.8107 7.75 12.5 7.75C12.1893 7.75 11.9375 7.49816 11.9375 7.1875V2.875ZM3.96599 5.375L5.75 3.59099V5.375H3.96599Z" fill="currentColor"></path><path d="M10.6875 8C10.9982 8 11.25 8.25184 11.25 8.5625V10.5625H13.25C13.5607 10.5625 13.8125 10.8143 13.8125 11.125C13.8125 11.4357 13.5607 11.6875 13.25 11.6875H11.25V13.6875C11.25 13.9982 10.9982 14.25 10.6875 14.25C10.3768 14.25 10.125 13.9982 10.125 13.6875V11.6875H8.125C7.81434 11.6875 7.5625 11.4357 7.5625 11.125C7.5625 10.8143 7.81434 10.5625 8.125 10.5625H10.125V8.5625C10.125 8.25184 10.3768 8 10.6875 8Z" fill="currentColor"></path></svg><span>Add</span></span>
+        </div>
+        <div class="ds-empty"><span class="handle"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+
+        <div class="section-header">
+          <span class="section-name">AI-Generated Resources</span>
+        </div>
+        <div class="tree">
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">销售数量</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">ai bug明细_数据-提交的缺陷+一般bug 明细</span>
+      </div>
+      <div class="group-label">
+        <span class="group-caret"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="lineage-panel__group-caret is-collapsed"><path d="M3 6 L8 11 L13 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></span>
+        <span class="group-name">AI Bug分析</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">AI Bug分析基础表</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">AI Bug深度分析表</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">其他类Bug明细</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">2.0其他类Bug明细</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-document"></use></svg></span>
+        <span class="file-name">AI Bug分布总览</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-document"></use></svg></span>
+        <span class="file-name">AI Bug深度剖析</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">AI Bug细分类分析表</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-document"></use></svg></span>
+        <span class="file-name">AI Bug深度分析总结报告</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">zhaoxingpei Bug明细</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">倪萍2.0vsDoris1.0对比</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-document"></use></svg></span>
+        <span class="file-name">AI Bug综合分析报告</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">功能模块版本Bug汇总</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">AI Bug分布仪表板</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">功能模块分组表</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">功能模块分组汇总</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">合同表_分析-分析表3</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">销售数量1</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">ai bug明细_数据-提交的缺陷+一般bug 明细1</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-document"></use></svg></span>
+        <span class="file-name">测试故事板repro</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">各分类销量汇总</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">各分类销量占比</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">销量TOP10明细</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">各分类平均销量</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">销量大于100的明细</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">各分类销量标准差</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">销量排名表</span>
+      </div>
+      <div class="group-label">
+        <span class="group-caret"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="lineage-panel__group-caret is-collapsed"><path d="M3 6 L8 11 L13 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></span>
+        <span class="group-name">合同分析</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-analysis-table"></use></svg></span>
+        <span class="file-name">客户合同汇总</span>
+      </div>
+      <div class="file-item is-child">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">合同明细</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ic"><svg class="jsy-x-icon" aria-hidden="true" style="font-size: 16px; color: currentcolor;"><use xlink:href="#jsy-icon-custom-table-green"></use></svg></span>
+        <span class="file-name">销售数量明细</span>
+      </div>
+        </div>
+
+        <div class="right-foot">
+          <span class="x-switch"><i></i></span>
+          <span class="foot-label">Display Only Resources Introduced or Generated in This Chat</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="pm-layer" id="pmLayer">
+    <aside class="pm-drawer" aria-label="项目记忆">
+      <div class="pm-resizer" id="pmResizer" role="separator" aria-label="调整项目记忆宽度" aria-orientation="vertical" aria-valuemin="400" aria-valuemax="960" aria-valuenow="400"></div>
+      <header class="pm-head">
+        <span class="pm-title">项目记忆</span>
+        <span class="pm-help" tabindex="0" data-tip="项目记忆会帮助模型记住你的项目业务方向、分析偏好等，仅对当前项目生效。" aria-label="项目记忆说明"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.25"/><path d="M6.5 6.35a1.65 1.65 0 1 1 2.35 1.5C8.25 8.2 8 8.65 8 9.3M8 11.55v.1" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
+        <button class="pm-close" id="pmClose" aria-label="关闭"><svg viewBox="0 0 16 16" fill="none"><path d="m4 4 8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.25"/></svg></button>
+        <div class="pm-confirm" id="pmConfirm">
+          <div class="pm-confirm-text">是否更新项目记忆并关闭？直接关闭将不保留当前内容。</div>
+          <div class="pm-confirm-actions">
+            <button class="pm-confirm-btn" id="pmConfirmClose">直接关闭</button>
+            <button class="pm-confirm-btn is-primary" id="pmConfirmUpdate">更新并关闭</button>
+          </div>
+        </div>
+      </header>
+      <div class="pm-body">
+        <section class="pm-state pm-empty" data-pm-state="empty">
+          <div class="pm-empty-art"><svg viewBox="0 0 120 120" fill="none"><circle cx="64" cy="54" r="36" fill="var(--color-bg-container-grey-secondary)"/><path d="M45 28h43v59H45z" fill="var(--color-bg-container-grey-tertiary)"/><path d="M55 43h23M55 51h18M55 59h23" stroke="var(--color-grey-7)" stroke-width="2"/><path d="M25 91c12-13 15-31 10-50 17 11 23 28 17 48M29 75C17 66 14 54 16 41c14 7 21 19 21 32" fill="var(--color-grey-5)"/><path d="M58 70h20v13H58zM63 65h10" stroke="var(--color-grey-7)" stroke-width="2"/></svg></div>
+          <div class="pm-empty-title">暂无项目记忆</div>
+          <div class="pm-empty-desc">点击「记忆生长」，从项目对话中提炼可复用的分析习惯和关注重点，记忆内容仅当前项目生效。</div>
+          <button class="pm-btn" id="pmEmptyGrow"><span class="pm-spark">✦</span>记忆生长</button>
+        </section>
+
+        <section class="pm-state pm-memory pm-growing" data-pm-state="growing">
+          <div class="pm-status is-growing">
+            <div class="pm-status-main"><span class="pm-spinner"></span><strong>记忆生长中</strong></div>
+            <div>正在更新记忆，关闭侧栏后将在后台运行。</div>
+          </div>
+          <div class="pm-doc"><div class="pm-doc-content"><h3>默认分析路径</h3><p>• 默认结论先行，再展示趋势与异常原因</p><p>• 优先对比同比、环比，再定位异常区域</p><p>• 异常分析需拆解到区域和负责人</p><h3>输出偏好</h3><p>• 核心结论控制在三点以内</p><p>• 行动建议包含问题、动作和建议负责人</p><h3>长期关注</h3><p>• 销售回款、区域增长和大额订单风险</p></div></div>
+        </section>
+
+        <section class="pm-state pm-memory" data-pm-state="review">
+          <div class="pm-status is-done">
+            <div class="pm-status-main"><span class="pm-status-icon"><svg viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.9831 3.88864C14.2524 4.15684 14.2524 4.59166 13.9831 4.85985L6.79504 12.0199C6.40341 12.41 5.76846 12.41 5.37684 12.0199L2.01199 8.6682C1.74275 8.4 1.74275 7.96518 2.01199 7.69698C2.28123 7.42879 2.71776 7.42879 2.987 7.69698L6.08594 10.7838L13.0081 3.88864C13.2774 3.62045 13.7139 3.62045 13.9831 3.88864Z" fill="currentColor"/></svg></span><strong>已完成</strong></div>
+            <div>请在下方查看记忆变更，确认后更新记忆</div>
+          </div>
+          <div class="pm-doc"><div class="pm-change-meta"><span>本次变更</span><span class="pm-change-add">+ 4 行</span><span class="pm-change-del">− 2 行</span><span class="pm-change-legend">绿色新增 · 红色删除</span></div><div class="pm-doc-content"><h3>默认分析路径</h3><p class="pm-diff is-del">− 优先对比同比、环比，再定位异常区域</p><p class="pm-diff is-add">+ 优先识别回款和大额订单异常，<br>&nbsp;&nbsp;再对比同比、环比</p><p>• 默认结论先行，再展示趋势与异常原因</p><p>• 异常分析需拆解到区域和负责人</p><h3>输出偏好</h3><p class="pm-diff is-add">+ 涉及风险时补充影响范围和处理优先级</p><p>• 核心结论控制在三点以内</p><p>• 行动建议包含问题、动作和建议负责人</p><h3>长期关注</h3><p class="pm-diff is-add">+ 华东区回款周期变化及逾期应收</p></div><div class="pm-doc-foot"><button class="pm-btn is-danger" id="pmUndo">撤销</button><div class="pm-doc-actions"><button class="pm-btn is-brand" id="pmEdit">修改</button><button class="pm-btn is-primary" id="pmUpdate">确认更新</button></div></div></div>
+        </section>
+
+        <section class="pm-state pm-memory is-active" data-pm-state="document">
+          <div class="pm-action-bar">
+            <button class="pm-btn" id="pmGrow"><span class="pm-spark">✦</span>记忆生长</button>
+          </div>
+          <div class="pm-grow-tip">点击后，AI 根据项目对话更新记忆。（剩余次数：6/10）</div>
+          <div class="pm-doc"><div class="pm-doc-meta" id="pmDocDate" data-time="2026-05-08T10:00:00">05-08 更新</div><div class="pm-doc-content" id="pmFinalContent"><h3>默认分析路径</h3><p>• 默认结论先行，再展示趋势与异常原因</p><p>• 优先识别回款和大额订单异常，再对比同比、环比</p><p>• 异常分析需拆解到区域和负责人</p><h3>输出偏好</h3><p>• 涉及风险时补充影响范围和处理优先级</p><p>• 核心结论控制在三点以内</p><p>• 行动建议包含问题、动作和建议负责人</p><h3>长期关注</h3><p>• 销售回款、区域增长和大额订单风险</p><p>• 华东区回款周期变化及逾期应收</p></div></div>
+        </section>
+
+        <section class="pm-state pm-memory" data-pm-state="editing">
+          <div class="pm-editor"><div class="pm-editor-tools"><button class="pm-format" type="button">标题二<svg viewBox="0 0 16 16" fill="none"><path d="M4.5 6.25 8 9.75l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pm-format-btn" type="button" aria-label="加粗">B</button><button class="pm-format-btn" type="button" aria-label="无序列表"><svg viewBox="0 0 16 16" fill="none"><path d="M6 4h7M6 8h7M6 12h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="3" cy="4" r="1" fill="currentColor"/><circle cx="3" cy="8" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/></svg></button><button class="pm-format-btn" type="button" aria-label="有序列表"><svg viewBox="0 0 16 16" fill="none"><path d="M7 4h6M7 8h6M7 12h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M3.1 3.1h.9v2.3M2.9 5.4h2M2.9 7.2h1.8L3 9.4h2M3 11.2h1.7L3.6 12.3c.9 0 1.4.3 1.4.9 0 .6-.5 1-1.5 1-.4 0-.8-.1-1.1-.2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="pm-editor-area" id="pmEditor" contenteditable="true"><h3>默认分析路径</h3><div>• 默认结论先行，再展示趋势与异常原因</div><div>• 优先识别回款和大额订单异常，再对比同比、环比</div><div>• 异常分析需拆解到区域和负责人</div><h3>输出偏好</h3><div>• 涉及风险时补充影响范围和处理优先级</div><div>• 核心结论控制在三点以内</div><div>• 行动建议包含问题、动作和建议负责人</div><h3>长期关注</h3><div>• 销售回款、区域增长和大额订单风险</div><div>• 华东区回款周期变化及逾期应收</div></div><div class="pm-editor-foot"><button class="text-btn" id="pmCancelEdit">取消编辑</button><button class="pm-btn is-primary" id="pmSaveEdit">保存并更新</button></div></div>
+        </section>
+      </div>
+    </aside>
+  </div>
+  <div class="pm-toast" id="pmToast">项目记忆已更新</div>
+  <div class="pm-notice" id="pmNotice" aria-live="polite">
+    <div class="pm-notice-main">
+      <span class="pm-notice-icon" id="pmNoticeIcon">✓</span>
+      <div>
+        <div class="pm-notice-title" id="pmNoticeTitle">项目记忆生长完成</div>
+        <div class="pm-notice-desc" id="pmNoticeDesc">请前往项目记忆确认更新内容</div>
+      </div>
+    </div>
+    <button class="pm-notice-action" id="pmNoticeAction">立即前往</button>
+  </div>
+</div>
+<script>
+  const conversation = document.querySelector('#conversation');
+  const conversationTrigger = document.querySelector('#conversationTrigger');
+  const conversationName = document.querySelector('#conversationName');
+  const conversationItems = [...document.querySelectorAll('.conversation-item')];
+  const center = document.querySelector('.center');
+  function updateConversationMenuBounds() {
+    const menu = document.querySelector('#conversationMenu');
+    const triggerRect = conversationTrigger.getBoundingClientRect();
+    const centerRect = center.getBoundingClientRect();
+    const menuWidth = Math.min(320, Math.max(200, menu.scrollWidth));
+    const left = Math.min(Math.max(triggerRect.right - menuWidth, centerRect.left + 8), centerRect.right - menuWidth - 8);
+    menu.style.left = `${Math.round(left - triggerRect.left)}px`;
+    menu.style.right = 'auto';
+    menu.style.maxWidth = `${Math.max(200, Math.round(centerRect.width - 16))}px`;
+  }
+  function closeConversationMenu() {
+    conversation.classList.remove('is-open');
+    conversationTrigger.setAttribute('aria-expanded', 'false');
+  }
+  conversationTrigger.addEventListener('click', event => {
+    event.stopPropagation();
+    const nextOpen = !conversation.classList.contains('is-open');
+    conversation.classList.toggle('is-open', nextOpen);
+    conversationTrigger.setAttribute('aria-expanded', String(nextOpen));
+    if (nextOpen) requestAnimationFrame(updateConversationMenuBounds);
+  });
+  conversationItems.forEach(item => {
+    item.addEventListener('click', event => {
+      event.stopPropagation();
+	      conversationItems.forEach(option => option.classList.toggle('is-active', option === item));
+	      conversationName.textContent = item.dataset.name;
+	      closeConversationMenu();
+	      updateTopbarSoon();
+	    });
+	  });
+  document.addEventListener('click', event => {
+    if (!event.target.closest('#conversation')) closeConversationMenu();
+  });
+
+  const subActionsMore = document.querySelector('#subActionsMore');
+  const moreButton = document.querySelector('#moreButton');
+  function closeMoreMenu() {
+    subActionsMore.classList.remove('is-open');
+    moreButton.setAttribute('aria-expanded', 'false');
+  }
+  moreButton.addEventListener('click', event => {
+    event.stopPropagation();
+    const nextOpen = !subActionsMore.classList.contains('is-open');
+    subActionsMore.classList.toggle('is-open', nextOpen);
+    moreButton.setAttribute('aria-expanded', String(nextOpen));
+  });
+  document.addEventListener('click', event => {
+    if (!event.target.closest('#subActionsMore')) closeMoreMenu();
+  });
+
+  const card = document.querySelector('.card');
+  const subHeader = document.querySelector('.sub-header');
+  const subActions = document.querySelector('#subActions');
+  const TOPBAR_ICON_ONLY_BREAKPOINT = 700;
+  const topbarActions = [
+    { button: document.querySelector('.sub-action-new'), menu: document.querySelector('.more-new') },
+    { button: document.querySelector('.sub-action-share'), menu: document.querySelector('.more-share') },
+    { button: document.querySelector('.sub-action-window'), menu: document.querySelector('.more-window') },
+    { button: document.querySelector('.sub-action-usage'), menu: document.querySelector('.more-usage') },
+    { button: document.querySelector('.sub-action-memory'), menu: document.querySelector('.more-memory') },
+  ];
+  function resetTopbarOverflow() {
+    subActions.classList.remove('has-overflow');
+    topbarActions.forEach(({ button, menu }) => {
+      button.classList.remove('sub-action-collected');
+      menu.classList.remove('is-visible');
+    });
+  }
+	  function isTopbarOverflowing() {
+	    return subHeader.scrollWidth > subHeader.clientWidth + 1 || subActions.getBoundingClientRect().right > subHeader.getBoundingClientRect().right - 1;
+	  }
+	  function measureTextWidth(text, element) {
+	    const canvas = measureTextWidth.canvas || (measureTextWidth.canvas = document.createElement('canvas'));
+	    const context = canvas.getContext('2d');
+	    const style = getComputedStyle(element);
+	    context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+	    return Math.ceil(context.measureText(text).width);
+	  }
+	  function updateConversationWidth() {
+	    const naturalWidth = measureTextWidth(conversationName.textContent, conversationName) + 32;
+	    const maxWidth = card.classList.contains('is-side-window') ? 160 : 320;
+	    conversation.style.width = `${Math.min(maxWidth, Math.max(74, naturalWidth))}px`;
+	  }
+  function updateTopbarLayout() {
+    updateConversationWidth();
+    subHeader.classList.toggle('is-icon-only-actions', subHeader.clientWidth <= TOPBAR_ICON_ONLY_BREAKPOINT);
+    resetTopbarOverflow();
+    for (const action of [...topbarActions].reverse()) {
+      if (!isTopbarOverflowing()) break;
+      subActions.classList.add('has-overflow');
+      action.button.classList.add('sub-action-collected');
+      action.menu.classList.add('is-visible');
+    }
+    if (!subActions.querySelector('.sub-action-collected')) {
+      subActions.classList.remove('has-overflow');
+      closeMoreMenu();
+    }
+  }
+  const updateTopbarSoon = () => requestAnimationFrame(updateTopbarLayout);
+
+  const windowModeButton = document.querySelector('#windowModeButton');
+  const windowModeText = document.querySelector('#windowModeText');
+  const moreWindowModeButton = document.querySelector('#moreWindowModeButton');
+  const moreWindowModeText = document.querySelector('#moreWindowModeText');
+  function setSideWindowMode(enabled) {
+    card.classList.toggle('is-side-window', enabled);
+    windowModeText.textContent = enabled ? '全屏' : '小窗';
+    moreWindowModeText.textContent = enabled ? '全屏' : '小窗';
+    updateTopbarSoon();
+  }
+  function toggleSideWindowMode(event) {
+    event.stopPropagation();
+    setSideWindowMode(!card.classList.contains('is-side-window'));
+    closeMoreMenu();
+  }
+  windowModeButton.addEventListener('click', toggleSideWindowMode);
+  moreWindowModeButton.addEventListener('click', toggleSideWindowMode);
+  new ResizeObserver(updateTopbarSoon).observe(subHeader);
+  new ResizeObserver(updateTopbarSoon).observe(card);
+  window.addEventListener('load', updateTopbarSoon);
+  window.addEventListener('resize', () => {
+    updateTopbarSoon();
+    if (conversation.classList.contains('is-open')) updateConversationMenuBounds();
+  });
+  updateTopbarSoon();
+
+  const resourceDrawerToggle = document.querySelector('#resourceDrawerToggle');
+  const rightResizer = document.querySelector('#rightResizer');
+  const RESOURCE_MIN_WIDTH = 280;
+  const RESOURCE_MAX_WIDTH = 480;
+  let resourceWidth = 332;
+  function clampResourceWidth(width) {
+    return Math.min(RESOURCE_MAX_WIDTH, Math.max(RESOURCE_MIN_WIDTH, width));
+  }
+  function setResourceWidth(width) {
+    resourceWidth = clampResourceWidth(width);
+    card.style.setProperty('--resource-panel-width', `${resourceWidth}px`);
+    rightResizer.setAttribute('aria-valuenow', String(resourceWidth));
+  }
+  function setResourceCollapsed(collapsed) {
+    card.classList.toggle('resource-collapsed', collapsed);
+    resourceDrawerToggle.setAttribute('aria-expanded', String(!collapsed));
+    resourceDrawerToggle.setAttribute('aria-label', collapsed ? '展开分析资源' : '收起分析资源');
+  }
+  resourceDrawerToggle.addEventListener('click', event => {
+    event.stopPropagation();
+    setResourceCollapsed(!card.classList.contains('resource-collapsed'));
+  });
+  rightResizer.addEventListener('pointerdown', event => {
+    event.preventDefault();
+    const startX = event.clientX;
+    const startWidth = resourceWidth;
+    rightResizer.classList.add('is-dragging');
+    rightResizer.setPointerCapture(event.pointerId);
+    function onPointerMove(moveEvent) {
+      setResourceWidth(startWidth - (moveEvent.clientX - startX));
+    }
+    function onPointerUp(upEvent) {
+      rightResizer.classList.remove('is-dragging');
+      rightResizer.releasePointerCapture(upEvent.pointerId);
+      rightResizer.removeEventListener('pointermove', onPointerMove);
+      rightResizer.removeEventListener('pointerup', onPointerUp);
+      rightResizer.removeEventListener('pointercancel', onPointerUp);
+    }
+    rightResizer.addEventListener('pointermove', onPointerMove);
+    rightResizer.addEventListener('pointerup', onPointerUp);
+    rightResizer.addEventListener('pointercancel', onPointerUp);
+  });
+
+  const pmLayer = document.querySelector('#pmLayer');
+  const pmEntry = document.querySelector('#pmEntry');
+  const pmDrawer = document.querySelector('.pm-drawer');
+  const pmResizer = document.querySelector('#pmResizer');
+  const pmStates = [...document.querySelectorAll('[data-pm-state]')];
+  const pmNotice = document.querySelector('#pmNotice');
+  const pmConfirm = document.querySelector('#pmConfirm');
+  let pmTimer;
+  let pmToastTimer;
+  let pmResizeStartX = 0;
+  let pmResizeStartWidth = 400;
+  let pmClosedDuringGrowing = false;
+  const pmOldContent = '<h3>默认分析路径</h3><p>• 默认结论先行，再展示趋势与异常原因</p><p>• 优先对比同比、环比，再定位异常区域</p><p>• 异常分析需拆解到区域和负责人</p><h3>输出偏好</h3><p>• 核心结论控制在三点以内</p><p>• 行动建议包含问题、动作和建议负责人</p><h3>长期关注</h3><p>• 销售回款、区域增长和大额订单风险</p>';
+  const pmUpdatedContent = '<h3>默认分析路径</h3><p>• 默认结论先行，再展示趋势与异常原因</p><p>• 优先识别回款和大额订单异常，再对比同比、环比</p><p>• 异常分析需拆解到区域和负责人</p><h3>输出偏好</h3><p>• 涉及风险时补充影响范围和处理优先级</p><p>• 核心结论控制在三点以内</p><p>• 行动建议包含问题、动作和建议负责人</p><h3>长期关注</h3><p>• 销售回款、区域增长和大额订单风险</p><p>• 华东区回款周期变化及逾期应收</p>';
+  function pmPad(value) { return String(value).padStart(2, '0'); }
+  function pmFormatTime(value, now = new Date()) {
+    const date = new Date(value);
+    const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const days = Math.floor((startToday - startDate) / 86400000);
+    if (days === 0) return `${pmPad(date.getHours())}:${pmPad(date.getMinutes())}`;
+    if (days > 0 && days < 7) return `${days}天前`;
+    if (date.getFullYear() === now.getFullYear()) return `${pmPad(date.getMonth() + 1)}-${pmPad(date.getDate())}`;
+    return `${date.getFullYear()}-${pmPad(date.getMonth() + 1)}-${pmPad(date.getDate())}`;
+  }
+  function pmSetUpdatedNow() {
+    const date = new Date();
+    const target = document.querySelector('#pmDocDate');
+    target.dataset.time = date.toISOString();
+    target.textContent = `${pmFormatTime(date)} 更新`;
+  }
+  function pmSetState(state, shouldOpen = true) {
+    pmHideConfirm();
+    pmStates.forEach(item => item.classList.toggle('is-active', item.dataset.pmState === state));
+    if (shouldOpen) {
+      pmLayer.classList.add('is-open');
+      pmEntry.classList.add('is-active');
+    }
+    clearTimeout(pmTimer);
+    if (state === 'growing') {
+      pmClosedDuringGrowing = false;
+      pmHideNotice();
+      pmTimer = setTimeout(() => {
+        const isOpen = pmLayer.classList.contains('is-open');
+        const isError = new URLSearchParams(location.search).get('result') === 'error';
+        pmSetState(isError ? 'document' : 'review', isOpen);
+        if (pmClosedDuringGrowing && !isOpen) pmShowNotice(isError ? 'error' : 'success');
+      }, 3200);
+    }
+  }
+  function pmToast(message) {
+    const toast = document.querySelector('#pmToast');
+    toast.textContent = message;
+    toast.classList.add('is-show');
+    clearTimeout(pmToastTimer);
+    pmToastTimer = setTimeout(() => toast.classList.remove('is-show'), 1800);
+  }
+  function pmCloseDrawer() {
+    if (document.querySelector('[data-pm-state="growing"]').classList.contains('is-active')) pmClosedDuringGrowing = true;
+    pmHideConfirm();
+    pmLayer.classList.remove('is-open');
+    pmEntry.classList.remove('is-active');
+  }
+  function pmActiveState() {
+    return document.querySelector('[data-pm-state].is-active')?.dataset.pmState;
+  }
+  function pmHideConfirm() {
+    pmConfirm.classList.remove('is-show');
+  }
+  function pmRequestCloseDrawer() {
+    if (['review', 'editing'].includes(pmActiveState())) {
+      pmConfirm.classList.add('is-show');
+      return;
+    }
+    pmCloseDrawer();
+  }
+  function pmDiscardAndClose() {
+    pmSetState('document', false);
+    pmCloseDrawer();
+  }
+  function pmShowNotice(type) {
+    const isError = type === 'error';
+    pmNotice.classList.toggle('is-success', !isError);
+    pmNotice.classList.toggle('is-error', isError);
+    document.querySelector('#pmNoticeIcon').textContent = isError ? '×' : '✓';
+    document.querySelector('#pmNoticeTitle').textContent = isError ? '项目记忆生长失败' : '项目记忆生长完成';
+    document.querySelector('#pmNoticeDesc').textContent = isError ? '请前往项目记忆重试' : '请前往项目记忆确认更新内容';
+    pmNotice.classList.add('is-show');
+  }
+  function pmHideNotice() {
+    pmNotice.classList.remove('is-show', 'is-success', 'is-error');
+  }
+  function pmFinishUpdate(content) {
+    document.querySelector('#pmFinalContent').innerHTML = content;
+    pmSetUpdatedNow();
+    pmSetState('document');
+    pmToast('项目记忆已更新');
+    pmCloseDrawer();
+  }
+  pmEntry.addEventListener('click', () => { pmHideNotice(); pmLayer.classList.add('is-open'); pmEntry.classList.add('is-active'); });
+  document.querySelector('#pmNoticeAction').addEventListener('click', () => {
+    const isError = pmNotice.classList.contains('is-error');
+    pmHideNotice();
+    pmSetState(isError ? 'document' : 'review');
+  });
+  document.querySelector('#pmClose').addEventListener('click', pmRequestCloseDrawer);
+  document.querySelector('#pmConfirmClose').addEventListener('click', pmDiscardAndClose);
+  document.querySelector('#pmConfirmUpdate').addEventListener('click', () => {
+    pmFinishUpdate(pmActiveState() === 'editing' ? document.querySelector('#pmEditor').innerHTML : pmUpdatedContent);
+  });
+  document.querySelector('#pmEmptyGrow').addEventListener('click', () => pmSetState('growing'));
+  document.querySelector('#pmGrow').addEventListener('click', () => pmSetState('growing'));
+  document.querySelector('#pmUpdate').addEventListener('click', () => pmFinishUpdate(pmUpdatedContent));
+  document.querySelector('#pmUndo').addEventListener('click', () => {
+    document.querySelector('#pmFinalContent').innerHTML = pmOldContent;
+    pmSetState('document');
+    pmToast('已撤销');
+  });
+  document.querySelector('#pmEdit').addEventListener('click', () => pmSetState('editing'));
+  document.querySelector('#pmCancelEdit').addEventListener('click', () => { pmHideConfirm(); pmSetState('review'); });
+  document.querySelector('#pmSaveEdit').addEventListener('click', () => pmFinishUpdate(document.querySelector('#pmEditor').innerHTML));
+  pmResizer.addEventListener('pointerdown', event => {
+    pmResizeStartX = event.clientX;
+    pmResizeStartWidth = pmDrawer.getBoundingClientRect().width;
+    pmDrawer.classList.add('is-resizing');
+    pmResizer.setPointerCapture(event.pointerId);
+  });
+  pmResizer.addEventListener('pointermove', event => {
+    if (!pmDrawer.classList.contains('is-resizing')) return;
+    const appWidth = document.querySelector('.app').getBoundingClientRect().width;
+    const nextWidth = Math.min(960, appWidth, Math.max(400, pmResizeStartWidth + pmResizeStartX - event.clientX));
+    pmDrawer.style.width = `${nextWidth}px`;
+    pmResizer.setAttribute('aria-valuenow', Math.round(nextWidth));
+  });
+  function pmStopResize(event) {
+    if (!pmDrawer.classList.contains('is-resizing')) return;
+    pmDrawer.classList.remove('is-resizing');
+    if (pmResizer.hasPointerCapture(event.pointerId)) pmResizer.releasePointerCapture(event.pointerId);
+  }
+  pmResizer.addEventListener('pointerup', pmStopResize);
+  pmResizer.addEventListener('pointercancel', pmStopResize);
+  const mainActionArea = document.querySelector('.card');
+  function pmIsMainAction(target) {
+    if (target.closest('#pmEntry, .pm-layer, .pm-toast')) return false;
+    return !!target.closest('button, a, input, textarea, select, [role="button"], .pill, .auto-pill, .send-btn, .placeholder, .res-card__head, .res-card__view, .copy, .star, .file-item, .group-label, .tool-btn, .search');
+  }
+  mainActionArea.addEventListener('click', event => { if (pmIsMainAction(event.target)) pmCloseDrawer(); });
+  mainActionArea.addEventListener('focusin', event => { if (pmIsMainAction(event.target)) pmCloseDrawer(); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      closeConversationMenu();
+      pmCloseDrawer();
+    }
+  });
+  const pmQuery = new URLSearchParams(location.search);
+  const pmQueryState = pmQuery.get('state');
+  const pmInitialDate = document.querySelector('#pmDocDate');
+  pmInitialDate.textContent = `${pmFormatTime(pmInitialDate.dataset.time)} 更新`;
+  if (['empty','growing','review','document','editing'].includes(pmQueryState)) pmSetState(pmQueryState);
+  if (['success','error'].includes(pmQuery.get('notify'))) { pmCloseDrawer(); pmShowNotice(pmQuery.get('notify')); }
+  if (pmQuery.get('confirm') === '1' && ['review','editing'].includes(pmActiveState())) pmConfirm.classList.add('is-show');
+</script>
+</body>
+</html>
