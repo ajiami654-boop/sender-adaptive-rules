@@ -1449,10 +1449,10 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   border-radius: var(--fd-border-radius); color: var(--color-icon-normal); }
 .sub-header .icon-btn:hover { background: var(--color-bg-text-normal-hover); }
 .sub-header .icon-btn svg { width: 16px; height: 16px; }
-.sub-header .title { flex: 0 1 max-content; width: max-content; min-width: 42px; max-width: 320px; font-size: 14px; font-weight: 500; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sub-header .title { flex: 0 1 max-content; width: max-content; min-width: 42px; max-width: 200px; font-size: 14px; font-weight: 500; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sub-header .slash { color: var(--color-text-quaternary); font-size: 14px; line-height: 22px; }
-.conversation { position: relative; flex: 0 1 auto; min-width: 74px; max-width: 320px; }
-.conversation-trigger { width: 100%; height: 32px; max-width: 320px; min-width: 0; display: inline-flex; align-items: center; gap: 4px; padding: 0 6px;
+.conversation { position: relative; flex: 0 1 auto; min-width: 74px; max-width: 200px; }
+.conversation-trigger { width: 100%; height: 32px; max-width: 200px; min-width: 0; display: inline-flex; align-items: center; gap: 4px; padding: 0 6px;
   border-radius: var(--fd-border-radius); color: var(--color-text); font-size: 14px; line-height: 22px; }
 .conversation-trigger:hover, .conversation.is-open .conversation-trigger { background: var(--color-bg-text-normal-hover); }
 .conversation-name { flex: 1 1 auto; min-width: 42px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2491,7 +2491,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 	  }
 	  function updateConversationWidth() {
 	    const naturalWidth = measureTextWidth(conversationName.textContent, conversationName) + 32;
-	    const maxWidth = card.classList.contains('is-side-window') ? 160 : 320;
+	    const maxWidth = card.classList.contains('is-side-window') ? 160 : 200;
 	    conversation.style.width = `${Math.min(maxWidth, Math.max(74, naturalWidth))}px`;
 	  }
   function updateTopbarLayout() {
