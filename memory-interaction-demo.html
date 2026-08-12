@@ -1525,6 +1525,28 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   padding: 0 10px; font-size: 12px; color: #555; background: rgba(255,255,255,0.86); border: 1px solid var(--color-border);
   border-radius: 10px; box-shadow: 0 1px 4px 0 rgba(0,0,0,0.12); cursor: pointer; }
 .msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 56px 42px 8px; display: flex; flex-direction: column; gap: 8px; }
+.analysis-viewer { display: none; flex: 1; min-height: 0; padding: 16px 20px 20px; background: #fff; }
+.analysis-viewer.is-active { display: flex; }
+.analysis-viewer__frame { flex: 1; min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--color-border-secondary); border-radius: 8px; overflow: hidden; background: #151b27; }
+.analysis-viewer__toolbar { height: 44px; flex: 0 0 44px; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: #fbfcfd; border-bottom: 1px solid var(--color-border-secondary); color: var(--color-text); }
+.analysis-viewer__badge { margin-left: auto; height: 24px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; background: #dff8f0; color: #00a88e; font-size: 12px; font-weight: 600; }
+.analysis-viewer__canvas { flex: 1; min-height: 0; position: relative; overflow: hidden; background:
+  linear-gradient(180deg, rgba(87,231,255,.95) 0 18px, rgba(13,18,29,1) 18px 100%),
+  radial-gradient(circle at 20% 24%, rgba(37,87,255,.15), transparent 35%),
+  #151b27; }
+.analysis-viewer__filters { position: absolute; top: 26px; left: 20px; right: 20px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.analysis-viewer__filter { height: 32px; border: 1px solid #31445f; border-radius: 4px; background: #1f2a3d; }
+.analysis-viewer__grid { position: absolute; top: 86px; left: 20px; right: 20px; bottom: 20px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; }
+.analysis-viewer__panel { position: relative; background: #252d46; overflow: hidden; }
+.analysis-viewer__panel--wide { grid-column: 1 / span 2; }
+.analysis-viewer__empty { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,.45); font-size: 12px; letter-spacing: .5px; }
+.analysis-viewer__empty::before { content: ""; width: 64px; height: 48px; display: block; margin: 0 auto 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background:
+  linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+  radial-gradient(circle at 62% 34%, rgba(255,255,255,.16) 0 4px, transparent 5px); }
+.chat.is-resource-mode .msgs,
+.chat.is-resource-mode .ai-input,
+.chat.is-resource-mode .disclaimer,
+.chat.is-resource-mode .switch-old { display: none; }
 
 .row { display: flex; flex-direction: column; }
 .row.user { align-items: flex-end; }
@@ -1688,19 +1710,48 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   border-radius: var(--fd-border-radius); cursor: pointer; }
 .file-item.is-child { padding-left: 40px; }
 .file-item:hover, .group-label:hover { background: var(--color-bg-text-normal-hover); }
+.file-item.is-active { background: var(--color-bg-text-hover); box-shadow: inset 0 0 0 1px var(--color-primary-border-hover); }
 .file-ic { width: 16px; height: 16px; display: inline-flex; flex: 0 0 16px; }
 .file-ic svg { width: 16px; height: 16px; }
-.file-name { font-size: 13.5px; font-weight: 600; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-name { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 600; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .group-label { font-weight: 600; }
 .group-caret { width: 16px; height: 16px; display: inline-flex; flex: 0 0 16px; color: var(--color-text-tertiary); }
 .group-caret svg { width: 16px; height: 16px; }
 .group-name { font-size: 13.5px; font-weight: 600; color: var(--color-text); }
+.file-actions { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+.file-item:hover .file-actions,
+.file-item.is-active .file-actions { opacity: 1; pointer-events: auto; }
+.file-action { width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; color: var(--color-icon-normal); }
+.file-action:hover { background: rgba(19,29,46,.06); color: var(--color-text); }
+.resource-preview { position: fixed; z-index: 120; width: 680px; max-width: calc(100vw - 80px); padding: 16px; border-radius: 12px; border: 1px solid rgba(3,171,160,.2); background: #fff; box-shadow: 0 16px 48px rgba(13,21,64,.2); opacity: 0; pointer-events: none; transform: translateY(6px); transition: opacity .15s ease, transform .15s ease; }
+.resource-preview.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.resource-preview__head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.resource-preview__title { font-size: 16px; font-weight: 600; color: var(--color-text); }
+.resource-preview__enter { margin-left: auto; height: 28px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 8px; background: #dff8f0; color: #00a88e; font-size: 12px; font-weight: 600; cursor: pointer; }
+.resource-preview__shot { height: 330px; border-radius: 8px; overflow: hidden; background:
+  linear-gradient(180deg, rgba(87,231,255,.95) 0 18px, rgba(13,18,29,1) 18px 100%),
+  radial-gradient(circle at 20% 24%, rgba(37,87,255,.15), transparent 35%),
+  #151b27; position: relative; }
+.resource-preview__shot::before { content: ""; position: absolute; top: 28px; left: 18px; right: 18px; height: 44px; border-radius: 4px; background:
+  linear-gradient(90deg, rgba(49,68,95,.95) 0 17%, transparent 17% 20%, rgba(49,68,95,.95) 20% 37%, transparent 37% 40%, rgba(49,68,95,.95) 40% 57%, transparent 57% 60%, rgba(49,68,95,.95) 60% 77%, transparent 77% 80%, rgba(49,68,95,.95) 80% 97%); }
+.resource-preview__shot::after { content: ""; position: absolute; left: 18px; right: 18px; top: 88px; bottom: 18px; background:
+  linear-gradient(90deg, #252d46 0 calc(50% - 1px), transparent calc(50% - 1px) calc(50% + 1px), #252d46 calc(50% + 1px) 100%),
+  linear-gradient(180deg, transparent 0 calc(66.66% - 1px), #252d46 calc(66.66% - 1px) 100%);
+  border-radius: 2px; }
+.resource-preview__desc { margin-top: 10px; font-size: 12px; line-height: 18px; color: var(--color-text-secondary); }
 
 .right-foot { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 14px 16px; }
 .x-switch { width: 28px; height: 16px; flex: 0 0 28px; border-radius: 11px; background: var(--color-fill); position: relative; }
 .x-switch i { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
 .right-foot .foot-label { font-size: 14px; line-height: 20px; color: var(--color-text); }
 .card.resource-collapsed .right, .card.resource-collapsed .right-resizer { display: none; }
+.card.is-resource-fullscreen .right,
+.card.is-resource-fullscreen .right-resizer,
+.card.is-resource-fullscreen .resource-drawer-toggle { display: none; }
+.card.is-resource-fullscreen { min-width: 100%; }
+.card.is-resource-fullscreen .center { width: 100%; }
+.card.is-resource-fullscreen .analysis-viewer { padding: 0; }
+.card.is-resource-fullscreen .analysis-viewer__frame { border: 0; border-radius: 0; }
 .right-resizer { flex: 0 0 8px; width: 8px; cursor: col-resize; background: var(--color-bg-container-grey); position: relative; touch-action: none; }
 .right-resizer::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 2px; border-radius: 999px; background: transparent; }
 .right-resizer:hover::after, .right-resizer.is-dragging::after { background: var(--color-primary); }
@@ -2013,8 +2064,8 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
       <!-- center: chat -->
       <section class="center">
         <div class="sub-header">
-          <button class="icon-btn"><svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16" width="16"><path d="M10 3.5L5.5 8L10 12.5"></path></svg></button>
-          <span class="title">销量数量123</span>
+          <button class="icon-btn" id="backButton" aria-label="返回"><svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 16 16" width="16"><path d="M10 3.5L5.5 8L10 12.5"></path></svg></button>
+          <span class="title" id="subHeaderTitle">销量数量123</span>
           <span class="beta">Beta</span>
           <span class="grow"></span>
           <div class="sub-actions" id="subActions">
@@ -2156,7 +2207,32 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
           </div>
 
           <div class="input-wrap">
-            <div class="ai-input">
+          <div class="analysis-viewer" id="analysisViewer" aria-hidden="true">
+            <div class="analysis-viewer__frame">
+              <div class="analysis-viewer__toolbar">
+                <span id="analysisViewerTitle">大区当日签单实时看板</span>
+                <span class="analysis-viewer__badge">进入分析成功</span>
+              </div>
+              <div class="analysis-viewer__canvas">
+                <div class="analysis-viewer__filters">
+                  <div class="analysis-viewer__filter"></div>
+                  <div class="analysis-viewer__filter"></div>
+                  <div class="analysis-viewer__filter"></div>
+                  <div class="analysis-viewer__filter"></div>
+                  <div class="analysis-viewer__filter"></div>
+                  <div class="analysis-viewer__filter"></div>
+                  <div class="analysis-viewer__filter"></div>
+                </div>
+                <div class="analysis-viewer__grid">
+                  <div class="analysis-viewer__panel"><div class="analysis-viewer__empty">图片区块</div></div>
+                  <div class="analysis-viewer__panel"><div class="analysis-viewer__empty">图片区块</div></div>
+                  <div class="analysis-viewer__panel analysis-viewer__panel--wide"><div class="analysis-viewer__empty">图片区块</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-input">
               <div class="placeholder">Describe your analysis request, or pick a skill at the bottom left</div>
               <div class="toolbar">
                 <span class="pill icon-only"><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M11.0987 12.9796C11.3651 12.8198 11.7106 12.9062 11.8704 13.1725C12.0303 13.4389 11.9439 13.7844 11.6776 13.9443C10.4604 14.6747 9.00249 15.0531 7.46527 14.9482C7.15533 14.927 6.92122 14.6586 6.94238 14.3487C6.96355 14.0388 7.23199 13.8046 7.54193 13.8258C8.84503 13.9148 10.0748 13.5941 11.0987 12.9796Z" fill="currentColor"></path><path d="M8 0.9375C11.8982 0.9375 15.0625 4.08456 15.0625 7.9718C15.0625 9.21122 14.4715 10.3022 13.6652 10.9752C12.8685 11.6402 11.7519 11.9693 10.7626 11.4317C10.3347 11.1991 10.0096 10.9094 9.81476 10.483C9.77933 10.4055 9.74934 10.3258 9.724 10.2439C8.86079 11.3607 7.55874 11.9167 6.36499 11.5447L6.32678 11.5325C4.72834 11.0065 3.93261 8.98933 4.53406 6.98798L4.54865 6.94037C5.1822 4.90762 7.02259 3.67326 8.6593 4.18335C9.3799 4.40794 9.94084 4.93328 10.289 5.62445C10.3109 5.54079 10.3317 5.46228 10.351 5.38995C10.3924 5.23444 10.4269 5.10727 10.4511 5.0188C10.4632 4.97457 10.4728 4.94001 10.4794 4.91638C10.4826 4.90457 10.4852 4.89546 10.4869 4.88928C10.4877 4.8862 10.4884 4.88382 10.4888 4.8822C10.4891 4.88139 10.4893 4.88075 10.4894 4.88031C10.4894 4.88011 10.4895 4.87994 10.4895 4.87982C10.4895 4.87976 10.4896 4.87967 10.4896 4.87964C10.4897 4.87963 10.4982 4.882 11.0312 5.03125L10.4896 4.87964C10.5733 4.58048 10.8838 4.4058 11.1829 4.48956C11.4821 4.57333 11.6567 4.88377 11.5729 5.18292L11.5729 5.18298C11.5729 5.18305 11.5729 5.18315 11.5728 5.18329C11.5727 5.18361 11.5726 5.18413 11.5724 5.18481C11.572 5.1862 11.5714 5.18837 11.5706 5.19122C11.569 5.19692 11.5666 5.2055 11.5635 5.2168C11.5572 5.23942 11.548 5.27294 11.5362 5.31604C11.5126 5.40225 11.4787 5.52679 11.4381 5.67938C11.3568 5.98481 11.2485 6.40145 11.1404 6.84735C11.0321 7.29415 10.9251 7.76573 10.8455 8.18225C10.7634 8.61151 10.7188 8.9416 10.7188 9.125C10.7188 9.59411 10.7613 9.84758 10.838 10.0154C10.9023 10.1562 11.0147 10.2883 11.2999 10.4433C11.7481 10.6869 12.3659 10.5942 12.9442 10.1115C13.5129 9.63684 13.9375 8.85431 13.9375 7.9718C13.9375 4.71048 11.2815 2.0625 8 2.0625C4.71851 2.0625 2.06251 4.71048 2.0625 7.9718C2.0625 10.2747 3.38622 12.2722 5.32227 13.2477C5.5997 13.3875 5.71131 13.7257 5.57153 14.0031C5.43175 14.2805 5.09353 14.3921 4.8161 14.2523C2.51711 13.094 0.9375 10.7178 0.9375 7.9718C0.937513 4.08456 4.1018 0.9375 8 0.9375ZM8.32458 5.25739C7.48667 4.99625 6.14274 5.60651 5.62268 7.27509C5.10263 8.94367 5.86186 10.2095 6.69977 10.4706C7.53768 10.7318 8.88161 10.1215 9.40167 8.45294C9.92173 6.78434 9.1625 5.51855 8.32458 5.25739Z" fill="currentColor"></path></svg></span>
@@ -2337,6 +2413,14 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
           <span class="foot-label">Display Only Resources Introduced or Generated in This Chat</span>
         </div>
       </aside>
+      <div class="resource-preview" id="resourcePreview" aria-hidden="true">
+        <div class="resource-preview__head">
+          <div class="resource-preview__title" id="resourcePreviewTitle">大区当日签单实时看板</div>
+          <button class="resource-preview__enter" id="resourcePreviewEnter" type="button">进入分析</button>
+        </div>
+        <div class="resource-preview__shot"></div>
+        <div class="resource-preview__desc" id="resourcePreviewDesc">hover 资源项查看预览，点击资源或「进入分析」进入资源查看态；查看态支持全屏，左上角返回上一界面。</div>
+      </div>
     </div>
   </div>
 
@@ -2515,26 +2599,105 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   const windowModeText = document.querySelector('#windowModeText');
   const moreWindowModeButton = document.querySelector('#moreWindowModeButton');
   const moreWindowModeText = document.querySelector('#moreWindowModeText');
+  const backButton = document.querySelector('#backButton');
+  const subHeaderTitle = document.querySelector('#subHeaderTitle');
+  const chat = document.querySelector('.chat');
+  const analysisViewer = document.querySelector('#analysisViewer');
+  const analysisViewerTitle = document.querySelector('#analysisViewerTitle');
+  const resourcePreview = document.querySelector('#resourcePreview');
+  const resourcePreviewTitle = document.querySelector('#resourcePreviewTitle');
+  const resourcePreviewDesc = document.querySelector('#resourcePreviewDesc');
+  const resourcePreviewEnter = document.querySelector('#resourcePreviewEnter');
+  const resourceItems = [...document.querySelectorAll('.tree .file-item')];
+  const defaultHeaderTitle = subHeaderTitle.textContent;
+  let activeResourceItem = null;
+  let hoveredResourceItem = null;
+  function updateWindowModeLabel() {
+    const isResourceMode = chat.classList.contains('is-resource-mode');
+    const isFullscreen = card.classList.contains('is-resource-fullscreen');
+    const isSideWindow = card.classList.contains('is-side-window');
+    const label = isResourceMode ? (isFullscreen ? '退出全屏' : '全屏') : (isSideWindow ? '全屏' : '小窗');
+    windowModeText.textContent = label;
+    moreWindowModeText.textContent = label;
+  }
   function setSideWindowMode(enabled) {
     card.classList.toggle('is-side-window', enabled);
-    windowModeText.textContent = enabled ? '全屏' : '小窗';
-    moreWindowModeText.textContent = enabled ? '全屏' : '小窗';
+    if (!enabled) card.classList.remove('is-resource-fullscreen');
+    updateWindowModeLabel();
     updateTopbarSoon();
+  }
+  function setResourceFullscreen(enabled) {
+    card.classList.toggle('is-resource-fullscreen', enabled);
+    if (enabled) card.classList.remove('is-side-window');
+    updateWindowModeLabel();
+    updateTopbarSoon();
+  }
+  function openResourceViewer(name) {
+    chat.classList.add('is-resource-mode');
+    analysisViewer.classList.add('is-active');
+    analysisViewer.setAttribute('aria-hidden', 'false');
+    analysisViewerTitle.textContent = name;
+    subHeaderTitle.textContent = name;
+    hideResourcePreview();
+    updateWindowModeLabel();
+    updateTopbarSoon();
+  }
+  function closeResourceViewer() {
+    chat.classList.remove('is-resource-mode');
+    analysisViewer.classList.remove('is-active');
+    analysisViewer.setAttribute('aria-hidden', 'true');
+    card.classList.remove('is-resource-fullscreen');
+    subHeaderTitle.textContent = defaultHeaderTitle;
+    activeResourceItem = null;
+    resourceItems.forEach(item => item.classList.remove('is-active'));
+    updateWindowModeLabel();
+    updateTopbarSoon();
+  }
+  function showResourcePreview(item) {
+    hoveredResourceItem = item;
+    const name = item.querySelector('.file-name')?.textContent?.trim() || '资源';
+    resourcePreviewTitle.textContent = name;
+    resourcePreviewDesc.textContent = `资源「${name}」支持 hover 预览，点击后进入分析查看；在查看态可切换全屏。`;
+    const rect = item.getBoundingClientRect();
+    const top = Math.max(24, Math.min(window.innerHeight - 420, rect.top - 120));
+    const left = Math.max(24, rect.left - 700);
+    resourcePreview.style.top = `${top}px`;
+    resourcePreview.style.left = `${left}px`;
+    resourcePreview.classList.add('is-visible');
+    resourcePreview.setAttribute('aria-hidden', 'false');
+  }
+  function hideResourcePreview() {
+    if (resourcePreview.matches(':hover')) return;
+    resourcePreview.classList.remove('is-visible');
+    resourcePreview.setAttribute('aria-hidden', 'true');
+    hoveredResourceItem = null;
   }
   function toggleSideWindowMode(event) {
     event.stopPropagation();
-    setSideWindowMode(!card.classList.contains('is-side-window'));
+    if (chat.classList.contains('is-resource-mode')) {
+      setResourceFullscreen(!card.classList.contains('is-resource-fullscreen'));
+    } else {
+      setSideWindowMode(!card.classList.contains('is-side-window'));
+    }
     closeMoreMenu();
   }
   windowModeButton.addEventListener('click', toggleSideWindowMode);
   moreWindowModeButton.addEventListener('click', toggleSideWindowMode);
+  backButton.addEventListener('click', event => {
+    event.stopPropagation();
+    if (chat.classList.contains('is-resource-mode')) {
+      closeResourceViewer();
+    }
+  });
   new ResizeObserver(updateTopbarSoon).observe(subHeader);
   new ResizeObserver(updateTopbarSoon).observe(card);
   window.addEventListener('load', updateTopbarSoon);
   window.addEventListener('resize', () => {
     updateTopbarSoon();
     if (conversation.classList.contains('is-open')) updateConversationMenuBounds();
+    if (hoveredResourceItem) showResourcePreview(hoveredResourceItem);
   });
+  updateWindowModeLabel();
   updateTopbarSoon();
 
   const resourceDrawerToggle = document.querySelector('#resourceDrawerToggle');
@@ -2578,6 +2741,26 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
     rightResizer.addEventListener('pointermove', onPointerMove);
     rightResizer.addEventListener('pointerup', onPointerUp);
     rightResizer.addEventListener('pointercancel', onPointerUp);
+  });
+  resourceItems.forEach(item => {
+    const actions = document.createElement('span');
+    actions.className = 'file-actions';
+    actions.innerHTML = '<button class="file-action" type="button" aria-label="预览"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3C4.667 3 2.127 5.067 1 8c1.127 2.933 3.667 5 7 5s5.873-2.067 7-5c-1.127-2.933-3.667-5-7-5Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg></button><button class="file-action" type="button" aria-label="进入分析"><svg viewBox="0 0 16 16" fill="none"><path d="M5.5 3.5h7v7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="m10.75 3.75-6.5 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>';
+    item.appendChild(actions);
+    item.addEventListener('mouseenter', () => showResourcePreview(item));
+    item.addEventListener('mouseleave', () => setTimeout(hideResourcePreview, 60));
+    item.addEventListener('click', () => {
+      const name = item.querySelector('.file-name')?.textContent?.trim() || defaultHeaderTitle;
+      activeResourceItem = item;
+      resourceItems.forEach(node => node.classList.toggle('is-active', node === item));
+      openResourceViewer(name);
+    });
+  });
+  resourcePreview.addEventListener('mouseleave', hideResourcePreview);
+  resourcePreviewEnter.addEventListener('click', () => {
+    const target = hoveredResourceItem || activeResourceItem || resourceItems[0];
+    if (!target) return;
+    target.click();
   });
 
   const pmLayer = document.querySelector('#pmLayer');
