@@ -1437,10 +1437,9 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 .rail .rail-divider { width: 38px; height: 1px; background: var(--color-border-secondary); margin: 6px 0; }
 
 /* ---- Center card (white, rounded, floating) ---- */
-.card { --resource-panel-width: 332px; --resource-viewer-width: 560px; position: relative; flex: 1; min-width: 380px; display: flex; background: var(--color-bg-container); border-radius: 10px;
+.card { --resource-panel-width: 332px; position: relative; flex: 1; min-width: 380px; display: flex; background: var(--color-bg-container); border-radius: 10px;
   margin: 0 8px 8px 0; box-shadow: var(--fd-box-shadow-subtle); overflow: hidden; }
 .card:not(.resource-collapsed) { min-width: calc(380px + var(--resource-panel-width)); }
-.card.resource-viewer-open:not(.resource-collapsed) { min-width: calc(380px + var(--resource-viewer-width)); }
 
 .center { flex: 1; min-width: 380px; display: flex; flex-direction: column; background: var(--color-bg-container); container-type: inline-size; }
 
@@ -1746,16 +1745,11 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 .x-switch i { position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
 .right-foot .foot-label { font-size: 14px; line-height: 20px; color: var(--color-text); }
 .card.resource-collapsed .right, .card.resource-collapsed .right-resizer { display: none; }
-.resource-side-viewer { display: none; width: var(--resource-viewer-width); flex: 0 0 var(--resource-viewer-width); min-width: 0; background: #fff; border-left: 1px solid var(--color-border-secondary); box-shadow: var(--fd-box-shadow-subtle); }
-.card.resource-viewer-open .right { display: none; }
-.card.resource-viewer-open:not(.resource-collapsed) .resource-side-viewer { display: flex; flex-direction: column; }
-.card.resource-viewer-open .resource-drawer-toggle { right: calc(var(--resource-viewer-width) + 8px); }
 .card.is-resource-fullscreen .right,
 .card.is-resource-fullscreen .right-resizer,
 .card.is-resource-fullscreen .resource-drawer-toggle { display: none; }
 .card.is-resource-fullscreen { min-width: 100%; }
-.card.is-resource-fullscreen .center { display: none; }
-.card.is-resource-fullscreen .resource-side-viewer { display: flex; flex: 1 1 100%; width: 100%; border-left: 0; }
+.card.is-resource-fullscreen .center { width: 100%; }
 .card.is-resource-fullscreen .analysis-viewer { padding: 0; }
 .card.is-resource-fullscreen .analysis-viewer__frame { border: 0; border-radius: 0; }
 .right-resizer { flex: 0 0 8px; width: 8px; cursor: col-resize; background: var(--color-bg-container-grey); position: relative; touch-action: none; }
@@ -2254,7 +2248,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
         </div>
       </section>
 
-      <button class="resource-drawer-toggle" id="resourceDrawerToggle" aria-label="收起分析资源" aria-expanded="true">
+      <button class="resource-drawer-toggle" id="resourceDrawerToggle" aria-label="展开分析资源" aria-expanded="false">
         <svg fill="none" height="16" viewBox="0 0 16 16" width="16"><path d="M6.25 4.25 9.75 8l-3.5 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="right-resizer" id="rightResizer" aria-label="调整分析资源宽度" role="separator" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="332"></div>
@@ -2417,36 +2411,6 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
         <div class="right-foot">
           <span class="x-switch"><i></i></span>
           <span class="foot-label">Display Only Resources Introduced or Generated in This Chat</span>
-        </div>
-      </aside>
-      <aside class="resource-side-viewer" id="resourceSideViewer" aria-hidden="true">
-        <div class="analysis-viewer__frame">
-          <div class="analysis-viewer__toolbar">
-            <span id="resourceSideViewerTitle">大区当日签单实时看板</span>
-            <span class="analysis-viewer__badge">资源详情</span>
-            <button class="icon-btn" id="resourceViewerFullscreen" type="button" aria-label="全屏查看">
-              <svg viewBox="0 0 16 16" fill="none"><path d="M5.75 2.75H2.75v3M10.25 2.75h3v3M13.25 10.25v3h-3M2.75 10.25v3h3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="icon-btn" id="resourceViewerClose" type="button" aria-label="关闭资源详情">
-              <svg viewBox="0 0 16 16" fill="none"><path d="m4 4 8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-          <div class="analysis-viewer__canvas">
-            <div class="analysis-viewer__filters">
-              <div class="analysis-viewer__filter"></div>
-              <div class="analysis-viewer__filter"></div>
-              <div class="analysis-viewer__filter"></div>
-              <div class="analysis-viewer__filter"></div>
-              <div class="analysis-viewer__filter"></div>
-              <div class="analysis-viewer__filter"></div>
-              <div class="analysis-viewer__filter"></div>
-            </div>
-            <div class="analysis-viewer__grid">
-              <div class="analysis-viewer__panel"><div class="analysis-viewer__empty">图片区块</div></div>
-              <div class="analysis-viewer__panel"><div class="analysis-viewer__empty">图片区块</div></div>
-              <div class="analysis-viewer__panel analysis-viewer__panel--wide"><div class="analysis-viewer__empty">图片区块</div></div>
-            </div>
-          </div>
         </div>
       </aside>
       <div class="resource-preview" id="resourcePreview" aria-hidden="true">
@@ -2640,10 +2604,6 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   const chat = document.querySelector('.chat');
   const analysisViewer = document.querySelector('#analysisViewer');
   const analysisViewerTitle = document.querySelector('#analysisViewerTitle');
-  const resourceSideViewer = document.querySelector('#resourceSideViewer');
-  const resourceSideViewerTitle = document.querySelector('#resourceSideViewerTitle');
-  const resourceViewerClose = document.querySelector('#resourceViewerClose');
-  const resourceViewerFullscreen = document.querySelector('#resourceViewerFullscreen');
   const resourcePreview = document.querySelector('#resourcePreview');
   const resourcePreviewTitle = document.querySelector('#resourcePreviewTitle');
   const resourcePreviewDesc = document.querySelector('#resourcePreviewDesc');
@@ -2653,7 +2613,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   let activeResourceItem = null;
   let hoveredResourceItem = null;
   function updateWindowModeLabel() {
-    const isResourceMode = card.classList.contains('resource-viewer-open');
+    const isResourceMode = chat.classList.contains('is-resource-mode');
     const isFullscreen = card.classList.contains('is-resource-fullscreen');
     const isSideWindow = card.classList.contains('is-side-window');
     const label = isResourceMode ? (isFullscreen ? '退出全屏' : '全屏') : (isSideWindow ? '全屏' : '小窗');
@@ -2673,23 +2633,21 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
     updateTopbarSoon();
   }
   function openResourceViewer(name) {
-    card.classList.add('resource-viewer-open');
-    card.classList.remove('resource-collapsed');
-    resourceSideViewer.setAttribute('aria-hidden', 'false');
-    setResourceWidth(resourceViewerWidth);
+    chat.classList.add('is-resource-mode');
+    analysisViewer.classList.add('is-active');
+    analysisViewer.setAttribute('aria-hidden', 'false');
     analysisViewerTitle.textContent = name;
-    resourceSideViewerTitle.textContent = name;
-    resourceDrawerToggle.setAttribute('aria-expanded', 'true');
-    resourceDrawerToggle.setAttribute('aria-label', '收起分析资源');
+    subHeaderTitle.textContent = name;
     hideResourcePreview();
     updateWindowModeLabel();
     updateTopbarSoon();
   }
   function closeResourceViewer() {
-    card.classList.remove('resource-viewer-open');
-    resourceSideViewer.setAttribute('aria-hidden', 'true');
+    chat.classList.remove('is-resource-mode');
+    analysisViewer.classList.remove('is-active');
+    analysisViewer.setAttribute('aria-hidden', 'true');
     card.classList.remove('is-resource-fullscreen');
-    setResourceWidth(resourceWidth);
+    subHeaderTitle.textContent = defaultHeaderTitle;
     activeResourceItem = null;
     resourceItems.forEach(item => item.classList.remove('is-active'));
     updateWindowModeLabel();
@@ -2716,7 +2674,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   }
   function toggleSideWindowMode(event) {
     event.stopPropagation();
-    if (card.classList.contains('resource-viewer-open')) {
+    if (chat.classList.contains('is-resource-mode')) {
       setResourceFullscreen(!card.classList.contains('is-resource-fullscreen'));
     } else {
       setSideWindowMode(!card.classList.contains('is-side-window'));
@@ -2727,14 +2685,9 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   moreWindowModeButton.addEventListener('click', toggleSideWindowMode);
   backButton.addEventListener('click', event => {
     event.stopPropagation();
-    if (card.classList.contains('resource-viewer-open')) {
+    if (chat.classList.contains('is-resource-mode')) {
       closeResourceViewer();
     }
-  });
-  resourceViewerClose.addEventListener('click', closeResourceViewer);
-  resourceViewerFullscreen.addEventListener('click', event => {
-    event.stopPropagation();
-    setResourceFullscreen(!card.classList.contains('is-resource-fullscreen'));
   });
   new ResizeObserver(updateTopbarSoon).observe(subHeader);
   new ResizeObserver(updateTopbarSoon).observe(card);
@@ -2751,29 +2704,13 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   const rightResizer = document.querySelector('#rightResizer');
   const RESOURCE_MIN_WIDTH = 280;
   const RESOURCE_MAX_WIDTH = 480;
-  const RESOURCE_VIEWER_MIN_WIDTH = 480;
-  const RESOURCE_VIEWER_MAX_WIDTH = 680;
   let resourceWidth = 332;
-  let resourceViewerWidth = 560;
   function clampResourceWidth(width) {
-    if (card.classList.contains('resource-viewer-open')) {
-      return Math.min(RESOURCE_VIEWER_MAX_WIDTH, Math.max(RESOURCE_VIEWER_MIN_WIDTH, width));
-    }
     return Math.min(RESOURCE_MAX_WIDTH, Math.max(RESOURCE_MIN_WIDTH, width));
   }
   function setResourceWidth(width) {
-    if (card.classList.contains('resource-viewer-open')) {
-      resourceViewerWidth = clampResourceWidth(width);
-      card.style.setProperty('--resource-viewer-width', `${resourceViewerWidth}px`);
-      rightResizer.setAttribute('aria-valuemin', String(RESOURCE_VIEWER_MIN_WIDTH));
-      rightResizer.setAttribute('aria-valuemax', String(RESOURCE_VIEWER_MAX_WIDTH));
-      rightResizer.setAttribute('aria-valuenow', String(resourceViewerWidth));
-      return;
-    }
     resourceWidth = clampResourceWidth(width);
     card.style.setProperty('--resource-panel-width', `${resourceWidth}px`);
-    rightResizer.setAttribute('aria-valuemin', String(RESOURCE_MIN_WIDTH));
-    rightResizer.setAttribute('aria-valuemax', String(RESOURCE_MAX_WIDTH));
     rightResizer.setAttribute('aria-valuenow', String(resourceWidth));
   }
   function setResourceCollapsed(collapsed) {
@@ -2788,7 +2725,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   rightResizer.addEventListener('pointerdown', event => {
     event.preventDefault();
     const startX = event.clientX;
-    const startWidth = card.classList.contains('resource-viewer-open') ? resourceViewerWidth : resourceWidth;
+    const startWidth = resourceWidth;
     rightResizer.classList.add('is-dragging');
     rightResizer.setPointerCapture(event.pointerId);
     function onPointerMove(moveEvent) {
